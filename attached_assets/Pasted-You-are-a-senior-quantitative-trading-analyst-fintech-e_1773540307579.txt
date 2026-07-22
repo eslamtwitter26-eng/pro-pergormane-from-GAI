@@ -1,0 +1,297 @@
+You are a senior quantitative trading analyst, fintech engineer, and UX designer.
+
+Build a modern professional web application that analyzes a MetaTrader trading report exported as an Excel file.
+
+This tool is designed for trading students who want to deeply understand their trading performance, mistakes, behavioral patterns, and psychological weaknesses.
+
+The goal is to create a powerful yet simple dashboard that instantly analyzes the trader's performance and explains their biggest strengths and mistakes in a clear educational way.
+
+---
+
+FILE INPUT
+
+The user uploads an Excel file exported from MetaTrader (Report.xlsx).
+
+Inside the Excel file there is a table called:
+
+Deals
+
+This table contains the full trading history.
+
+Important columns include:
+
+Time
+Symbol
+Type
+Volume
+Price
+Profit
+Balance
+Commission
+Swap
+
+Ignore rows that represent:
+
+Deposits
+Withdrawals
+Balance adjustments
+
+Only analyze real trade executions.
+
+---
+
+EXCEL PROCESSING
+
+Use a browser Excel parser such as SheetJS.
+
+Steps:
+
+1. Load the Excel file
+2. Extract rows from the Deals table
+3. Convert them into structured trade objects
+4. Perform all analysis locally in the browser for speed
+
+---
+
+CORE PERFORMANCE METRICS
+
+Calculate professional trading metrics:
+
+Total trades
+Winning trades
+Losing trades
+Win rate
+Total profit
+Total loss
+Net profit
+Average win
+Average loss
+Risk reward ratio
+Profit factor
+Expectancy
+Maximum drawdown
+Largest winning trade
+Largest losing trade
+Max winning streak
+Max losing streak
+Average trade duration
+
+Generate an equity curve using the Balance column.
+
+---
+
+TIME ANALYSIS (VERY IMPORTANT)
+
+Create a time performance analysis system.
+
+Allow the user to filter trading data by:
+
+1 year
+6 months
+3 months
+1 month
+1 week
+Custom date range
+
+When the timeframe changes, the entire dashboard must update dynamically.
+
+Also analyze performance by:
+
+Hour of the day
+Day of the week
+Month
+Trading session (Asia, London, New York)
+
+Identify:
+
+Best trading session
+Worst trading session
+Best trading day
+Worst trading day
+Best trading hour
+Worst trading hour
+
+---
+
+MARKET ANALYSIS
+
+Analyze performance by symbol.
+
+Show which instruments are profitable and which are losing money.
+
+Example:
+
+EURUSD → profitable
+XAUUSD → losing
+GBPJPY → inconsistent
+
+---
+
+TRADE DIRECTION ANALYSIS
+
+Analyze buy trades vs sell trades.
+
+Calculate:
+
+Buy win rate
+Sell win rate
+Buy profit vs sell profit
+
+---
+
+POSITION SIZE ANALYSIS
+
+Detect risk management mistakes.
+
+Analyze:
+
+Average lot size
+Largest lot size
+Lot size increase after losses
+
+Detect if the trader increases position size emotionally.
+
+---
+
+LOSING STREAK ANALYSIS
+
+Detect sequences of losing trades.
+
+Show:
+
+Max losing streak
+Average losing streak
+
+Explain if the trader continues trading aggressively after losses.
+
+---
+
+AI TRADING INSIGHTS
+
+Create an insights section titled:
+
+Trading Performance Insights
+
+Generate intelligent observations such as:
+
+"You perform best during the London session."
+
+"Most of your losses occur during low liquidity hours."
+
+"Your average loss is significantly larger than your average win."
+
+"You tend to increase trading activity after losing trades."
+
+Write insights in clear educational language.
+
+---
+
+PSYCHOLOGICAL TRADING ANALYSIS
+
+Add a behavioral analysis system that detects psychological patterns.
+
+Detect:
+
+Overtrading
+Revenge trading
+Fear-based exits
+Letting losses run too long
+Closing winners too early
+Inconsistent risk management
+Emotional position sizing
+
+Provide explanations such as:
+
+"You tend to increase your trading frequency after losing trades which may indicate revenge trading."
+
+"You frequently close winning trades too early while allowing losing trades to run longer."
+
+Offer constructive advice to help the trader improve.
+
+---
+
+DASHBOARD DESIGN
+
+Create a modern professional fintech dashboard.
+
+Sections:
+
+Performance overview cards
+Equity curve chart
+Profit vs loss distribution
+Monthly performance
+Weekly performance
+Performance by session
+Performance by hour
+Symbol performance
+Trade direction analysis
+Risk management analysis
+Psychological insights
+
+Charts must be visually clear and professional.
+
+---
+
+MULTI LANGUAGE SUPPORT
+
+Add full language support for:
+
+English
+Arabic
+French
+
+Add a language selector in the top navigation.
+
+Arabic must support RTL layout properly.
+
+---
+
+THEME SUPPORT
+
+Add theme switching:
+
+Dark Mode
+Light Mode
+
+Dark mode should be default.
+
+Include smooth animated transitions when switching themes.
+
+---
+
+UI DESIGN
+
+Design must look like a modern fintech analytics platform.
+
+Use:
+
+clean typography
+modern cards
+subtle animations
+smooth transitions
+interactive charts
+
+Make the interface visually impressive but easy to read.
+
+---
+
+PERFORMANCE
+
+The application must run fast.
+
+All analysis must happen locally in the browser after uploading the file.
+
+No backend required.
+
+---
+
+FINAL EXPERIENCE
+
+The user should be able to:
+
+Upload MetaTrader Excel report
+Instantly see a professional trading performance dashboard
+Understand their strengths and weaknesses
+Identify their biggest trading mistakes
+Receive psychological insights
+Learn how to improve their trading behavior

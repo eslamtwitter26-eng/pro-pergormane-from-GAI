@@ -1,0 +1,119 @@
+You are a senior full-stack engineer.
+
+Build a lightweight secure email-based access gate for a web application.
+
+The application name is:
+
+Welcome – EG-Finance Fx Pro Analyser
+
+The goal is to allow only authorized users to access the trading dashboard based on a Google Sheet list.
+
+---
+
+DATA SOURCE
+
+The authorized users list is stored in a public Google Sheet published as CSV.
+
+URL:
+
+https://docs.google.com/spreadsheets/d/e/2PACX-1vTXv9PB3EtBUtXpbL7PFkpRmg8URXsJEdG3S5aZFOBV8ni7QavAWZ-j3q5pLj478mcxgMzK-aW6t04i/pub?output=csv
+
+Columns in the sheet:
+
+Name
+Email
+Duration
+
+The system must read the Email column and check if the user email exists in this list.
+
+---
+
+IMPORTANT REQUIREMENT (NO CACHING)
+
+The system must always fetch the CSV file live every time a user attempts login.
+
+Do NOT cache the CSV response.
+
+Add a cache-busting parameter to the request such as a timestamp to guarantee that the latest version of the Google Sheet is always used.
+
+If the sheet owner removes or adds an email, the change must take effect immediately.
+
+---
+
+LOGIN SYSTEM
+
+Create a simple login page where the user enters their email address.
+
+Behavior:
+
+1. User enters email
+2. System fetches the CSV
+3. System checks if email exists in the list
+
+If email exists:
+
+Allow access and redirect to the main dashboard page.
+
+If email does NOT exist:
+
+Display a clear error message:
+
+"Email not authorized. Please contact support."
+
+---
+
+USER EXPERIENCE
+
+The login page must include:
+
+Title:
+Welcome – EG-Finance Fx Pro Analyser
+
+Subtitle:
+Secure access for registered students
+
+Email input field
+
+Login button
+
+Error message area
+
+---
+
+DESIGN
+
+The UI must look modern and professional.
+
+Use a fintech-style design with:
+
+clean typography
+modern card layout
+dark theme by default
+smooth animations
+responsive layout
+
+The login card should be centered on the screen.
+
+---
+
+SECURITY BEHAVIOR
+
+Do not store the authorized email list locally.
+
+Always fetch it from the Google Sheet.
+
+Prevent caching by forcing a fresh request each time.
+
+Validate email input before checking.
+
+---
+
+FINAL USER FLOW
+
+User opens the website
+User enters email
+System checks the Google Sheet
+If email exists → access granted
+If email not found → show error message
+
+The system must be fast, clean, and reliable.
