@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "npm run dev --workspace=artifacts/trading-dashboard",
     "build": "npm run build --workspace=artifacts/trading-dashboard",
-    "typecheck": "npm run typecheck --workspace=artifacts/trading-dashboard"
+    "typecheck": "npm run typecheck --workspace=artifacts/trading-dashboard",
+    "build:preview": "npm run build:preview --workspace=artifacts/trading-dashboard"
   },
   "private": true,
   "workspaces": [
