@@ -47,3 +47,6 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Local self-contained UI preview build (generated, not source)
+/preview.html
