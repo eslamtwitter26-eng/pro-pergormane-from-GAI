@@ -1,5 +1,7 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { EASE_OUT, HOVER_TRANSITION } from "@/lib/motion";
 
 interface MetricCardProps {
   title: string;
@@ -12,7 +14,7 @@ interface MetricCardProps {
   delay?: number;
 }
 
-function useCountUp(target: number, duration = 800, delay = 0) {
+function useCountUp(target: number, duration = 900, delay = 0) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,56 +32,72 @@ function useCountUp(target: number, duration = 800, delay = 0) {
   return val;
 }
 
-const ACCENT_COLORS: Record<string, { border: string; glow: string; text: string; bg: string }> = {
-  purple: { border: "rgba(139,92,246,0.4)", glow: "0 0 30px rgba(139,92,246,0.2)", text: "#8B5CF6", bg: "rgba(139,92,246,0.08)" },
-  cyan: { border: "rgba(6,182,212,0.4)", glow: "0 0 30px rgba(6,182,212,0.2)", text: "#06B6D4", bg: "rgba(6,182,212,0.08)" },
-  green: { border: "rgba(16,240,135,0.4)", glow: "0 0 30px rgba(16,240,135,0.2)", text: "#10F087", bg: "rgba(16,240,135,0.08)" },
-  red: { border: "rgba(255,71,87,0.4)", glow: "0 0 30px rgba(255,71,87,0.2)", text: "#FF4757", bg: "rgba(255,71,87,0.08)" },
-  amber: { border: "rgba(255,211,45,0.35)", glow: "0 0 25px rgba(255,211,45,0.15)", text: "#FFD32D", bg: "rgba(255,211,45,0.07)" },
-  pink: { border: "rgba(244,114,182,0.4)", glow: "0 0 30px rgba(244,114,182,0.2)", text: "#F472B6", bg: "rgba(244,114,182,0.08)" },
+/**
+ * Accents are used only for the small icon chip and, when a trend is present,
+ * the value itself. Card borders stay neutral — colour carries meaning, not
+ * decoration.
+ */
+const ACCENT_COLORS: Record<string, { text: string; bg: string }> = {
+  purple: { text: "#3B82F6", bg: "rgba(59,130,246,0.1)" },
+  blue:   { text: "#3B82F6", bg: "rgba(59,130,246,0.1)" },
+  cyan:   { text: "#60A5FA", bg: "rgba(96,165,250,0.1)" },
+  green:  { text: "#10B981", bg: "rgba(16,185,129,0.1)" },
+  red:    { text: "#EF4444", bg: "rgba(239,68,68,0.1)" },
+  amber:  { text: "#F59E0B", bg: "rgba(245,158,11,0.1)" },
+  pink:   { text: "#94A3B8", bg: "rgba(148,163,184,0.1)" },
 };
 
 export function MetricCard({ title, value, subtitle, icon, trend, className, accentColor = "purple", delay = 0 }: MetricCardProps) {
   const colors = ACCENT_COLORS[accentColor] || ACCENT_COLORS.purple;
 
   const isNumeric = typeof value === "number" && !isNaN(value);
-  const animated = useCountUp(isNumeric ? value as number : 0, 900, delay);
-  const displayValue = isNumeric ? animated.toFixed(typeof value === "number" && !Number.isInteger(value) ? 1 : 0) : value;
+  const animated = useCountUp(isNumeric ? (value as number) : 0, 900, delay);
+  const displayValue = isNumeric
+    ? animated.toFixed(typeof value === "number" && !Number.isInteger(value) ? 1 : 0)
+    : value;
 
-  const trendTextColor =
-    trend === "up" ? "#10F087" :
-    trend === "down" ? "#FF4757" :
-    colors.text;
+  const valueColor =
+    trend === "up" ? "#10B981" :
+    trend === "down" ? "#EF4444" :
+    "hsl(var(--foreground))";
 
   return (
-    <div
-      className={cn("relative overflow-hidden rounded-xl p-4 animate-slide-up", className)}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.42, ease: EASE_OUT, delay: delay / 1000 }}
+      whileHover={{ y: -4, transition: HOVER_TRANSITION }}
+      className={cn("group relative rounded-[18px] p-5", className)}
       style={{
-        background: "hsl(var(--card) / 75%)",
-        backdropFilter: "blur(16px)",
-        border: `1px solid ${colors.border}`,
-        boxShadow: colors.glow,
-        animationDelay: `${delay}ms`,
+        background: "hsl(var(--card))",
+        border: "1px solid var(--hairline)",
+        boxShadow: "var(--shadow-sm)",
       }}
     >
-      {/* Subtle background glow */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at 80% 20%, ${colors.bg} 0%, transparent 70%)` }} />
-
-      <div className="relative flex items-start justify-between gap-2">
+      <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-foreground/85">{title}</p>
-          <p className="mt-1.5 text-2xl font-black ticker-value" style={{ color: trendTextColor, textShadow: trend === "up" ? "0 0 20px rgba(16,240,135,0.4)" : trend === "down" ? "0 0 20px rgba(255,71,87,0.4)" : `0 0 15px ${colors.text}60` }}>
+          <p className="truncate text-[12px] font-medium text-muted-foreground">{title}</p>
+          <p
+            className="ticker-value mt-2 text-[26px] font-semibold leading-none tracking-tight"
+            style={{ color: valueColor }}
+          >
             {displayValue}
           </p>
-          {subtitle && <p className="mt-0.5 text-xs text-muted-foreground/80">{subtitle}</p>}
+          {subtitle && (
+            <p className="mt-2 truncate text-[11.5px] leading-relaxed text-muted-foreground">{subtitle}</p>
+          )}
         </div>
         {icon && (
-          <div className="flex-shrink-0 rounded-lg p-2" style={{ background: colors.bg, color: colors.text }}>
+          <motion.div
+            whileHover={{ rotate: -6, scale: 1.06 }}
+            transition={{ duration: 0.26, ease: EASE_OUT }}
+            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px]"
+            style={{ background: colors.bg, color: colors.text }}
+          >
             {icon}
-          </div>
+          </motion.div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

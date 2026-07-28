@@ -57,7 +57,7 @@ export function RollingPerformanceChart({ trades, theme }: RollingPerformanceCha
 
   if (!trades.length) {
     return (
-      <div className="flex h-32 items-center justify-center text-xs text-muted-foreground/50">
+      <div className="flex h-32 items-center justify-center text-xs text-muted-foreground">
         No historical trades to calculate rolling average.
       </div>
     );
@@ -69,53 +69,53 @@ export function RollingPerformanceChart({ trades, theme }: RollingPerformanceCha
     if (!d) return null;
     
     return (
-      <div className="rounded-xl border border-cyan-500/35 bg-background/95 p-3.5 shadow-2xl backdrop-blur-md text-[11px] min-w-[200px]">
-        <div className="flex items-center justify-between pb-1.5 border-b border-border/5 mb-1.5">
-          <span className="font-extrabold text-muted-foreground">Trade #{d.tradeNum}</span>
-          <span className="text-[9px] font-black uppercase text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded">
+      <div className="rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] p-4.5 shadow-2xl text-[11px] min-w-[200px]">
+        <div className="flex items-center justify-between pb-1.5 border-b border-[color:var(--hairline)] mb-1.5">
+          <span className="font-semibold text-muted-foreground">Trade #{d.tradeNum}</span>
+          <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">
             {d.symbol}
           </span>
         </div>
         <div className="space-y-1">
           <p className="flex justify-between">
             <span className="text-muted-foreground">Trade P&L:</span>
-            <strong className={d.netProfit >= 0 ? "text-emerald-600 dark:text-emerald-400 font-bold" : "text-pink-600 dark:text-pink-400 font-bold"}>
+            <strong className={d.netProfit >= 0 ? "text-emerald-600 dark:text-emerald-400 font-bold" : "text-slate-600 dark:text-slate-400 font-bold"}>
               {d.netProfit >= 0 ? "+" : ""}${d.netProfit.toLocaleString()}
             </strong>
           </p>
-          <p className="flex justify-between border-t border-border/5 pt-1 mt-1">
+          <p className="flex justify-between border-t border-[color:var(--hairline)] pt-1 mt-1">
             <span className="text-muted-foreground">30-Trade MA P&L:</span>
-            <strong className={d.movingAvg >= 0 ? "text-cyan-600 dark:text-cyan-400 font-black" : "text-pink-600 dark:text-pink-400 font-black"}>
+            <strong className={d.movingAvg >= 0 ? "text-blue-600 dark:text-blue-400 font-semibold" : "text-slate-600 dark:text-slate-400 font-semibold"}>
               {d.movingAvg >= 0 ? "+" : ""}${d.movingAvg.toLocaleString()}
             </strong>
           </p>
-          <p className="text-[9px] text-muted-foreground/50 text-right mt-1">{d.dateStr}</p>
+          <p className="text-[11px] text-muted-foreground text-right mt-1">{d.dateStr}</p>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="rounded-2xl p-6 border border-border/10 bg-card/45 space-y-4 chart-export-container">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-border/5">
+    <div className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card space-y-4 chart-export-container">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[color:var(--hairline)]">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Sliders className="h-4.5 w-4.5 text-cyan-600 dark:text-cyan-400" />
-            <h4 className="text-xs font-black uppercase tracking-wider text-foreground">Rolling Performance (30-Trade Moving Average)</h4>
+            <Sliders className="h-4.5 w-4.5 text-blue-600 dark:text-blue-400" />
+            <h4 className="text-xs font-semibold text-foreground">Rolling Performance (30-Trade Moving Average)</h4>
           </div>
-          <p className="text-[10px] text-muted-foreground">Is the trader improving or declining over time? This filter eliminates individual trade noise.</p>
+          <p className="text-[11px] text-muted-foreground">Is the trader improving or declining over time? This filter eliminates individual trade noise.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <DownloadChartButton title="Rolling Performance" variant="subtle" />
           <div className="text-right">
-            <p className="text-[8px] font-black uppercase text-muted-foreground tracking-wider">Current 30-Trade MA</p>
-            <p className="text-sm font-black text-cyan-600 dark:text-cyan-400">${stats.current.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+            <p className="text-[11px] font-medium text-muted-foreground tracking-wider">Current 30-Trade MA</p>
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">${stats.current.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
           </div>
-          <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-full ${
+          <span className={`text-[11px] font-medium px-2.5 py-1 rounded-full ${
             stats.trend === "Improving" 
-              ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+              ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-[color:var(--hairline)]"
               : stats.trend === "Declining"
-              ? "bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/20"
+              ? "bg-slate-500/15 text-slate-600 dark:text-slate-400 border border-[color:var(--hairline)]"
               : "bg-muted text-muted-foreground"
           }`}>
             {stats.trend}
@@ -128,8 +128,8 @@ export function RollingPerformanceChart({ trades, theme }: RollingPerformanceCha
           <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
             <defs>
               <linearGradient id="rollingGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.01} />
+                <stop offset="0%" stopColor="#60A5FA" stopOpacity={0.25} />
+                <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.01} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.05)"} vertical={false} />
@@ -149,12 +149,12 @@ export function RollingPerformanceChart({ trades, theme }: RollingPerformanceCha
               width={50}
               domain={["auto", "auto"]}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: isDark ? "rgba(6,182,212,0.15)" : "rgba(6,182,212,0.25)", strokeWidth: 1 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: isDark ? "rgba(96,165,250,0.15)" : "rgba(96,165,250,0.25)", strokeWidth: 1 }} />
             <ReferenceLine y={0} stroke={isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.15)"} strokeDasharray="3 3" />
             <Area
               type="monotone"
               dataKey="movingAvg"
-              stroke="#06B6D4"
+              stroke="#60A5FA"
               strokeWidth={2}
               fill="url(#rollingGradient)"
               dot={false}

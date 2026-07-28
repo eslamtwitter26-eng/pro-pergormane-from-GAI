@@ -1,11 +1,8 @@
-import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
+import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ReferenceLine } from "recharts";
 import type { SessionPerformance } from "@/lib/tradeAnalysis";
 import type { Language } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
-
-const NEON_COLORS = ["#8B5CF6", "#06B6D4", "#10F087", "#FFD32D", "#FF4757", "#F472B6"];
-
-const TooltipStyle = { background: "rgba(8,11,28,0.95)", border: "1px solid rgba(139,92,246,0.3)", borderRadius: 10, padding: "10px 14px", backdropFilter: "blur(16px)", fontSize: 12 };
+import { CHART, gridProps, axisProps, tooltipStyle, cursorFill, ANIM, BAR_RADIUS } from "@/lib/chartTheme";
 
 function translateSession(session: string, lang: Language): string {
   const map: Record<string, Record<Language, string>> = {
@@ -16,47 +13,61 @@ function translateSession(session: string, lang: Language): string {
   return map[session]?.[lang] ?? session;
 }
 
+const SubLabel = ({ children }: { children: React.ReactNode }) => (
+  <p className="mb-3 text-[11px] font-medium text-muted-foreground">{children}</p>
+);
+
 export function SessionChart({ data, lang }: { data: SessionPerformance[]; lang: Language }) {
-  const chartData = data.map((s, i) => ({
+  const chartData = data.map((s) => ({
     session: translateSession(s.session, lang),
     winRate: parseFloat(s.winRate.toFixed(1)),
     profit: parseFloat(s.netProfit.toFixed(2)),
     trades: s.trades,
-    color: NEON_COLORS[i % NEON_COLORS.length],
   }));
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
       <div>
-        <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.8)" }}>{t(lang, "sessionWinRate")}</p>
-        <ResponsiveContainer width="100%" height={180}>
-          <RadarChart data={chartData}>
-            <defs>
-              <radialGradient id="radarFill" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.5} />
-                <stop offset="100%" stopColor="#06B6D4" stopOpacity={0.1} />
-              </radialGradient>
-            </defs>
-            <PolarGrid stroke="rgba(139,92,246,0.15)" />
-            <PolarAngleAxis dataKey="session" tick={{ fontSize: 10, fill: "rgba(255,255,255,0.9)" }} />
-            <Radar dataKey="winRate" stroke="#8B5CF6" fill="url(#radarFill)" strokeWidth={2}
-              style={{ filter: "drop-shadow(0 0 6px rgba(139,92,246,0.5))" }} />
-            <Tooltip contentStyle={TooltipStyle} formatter={(v: number) => [`${v}%`, t(lang, "winRateLabel")]} />
+        <SubLabel>{t(lang, "sessionWinRate")}</SubLabel>
+        <ResponsiveContainer width="100%" height={240}>
+          <RadarChart data={chartData} outerRadius="72%">
+            <PolarGrid stroke="rgba(148,163,184,0.12)" />
+            <PolarAngleAxis dataKey="session" tick={{ fontSize: 11, fill: "#94A3B8" }} />
+            <Radar
+              dataKey="winRate"
+              stroke={CHART.primary}
+              fill={CHART.primary}
+              fillOpacity={0.16}
+              strokeWidth={2}
+              {...ANIM}
+            />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              labelStyle={{ color: "#94A3B8", fontSize: 11, marginBottom: 4 }}
+              itemStyle={{ color: "#FFFFFF", fontSize: 13, fontWeight: 600 }}
+              formatter={(v: number) => [`${v}%`, t(lang, "winRateLabel")]}
+            />
           </RadarChart>
         </ResponsiveContainer>
       </div>
       <div>
-        <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.8)" }}>{t(lang, "sessionProfit")}</p>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(139,92,246,0.06)" />
-            <XAxis dataKey="session" tick={{ fontSize: 10, fill: "rgba(255,255,255,0.85)" }} tickLine={false} axisLine={false} />
-            <YAxis tickFormatter={(v) => `${v}`} tick={{ fontSize: 10, fill: "rgba(255,255,255,0.85)" }} tickLine={false} axisLine={false} width={50} />
-            <Tooltip contentStyle={TooltipStyle} formatter={(v: number) => [`$${v.toFixed(2)}`, t(lang, "netProfit")]} cursor={{ fill: "rgba(139,92,246,0.06)" }} />
-            <Bar dataKey="profit" radius={[5, 5, 0, 0]}>
+        <SubLabel>{t(lang, "sessionProfit")}</SubLabel>
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart data={chartData} margin={{ top: 8, right: 8, left: 4, bottom: 4 }}>
+            <CartesianGrid {...gridProps} />
+            <XAxis dataKey="session" {...axisProps} />
+            <YAxis tickFormatter={(v) => `$${v}`} width={58} {...axisProps} />
+            <Tooltip
+              contentStyle={tooltipStyle}
+              labelStyle={{ color: "#94A3B8", fontSize: 11, marginBottom: 4 }}
+              itemStyle={{ color: "#FFFFFF", fontSize: 13, fontWeight: 600 }}
+              formatter={(v: number) => [`$${v.toFixed(2)}`, t(lang, "netProfit")]}
+              cursor={cursorFill}
+            />
+            <ReferenceLine y={0} stroke="rgba(148,163,184,0.22)" />
+            <Bar dataKey="profit" radius={BAR_RADIUS} maxBarSize={48} {...ANIM}>
               {chartData.map((entry, i) => (
-                <Cell key={i} fill={entry.profit >= 0 ? "#10F087" : "#FF4757"}
-                  style={{ filter: `drop-shadow(0 0 5px ${entry.profit >= 0 ? "rgba(16,240,135,0.4)" : "rgba(255,71,87,0.4)"})` }} />
+                <Cell key={i} fill={entry.profit >= 0 ? CHART.success : CHART.danger} fillOpacity={0.9} />
               ))}
             </Bar>
           </BarChart>

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { Language } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
+import { EASE_OUT } from "@/lib/motion";
 
 export type TimeRange = "all" | "1y" | "6m" | "3m" | "1m" | "1w" | "custom";
 
@@ -33,6 +35,7 @@ export function getDateRangeFromFilter(range: TimeRange): { from: Date | null; t
   }
 }
 
+/** Segmented control — the sliding pill is the only thing that moves. */
 export function TimeFilter({ value, onChange, lang }: TimeFilterProps) {
   const [customFrom, setCustomFrom] = useState("");
   const [customTo, setCustomTo] = useState("");
@@ -53,46 +56,76 @@ export function TimeFilter({ value, onChange, lang }: TimeFilterProps) {
     onChange("custom", from, to);
   };
 
+  const inputStyle: React.CSSProperties = {
+    background: "hsl(var(--card))",
+    border: "1px solid var(--hairline)",
+    color: "hsl(var(--foreground))",
+  };
+
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <div className="flex flex-wrap gap-1">
-        {OPTIONS.map((opt) => (
-          <button
-            key={opt.key}
-            onClick={() => handlePreset(opt.key)}
-            className={cn(
-              "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-              value === opt.key
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border hover:border-primary/50" 
-            )}
-          >
-            {t(lang, opt.labelKey as Parameters<typeof t>[1])}
-          </button>
-        ))}
+    <div className="flex flex-wrap items-center gap-3">
+      <div
+        className="flex flex-wrap items-center gap-0.5 rounded-[12px] p-1"
+        style={{ background: "var(--surface-hover)", border: "1px solid var(--hairline)" }}
+      >
+        {OPTIONS.map((opt) => {
+          const active = value === opt.key;
+          return (
+            <button
+              key={opt.key}
+              onClick={() => handlePreset(opt.key)}
+              className={cn(
+                "relative rounded-[9px] px-3 py-1.5 text-[12px] font-medium",
+                active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {active && (
+                <motion.span
+                  layoutId="timefilter-pill"
+                  transition={{ duration: 0.26, ease: EASE_OUT }}
+                  className="absolute inset-0 rounded-[9px]"
+                  style={{ background: "hsl(var(--card))", boxShadow: "var(--shadow-xs)" }}
+                />
+              )}
+              <span className="relative">{t(lang, opt.labelKey as Parameters<typeof t>[1])}</span>
+            </button>
+          );
+        })}
       </div>
+
       {showCustom && (
-        <div className="flex items-center gap-2 flex-wrap">
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.22, ease: EASE_OUT }}
+          className="flex flex-wrap items-center gap-2"
+        >
           <input
             type="date"
             value={customFrom}
             onChange={(e) => setCustomFrom(e.target.value)}
-            className="rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground"
+            className="rounded-[10px] px-2.5 py-1.5 text-[12px] outline-none"
+            style={inputStyle}
           />
-          <span className="text-xs" style={{ color: "rgba(255,255,255,0.8)" }}>—</span>
+          <span className="text-[12px] text-muted-foreground">—</span>
           <input
             type="date"
             value={customTo}
             onChange={(e) => setCustomTo(e.target.value)}
-            className="rounded-md border border-border bg-card px-2 py-1 text-xs text-foreground"
+            className="rounded-[10px] px-2.5 py-1.5 text-[12px] outline-none"
+            style={inputStyle}
           />
-          <button
+          <motion.button
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 0, scale: 0.985 }}
+            transition={{ duration: 0.18, ease: EASE_OUT }}
             onClick={applyCustom}
-            className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+            className="rounded-[10px] px-3.5 py-1.5 text-[12px] font-medium text-white"
+            style={{ background: "hsl(var(--primary))", boxShadow: "var(--shadow-xs)" }}
           >
             {t(lang, "apply")}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       )}
     </div>
   );

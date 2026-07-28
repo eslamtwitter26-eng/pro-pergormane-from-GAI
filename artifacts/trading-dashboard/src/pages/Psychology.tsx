@@ -62,7 +62,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧬 هويتك كمتداول — ملفك الشخصي",
         subtitle: "من أنت داخل السوق؟",
         icon: Brain,
-        color: "#8B5CF6",
+        color: "#3B82F6",
         rating: winRate >= 55 && profitFactor >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `لديك إجمالي ${m.totalTrades} صفقة بمعدل فوز ${winRate.toFixed(1)}% ومعامل ربح ${profitFactor.toFixed(2)}.`,
@@ -85,7 +85,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💎 تحليل SMC — أموال الكبار",
         subtitle: "هل تتداول مع السيولة أم ضدها؟",
         icon: Shield,
-        color: "#06B6D4",
+        color: "#60A5FA",
         rating: strongBias ? "warning" : buyDominant && dir.buyWinRate > 55 ? "good" : "warning",
         points: [
           `صفقات الشراء: ${dir.buyTrades} بنسبة فوز ${dir.buyWinRate.toFixed(1)}% — ربح ${dir.buyProfit.toFixed(2)}$`,
@@ -101,7 +101,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "⚡ تحليل ICT — جلسات القنص",
         subtitle: "هل تتداول في الوقت الصحيح؟",
         icon: Zap,
-        color: "#10F087",
+        color: "#10B981",
         rating: killZonePercent >= 70 ? "excellent" : killZonePercent >= 50 ? "good" : "warning",
         points: [
           `${killZonePercent}% من صفقاتك في جلستي لندن ونيويورك (مناطق قنص الكبار).`,
@@ -124,7 +124,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🌊 موجات إليوت — صبرك وانضباطك",
         subtitle: "هل تصيد الموجات أم تركبها؟",
         icon: Activity,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: avgDuration > 60 && m.riskRewardRatio >= 1.5 ? "good" : avgDuration < 15 ? "warning" : "good",
         points: [
           `متوسط مدة صفقاتك: ${avgDuration.toFixed(0)} دقيقة.`,
@@ -146,7 +146,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "📊 Price Action — انضباطك التقني",
         subtitle: "هل تقرأ الشموع والهيكل بدقة؟",
         icon: TrendingUp,
-        color: "#FF6B9D",
+        color: "#94A3B8",
         rating: winRate >= 55 && rrRatio >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `متوسط الربح للصفقة الرابحة: ${m.averageWin.toFixed(2)}$ — متوسط الخسارة: ${m.averageLoss.toFixed(2)}$`,
@@ -164,7 +164,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧠 ملفك النفسي العاطفي",
         subtitle: "ما هي المشاعر التي تحكم قراراتك؟",
         icon: Brain,
-        color: "#FF4757",
+        color: "#EF4444",
         rating: m.maxDrawdownPercent > 20 ? "danger" : maxLoseStreak >= 5 ? "warning" : "good",
         points: [
           `أقصى تراجع في رأس المال: ${m.maxDrawdownPercent.toFixed(1)}%.`,
@@ -190,7 +190,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💪 نقاط قوتك",
         subtitle: "ما الذي تفعله بشكل جيد؟",
         icon: Star,
-        color: "#10F087",
+        color: "#10B981",
         rating: "excellent",
         points: [
           ...(winRate >= 55 ? [`نسبة فوز ${winRate.toFixed(1)}% ممتازة — دخولك دقيقة وهذا يدل على قراءة جيدة للسوق.`] : []),
@@ -207,7 +207,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🎯 خطة تحسينك",
         subtitle: "أين تركز جهدك القادم؟",
         icon: Target,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: "warning",
         points: [
           ...(winRate < 50 ? [`اشتغل على دقة الدخول: حدد 3 شروط يجب توافرها قبل أي صفقة. قلة الصفقات = جودة أعلى.`] : []),
@@ -227,7 +227,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧬 Votre ADN de trader — Profil complet",
         subtitle: "Qui êtes-vous sur le marché ?",
         icon: Brain,
-        color: "#8B5CF6",
+        color: "#3B82F6",
         rating: winRate >= 55 && profitFactor >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `Vous avez ${m.totalTrades} trades avec un taux de réussite de ${winRate.toFixed(1)}% et un facteur de profit de ${profitFactor.toFixed(2)}.`,
@@ -250,7 +250,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💎 Analyse SMC — Argent intelligent",
         subtitle: "Tradez-vous avec la liquidité ou contre elle ?",
         icon: Shield,
-        color: "#06B6D4",
+        color: "#60A5FA",
         rating: strongBias ? "warning" : buyDominant && dir.buyWinRate > 55 ? "good" : "warning",
         points: [
           `Trades acheteurs: ${dir.buyTrades} — taux de réussite ${dir.buyWinRate.toFixed(1)}% — P&L ${dir.buyProfit.toFixed(2)}$`,
@@ -266,7 +266,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "⚡ Analyse ICT — Sessions de sniper",
         subtitle: "Tradez-vous au bon moment ?",
         icon: Zap,
-        color: "#10F087",
+        color: "#10B981",
         rating: killZonePercent >= 70 ? "excellent" : killZonePercent >= 50 ? "good" : "warning",
         points: [
           `${killZonePercent}% de vos trades se déroulent sur les sessions Londres et New York (Kill Zones ICT).`,
@@ -283,7 +283,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🌊 Elliott Waves — Votre patience",
         subtitle: "Surfez-vous les vagues ou les manquez-vous ?",
         icon: Activity,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: avgDuration > 60 && rrRatio >= 1.5 ? "good" : avgDuration < 15 ? "warning" : "good",
         points: [
           `Durée moyenne de vos trades: ${avgDuration.toFixed(0)} minutes.`,
@@ -305,7 +305,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "📊 Price Action — Discipline technique",
         subtitle: "Lisez-vous les bougies et la structure avec précision ?",
         icon: TrendingUp,
-        color: "#FF6B9D",
+        color: "#94A3B8",
         rating: winRate >= 55 && rrRatio >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `Gain moyen par trade gagnant: ${m.averageWin.toFixed(2)}$ — Perte moyenne: ${m.averageLoss.toFixed(2)}$`,
@@ -320,7 +320,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧠 Profil psycho-émotionnel",
         subtitle: "Quelles émotions gouvernent vos décisions ?",
         icon: Brain,
-        color: "#FF4757",
+        color: "#EF4444",
         rating: m.maxDrawdownPercent > 20 ? "danger" : maxLoseStreak >= 5 ? "warning" : "good",
         points: [
           `Drawdown maximum: ${m.maxDrawdownPercent.toFixed(1)}%.`,
@@ -343,7 +343,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💪 Vos points forts",
         subtitle: "Ce que vous faites bien",
         icon: Star,
-        color: "#10F087",
+        color: "#10B981",
         rating: "excellent",
         points: [
           ...(winRate >= 55 ? [`Taux de réussite ${winRate.toFixed(1)}% — entrées précises et bonne lecture du marché.`] : []),
@@ -359,7 +359,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🎯 Plan d'amélioration",
         subtitle: "Où concentrer vos efforts ?",
         icon: Target,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: "warning",
         points: [
           ...(winRate < 50 ? [`Travaillez la précision des entrées: définissez 3 conditions obligatoires avant chaque trade.`] : []),
@@ -379,7 +379,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧬 Your Trader DNA — Full Profile",
         subtitle: "Who are you inside the market?",
         icon: Brain,
-        color: "#8B5CF6",
+        color: "#3B82F6",
         rating: winRate >= 55 && profitFactor >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `You have ${m.totalTrades} total trades with a ${winRate.toFixed(1)}% win rate and a ${profitFactor.toFixed(2)} profit factor.`,
@@ -402,7 +402,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💎 SMC Analysis — Smart Money Concepts",
         subtitle: "Are you trading with liquidity or against it?",
         icon: Shield,
-        color: "#06B6D4",
+        color: "#60A5FA",
         rating: strongBias ? "warning" : buyDominant && dir.buyWinRate > 55 ? "good" : "warning",
         points: [
           `Buy trades: ${dir.buyTrades} — win rate ${dir.buyWinRate.toFixed(1)}% — P&L ${dir.buyProfit.toFixed(2)}$`,
@@ -418,7 +418,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "⚡ ICT Analysis — Kill Zone Awareness",
         subtitle: "Are you trading in smart money's active hours?",
         icon: Zap,
-        color: "#10F087",
+        color: "#10B981",
         rating: killZonePercent >= 70 ? "excellent" : killZonePercent >= 50 ? "good" : "warning",
         points: [
           `${killZonePercent}% of your trades occur during the London and New York sessions (ICT Kill Zones).`,
@@ -435,7 +435,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🌊 Elliott Wave Mindset — Your Patience",
         subtitle: "Do you ride waves or catch them too late?",
         icon: Activity,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: avgDuration > 60 && rrRatio >= 1.5 ? "good" : avgDuration < 15 ? "warning" : "good",
         points: [
           `Average trade duration: ${avgDuration.toFixed(0)} minutes.`,
@@ -457,7 +457,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "📊 Price Action Discipline",
         subtitle: "How precisely do you read candles and market structure?",
         icon: TrendingUp,
-        color: "#FF6B9D",
+        color: "#94A3B8",
         rating: winRate >= 55 && rrRatio >= 1.5 ? "excellent" : winRate >= 45 ? "good" : "warning",
         points: [
           `Average winning trade: ${m.averageWin.toFixed(2)}$ — Average losing trade: ${m.averageLoss.toFixed(2)}$`,
@@ -473,7 +473,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🧠 Your Emotional Trading Profile",
         subtitle: "Which emotions are driving your decisions?",
         icon: Brain,
-        color: "#FF4757",
+        color: "#EF4444",
         rating: m.maxDrawdownPercent > 20 ? "danger" : maxLoseStreak >= 5 ? "warning" : "good",
         points: [
           `Maximum account drawdown: ${m.maxDrawdownPercent.toFixed(1)}%.`,
@@ -499,7 +499,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "💪 Your Strengths",
         subtitle: "What you're already doing right",
         icon: Star,
-        color: "#10F087",
+        color: "#10B981",
         rating: "excellent",
         points: [
           ...(winRate >= 55 ? [`Win rate of ${winRate.toFixed(1)}% — precise entries and strong market-reading ability.`] : []),
@@ -516,7 +516,7 @@ function generateDeepReport(data: AnalysisResult, lang: Language): ReportSection
         title: "🎯 Your Improvement Roadmap",
         subtitle: "Where to focus your energy next",
         icon: Target,
-        color: "#FFD32D",
+        color: "#F59E0B",
         rating: "warning",
         points: [
           ...(winRate < 50 ? [`Improve entry precision: define 3 mandatory conditions before any trade. Fewer trades = higher quality.`] : []),
@@ -590,10 +590,10 @@ Your friend on this trading journey.`;
 }
 
 const RATING_COLORS = {
-  excellent: "#10F087",
-  good: "#06B6D4",
-  warning: "#FFD32D",
-  danger: "#FF4757",
+  excellent: "#10B981",
+  good: "#60A5FA",
+  warning: "#F59E0B",
+  danger: "#EF4444",
 };
 
 const RATING_LABELS = {
@@ -615,30 +615,28 @@ export function Psychology({ data, theme }: PsychologyProps) {
   const clean = data.psychologicalInsights.filter(i => !i.detected);
 
   const scoreColor = detected.length === 0
-    ? "#10F087" : detected.some(i => i.severity === "high")
-    ? "#FF4757" : "#FFD32D";
+    ? "#10B981" : detected.some(i => i.severity === "high")
+    ? "#EF4444" : "#F59E0B";
 
   return (
     <div className="space-y-6 animate-fade-in">
 
       {/* Header banner */}
-      <div className="rounded-xl p-5 relative overflow-hidden"
-        style={{ background: "hsl(var(--card) / 80%)", border: "1px solid rgba(139,92,246,0.2)", backdropFilter: "blur(16px)" }}>
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at 70% 50%, rgba(139,92,246,0.06) 0%, transparent 60%)" }} />
+      <div className="rounded-[14px] p-6 relative overflow-hidden"
+        style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
         <div className="relative flex items-center gap-4">
-          <div className="flex-shrink-0 rounded-2xl p-3"
+          <div className="flex-shrink-0 rounded-[18px] p-4"
             style={{ background: `${scoreColor}15`, border: `1px solid ${scoreColor}30` }}>
-            <Brain className="h-8 w-8" style={{ color: scoreColor, filter: `drop-shadow(0 0 8px ${scoreColor}80)` }} />
+            <Brain className="h-8 w-8" style={{ color: scoreColor }} />
           </div>
           <div>
-            <h2 className="text-xl font-black gradient-text">{t("psych_title")}</h2>
+            <h2 className="text-xl font-semibold gradient-text">{t("psych_title")}</h2>
             <p className="text-xs text-muted-foreground mt-0.5">{t("psych_subtitle")}</p>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-sm font-bold" style={{ color: scoreColor }}>
                 {detected.length === 0 ? t("psych_excellent") : detected.some(i => i.severity === "high") ? t("psych_needsAttention") : t("psych_improve")}
               </span>
-              <span className="text-muted-foreground/50">·</span>
+              <span className="text-muted-foreground">·</span>
               <span className="text-sm text-muted-foreground">
                 {detected.length > 0
                   ? `${detected.length} ${t("psych_patternsDetected")}`
@@ -650,19 +648,19 @@ export function Psychology({ data, theme }: PsychologyProps) {
       </div>
 
       {/* Score cards */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-4">
         {[
-          { icon: Target, label: t("psych_totalPatterns"), value: data.psychologicalInsights.length, color: "#8B5CF6" },
-          { icon: TrendingDown, label: t("psych_issuesFound"), value: detected.length, color: detected.length === 0 ? "#10F087" : "#FF4757" },
-          { icon: TrendingUp, label: t("psych_cleanAreas"), value: clean.length, color: "#10F087" },
+          { icon: Target, label: t("psych_totalPatterns"), value: data.psychologicalInsights.length, color: "#3B82F6" },
+          { icon: TrendingDown, label: t("psych_issuesFound"), value: detected.length, color: detected.length === 0 ? "#10B981" : "#EF4444" },
+          { icon: TrendingUp, label: t("psych_cleanAreas"), value: clean.length, color: "#10B981" },
         ].map((item, i) => {
           const Icon = item.icon;
           return (
-            <div key={i} className="rounded-xl p-4 text-center animate-slide-up"
-              style={{ background: "hsl(var(--card) / 75%)", border: `1px solid ${item.color}20`, backdropFilter: "blur(16px)", animationDelay: `${i * 80}ms` }}>
-              <Icon className="h-5 w-5 mx-auto mb-2" style={{ color: item.color, filter: `drop-shadow(0 0 5px ${item.color}60)` }} />
-              <p className="text-2xl font-black" style={{ color: item.color }}>{item.value}</p>
-              <p className="text-[10px] text-muted-foreground/70 mt-0.5 uppercase tracking-wide">{item.label}</p>
+            <div key={i} className="rounded-[14px] p-4 text-center animate-slide-up"
+              style={{ background: "hsl(var(--card))", border: `1px solid ${item.color}20`, animationDelay: `${i * 80}ms` }}>
+              <Icon className="h-5 w-5 mx-auto mb-2" style={{ color: item.color }} />
+              <p className="text-2xl font-semibold" style={{ color: item.color }}>{item.value}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5 uppercase tracking-wide">{item.label}</p>
             </div>
           );
         })}
@@ -674,28 +672,28 @@ export function Psychology({ data, theme }: PsychologyProps) {
         const ratingColor = RATING_COLORS[section.rating];
         const ratingLabel = RATING_LABELS[lang][section.rating];
         return (
-          <div key={idx} className="rounded-xl overflow-hidden animate-slide-up"
-            style={{ background: "hsl(var(--card) / 80%)", border: `1px solid ${section.color}20`, backdropFilter: "blur(16px)", animationDelay: `${idx * 60}ms` }}>
-            <div className="flex items-center gap-3 px-4 py-3 border-b"
+          <div key={idx} className="rounded-[14px] overflow-hidden animate-slide-up"
+            style={{ background: "hsl(var(--card))", border: `1px solid ${section.color}20`, animationDelay: `${idx * 60}ms` }}>
+            <div className="flex items-center gap-4 px-4 py-3 border-b"
               style={{ borderColor: `${section.color}15`, background: `${section.color}08` }}>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl flex-shrink-0"
+              <div className="flex h-9 w-9 items-center justify-center rounded-[14px] flex-shrink-0"
                 style={{ background: `${section.color}15`, border: `1px solid ${section.color}30` }}>
                 <Icon className="h-4 w-4" style={{ color: section.color }} />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-sm text-foreground leading-tight">{section.title}</h3>
-                <p className="text-[11px] text-muted-foreground/60">{section.subtitle}</p>
+                <p className="text-[11px] text-muted-foreground">{section.subtitle}</p>
               </div>
-              <span className="flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full"
+              <span className="flex-shrink-0 text-[11px] font-bold px-2 py-0.5 rounded-full"
                 style={{ color: ratingColor, background: `${ratingColor}15`, border: `1px solid ${ratingColor}30` }}>
                 {ratingLabel}
               </span>
             </div>
             <div className="p-4 space-y-2">
               {section.points.map((point, pi) => (
-                <div key={pi} className="flex items-start gap-3 rounded-lg p-2.5"
+                <div key={pi} className="flex items-start gap-4 rounded-lg p-2.5"
                   style={{ background: `${section.color}05` }}>
-                  <span className="flex-shrink-0 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-black mt-0.5"
+                  <span className="flex-shrink-0 flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-semibold mt-0.5"
                     style={{ background: `${section.color}20`, color: section.color, border: `1px solid ${section.color}30` }}>
                     {pi + 1}
                   </span>
@@ -713,16 +711,16 @@ export function Psychology({ data, theme }: PsychologyProps) {
       </SectionCard>
 
       {/* Smart Mistake Detection & Behavioral Leaks */}
-      <div className="rounded-xl p-5 space-y-4" style={{ background: "hsl(var(--card) / 75%)", border: "1px solid border/40" }}>
+      <div className="rounded-[14px] p-6 space-y-4" style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
         <div>
-          <h3 className="text-sm font-black uppercase tracking-widest text-red-400 flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-red-400 flex items-center gap-1.5">
             <AlertTriangle className="h-4.5 w-4.5 text-red-400 animate-pulse" /> {
               lang === "ar" ? "كشف التسربات السلوكية والانحيازات المعرفية" :
               lang === "fr" ? "Détection des Fuites Comportementales & Biais Cognitifs" :
               "Behavioral Leak & Cognitive Bias Detection"
             }
           </h3>
-          <p className="text-xs text-foreground/80 mt-1">
+          <p className="text-xs text-foreground mt-1">
             {
               lang === "ar" ? "التنقيب الذكي في سجلات التداول للكشف عن أخطاء التنفيذ التلقائية والمحفزات العاطفية." :
               lang === "fr" ? "Analyse intelligente des journaux de trading pour découvrir les erreurs d'exécution automatisées et les déclencheurs émotionnels." :
@@ -734,14 +732,14 @@ export function Psychology({ data, theme }: PsychologyProps) {
         {mistakes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {mistakes.map((m, idx) => (
-              <div key={idx} className="p-4 rounded-xl space-y-3 bg-background/40 border border-border/10 flex flex-col justify-between animate-fade-in">
+              <div key={idx} className="p-4 rounded-[14px] space-y-3 bg-[var(--surface-hover)] border border-[color:var(--hairline)] flex flex-col justify-between animate-fade-in">
                 <div>
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-black text-foreground">{m.title}</span>
-                    <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-md border ${
+                    <span className="text-xs font-semibold text-foreground">{m.title}</span>
+                    <span className={`text-[11px] uppercase font-bold px-2 py-0.5 rounded-md border ${
                       m.severity === "high" 
-                        ? "bg-red-500/10 text-red-400 border-red-500/20" 
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                        ? "bg-red-500/10 text-red-400 border-[color:var(--hairline)]" 
+                        : "bg-amber-500/10 text-amber-400 border-[color:var(--hairline)]"
                     }`}>
                       {
                         lang === "ar" ? `خطورة ${m.severity === "high" ? "عالية" : m.severity === "medium" ? "متوسطة" : "منخفضة"}` :
@@ -752,18 +750,18 @@ export function Psychology({ data, theme }: PsychologyProps) {
                   </div>
                   <p className="text-xs text-foreground leading-relaxed mt-2">{m.description}</p>
                   
-                  <div className="mt-3 p-2 rounded-lg bg-background/60 border border-border/5 text-[11px] text-foreground/90 font-medium">
+                  <div className="mt-3 p-2 rounded-lg bg-[var(--surface-hover)] border border-[color:var(--hairline)] text-[11px] text-foreground font-medium">
                     🔎 <span className="font-bold text-foreground">
                       {lang === "ar" ? "الدليل:" : lang === "fr" ? "Preuve:" : "Evidence:"}
                     </span> {m.evidence}
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-border/5 flex items-center justify-between text-[11px]">
-                  <span className="text-foreground/70">
+                <div className="pt-2 border-t border-[color:var(--hairline)] flex items-center justify-between text-[11px]">
+                  <span className="text-foreground">
                     {lang === "ar" ? "التكرار:" : lang === "fr" ? "Fréquence:" : "Frequency:"} <strong className="text-foreground">{m.frequency.toFixed(1)}%</strong>
                   </span>
-                  <span className="text-cyan-400 font-semibold cursor-help" title={m.suggestedFix}>
+                  <span className="text-blue-400 font-semibold cursor-help" title={m.suggestedFix}>
                     💡 {lang === "ar" ? "الحل المقترح" : lang === "fr" ? "Solution Suggérée" : "Suggested Fix"}
                   </span>
                 </div>
@@ -771,7 +769,7 @@ export function Psychology({ data, theme }: PsychologyProps) {
             ))}
           </div>
         ) : (
-          <div className="p-5 rounded-xl bg-background/20 border border-border/10 text-xs text-muted-foreground text-center">
+          <div className="p-6 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)] text-xs text-muted-foreground text-center">
             {
               lang === "ar" ? "لم يتم اكتشاف أي أنماط سلوكية سلبية واضحة (كالتداول الانتقامي، أو مضاعفة حجم العقود، أو الإفراط في التداول) في هذه البيانات. تحكم معرفي مميز بالذات!" :
               lang === "fr" ? "Aucun groupe de comportements négatifs distincts (trading de revanche, doublement de taille, sur-trading) détecté dans ces données. Maîtrise de soi cognitive exceptionnelle !" :
@@ -782,24 +780,24 @@ export function Psychology({ data, theme }: PsychologyProps) {
       </div>
 
       {/* Dear Friend Letter */}
-      <div className="rounded-xl overflow-hidden"
-        style={{ background: "hsl(var(--card) / 90%)", border: "1px solid rgba(255,107,157,0.25)", backdropFilter: "blur(16px)" }}>
-        <div className="flex items-center gap-3 px-4 py-3 border-b"
-          style={{ borderColor: "rgba(255,107,157,0.15)", background: "rgba(255,107,157,0.05)" }}>
-          <Heart className="h-5 w-5 flex-shrink-0" style={{ color: "#FF6B9D" }} />
+      <div className="rounded-[14px] overflow-hidden"
+        style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
+        <div className="flex items-center gap-4 px-4 py-3 border-b"
+          style={{ borderColor: "rgba(148,163,184,0.15)", background: "rgba(148,163,184,0.05)" }}>
+          <Heart className="h-5 w-5 flex-shrink-0" style={{ color: "#94A3B8" }} />
           <div>
-            <h3 className="font-bold text-sm" style={{ color: "#FF6B9D" }}>
+            <h3 className="font-bold text-sm" style={{ color: "#94A3B8" }}>
               {lang === "ar" ? "رسالة صديق" : lang === "fr" ? "Lettre d'un ami" : "A Letter from a Friend"}
             </h3>
-            <p className="text-[11px] text-muted-foreground/60">
+            <p className="text-[11px] text-muted-foreground">
               {lang === "ar" ? "نصيحة صادقة من شخص يريد نجاحك" : lang === "fr" ? "Conseil sincère d'un ami qui veut votre succès" : "Honest advice from someone who wants you to succeed"}
             </p>
           </div>
           <div className="ml-auto">
-            <Award className="h-5 w-5" style={{ color: "#FFD32D" }} />
+            <Award className="h-5 w-5" style={{ color: "#F59E0B" }} />
           </div>
         </div>
-        <div className="p-5">
+        <div className="p-6">
           <pre className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap font-sans">
             {letter}
           </pre>
@@ -807,11 +805,11 @@ export function Psychology({ data, theme }: PsychologyProps) {
       </div>
 
       {/* Pro tip */}
-      <div className="rounded-xl p-4" style={{ background: "rgba(16,240,135,0.04)", border: "1px solid rgba(16,240,135,0.15)" }}>
-        <div className="flex items-start gap-3">
-          <Lightbulb className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#10F087" }} />
+      <div className="rounded-[14px] p-4" style={{ background: "rgba(16,185,129,0.04)", border: "1px solid var(--hairline)" }}>
+        <div className="flex items-start gap-4">
+          <Lightbulb className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: "#10B981" }} />
           <div>
-            <p className="text-sm font-bold mb-1" style={{ color: "#10F087" }}>{t("psych_proTip")}</p>
+            <p className="text-sm font-bold mb-1" style={{ color: "#10B981" }}>{t("psych_proTip")}</p>
             <p className="text-sm text-muted-foreground leading-relaxed">{t("psych_proTipText")}</p>
           </div>
         </div>

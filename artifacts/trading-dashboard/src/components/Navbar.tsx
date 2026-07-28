@@ -20,7 +20,7 @@ const LANGS: { code: Language; label: string }[] = [
 
 export function Navbar({ lang, setLang, theme, setTheme, onUploadNew, hasData }: NavbarProps) {
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-sm">
+    <nav className="sticky top-0 z-50 border-b border-border bg-card">
       <div className="mx-auto flex max-w-screen-2xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">

@@ -26,12 +26,12 @@ interface Message {
 }
 
 const PRESET_QUESTIONS = [
-  { key: "presetQ1", icon: ShieldAlert, color: "#FF4757" },
-  { key: "presetQ2", icon: Zap, color: "#06B6D4" },
-  { key: "presetQ3", icon: Compass, color: "#8B5CF6" },
-  { key: "presetQ4", icon: ShieldAlert, color: "#FFD32D" },
-  { key: "presetQ5", icon: Trophy, color: "#10F087" },
-  { key: "presetQ6", icon: TrendingUp, color: "#FF6B9D" },
+  { key: "presetQ1", icon: ShieldAlert, color: "#EF4444" },
+  { key: "presetQ2", icon: Zap, color: "#60A5FA" },
+  { key: "presetQ3", icon: Compass, color: "#3B82F6" },
+  { key: "presetQ4", icon: ShieldAlert, color: "#F59E0B" },
+  { key: "presetQ5", icon: Trophy, color: "#10B981" },
+  { key: "presetQ6", icon: TrendingUp, color: "#94A3B8" },
 ] as const;
 
 function getWelcomeMessage(data: AnalysisResult, lang: Language, scores: any): string {
@@ -636,34 +636,32 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
   return (
     <div className="space-y-6 animate-fade-in" dir={lang === "ar" ? "rtl" : "ltr"}>
       {/* Header Banner */}
-      <div className="rounded-xl p-5 relative overflow-hidden"
-        style={{ background: "hsl(var(--card) / 80%)", border: "1px solid rgba(139,92,246,0.2)", backdropFilter: "blur(16px)" }}>
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(139,92,246,0.07) 0%, transparent 60%)" }} />
+      <div className="rounded-[14px] p-6 relative overflow-hidden"
+        style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0"
-              style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.25)" }}>
-              <Bot className="h-6 w-6 text-purple-400" />
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[14px] flex-shrink-0"
+              style={{ background: "rgba(59,130,246,0.15)", border: "1px solid var(--hairline)" }}>
+              <Bot className="h-6 w-6 text-blue-400" />
             </div>
             <div>
-              <h2 className="text-xl font-black gradient-text">{t("aiTradingCoach")}</h2>
-              <p className="text-xs text-muted-foreground/60 mt-0.5">
+              <h2 className="text-xl font-semibold gradient-text">{t("aiTradingCoach")}</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">
                 {t("aiCoachDesc")}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-background/40 rounded-xl px-4 py-2 border border-border/10">
+          <div className="flex items-center gap-4 bg-[var(--surface-hover)] rounded-[14px] px-4 py-2 border border-[color:var(--hairline)]">
             <div className="text-center">
-              <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">{t("cognitiveAuditScore")}</p>
-              <p className="text-2xl font-black text-purple-400" style={{ textShadow: "0 0 10px rgba(139,92,246,0.4)" }}>
+              <p className="text-[11px] uppercase font-bold text-muted-foreground tracking-widest">{t("cognitiveAuditScore")}</p>
+              <p className="text-2xl font-semibold text-blue-400" style={{ textShadow: "none" }}>
                 {scores.overall}
               </p>
             </div>
             <div className="h-8 w-px bg-border/20" />
             <div>
-              <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">{t("activeLeaks")}</p>
+              <p className="text-[11px] uppercase font-bold text-muted-foreground tracking-widest">{t("activeLeaks")}</p>
               <p className="text-lg font-bold text-red-400">
                 {mistakes.length} {t("detected")}
               </p>
@@ -676,9 +674,9 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
         {/* Left Sidebar - Presets & Coach Card */}
         <div className="lg:col-span-4 space-y-6">
           {/* Preset Coach Prompts */}
-          <div className="rounded-xl p-4 space-y-3" style={{ background: "hsl(var(--card) / 75%)", border: "1px solid border/40" }}>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 flex items-center gap-1.5 mb-2">
-              <Sparkles className="h-3.5 w-3.5 text-purple-400" /> {t("quickDiagnostics")}
+          <div className="rounded-[14px] p-4 space-y-3" style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
+            <h3 className="text-xs font-bold text-muted-foreground flex items-center gap-1.5 mb-2">
+              <Sparkles className="h-3.5 w-3.5 text-blue-400" /> {t("quickDiagnostics")}
             </h3>
             <div className="space-y-2">
               {PRESET_QUESTIONS.map((q, idx) => {
@@ -689,15 +687,15 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                     key={idx}
                     onClick={() => handleSend(textLabel)}
                     disabled={isTyping}
-                    className="w-full text-left p-3 rounded-lg text-xs font-semibold hover:bg-white/5 border border-transparent hover:border-border/10 transition-all flex items-center justify-between group"
+                    className="w-full text-left p-4 rounded-lg text-xs font-semibold hover:bg-[var(--surface-hover)] border border-transparent hover:border-[color:var(--hairline)] transition-all flex items-center justify-between group"
                     style={{ background: "hsl(var(--background) / 40%)" }}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <Icon className="h-4 w-4 flex-shrink-0" style={{ color: q.color }} />
-                      <span className="truncate text-foreground/85 group-hover:text-foreground">{textLabel}</span>
+                      <span className="truncate text-foreground group-hover:text-foreground">{textLabel}</span>
                     </div>
                     <ArrowRight className={cn(
-                      "h-3.5 w-3.5 text-muted-foreground/30 transition-all flex-shrink-0 ml-1 mr-1",
+                      "h-3.5 w-3.5 text-muted-foreground transition-all flex-shrink-0 ml-1 mr-1",
                       lang === "ar" ? "group-hover:-translate-x-0.5 rotate-180" : "group-hover:translate-x-0.5"
                     )} />
                   </button>
@@ -707,21 +705,21 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
           </div>
 
           {/* Cognitive Assessment Card */}
-          <div className="rounded-xl p-4 space-y-4" style={{ background: "hsl(var(--card) / 75%)", border: "1px solid border/40" }}>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 flex items-center gap-1.5">
-              <Trophy className="h-3.5 w-3.5 text-cyan-400" /> {t("cognitiveAssessment")}
+          <div className="rounded-[14px] p-4 space-y-4" style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
+            <h3 className="text-xs font-bold text-muted-foreground flex items-center gap-1.5">
+              <Trophy className="h-3.5 w-3.5 text-blue-400" /> {t("cognitiveAssessment")}
             </h3>
 
             <div className="space-y-3">
               {[
-                { label: t("riskManagement"), value: scores.subScores.riskManagement, color: "#10F087" },
-                { label: t("consistency"), value: scores.subScores.consistency, color: "#06B6D4" },
-                { label: t("execution"), value: scores.subScores.execution, color: "#8B5CF6" },
-                { label: t("psychology"), value: scores.subScores.psychology, color: "#FF6B9D" },
-                { label: t("discipline"), value: scores.subScores.discipline, color: "#FFD32D" }
+                { label: t("riskManagement"), value: scores.subScores.riskManagement, color: "#10B981" },
+                { label: t("consistency"), value: scores.subScores.consistency, color: "#60A5FA" },
+                { label: t("execution"), value: scores.subScores.execution, color: "#3B82F6" },
+                { label: t("psychology"), value: scores.subScores.psychology, color: "#94A3B8" },
+                { label: t("discipline"), value: scores.subScores.discipline, color: "#F59E0B" }
               ].map((item, i) => (
                 <div key={i} className="space-y-1">
-                  <div className="flex justify-between text-[11px] font-semibold text-foreground/80">
+                  <div className="flex justify-between text-[11px] font-semibold text-foreground">
                     <span>{item.label}</span>
                     <span style={{ color: item.color }}>{item.value}/100</span>
                   </div>
@@ -736,17 +734,17 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
         </div>
 
         {/* Right Area - The Main Chat Interface */}
-        <div className="lg:col-span-8 rounded-xl flex flex-col h-[580px] overflow-hidden" 
-          style={{ background: "hsl(var(--card) / 75%)", border: "1px solid border/40" }}>
+        <div className="lg:col-span-8 rounded-[14px] flex flex-col h-[580px] overflow-hidden" 
+          style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
           {/* Top Bar */}
-          <div className="px-4 py-3 border-b border-border/20 bg-background/20 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-[color:var(--hairline)] bg-[var(--surface-hover)] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{t("sessionIntel")}</span>
+              <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-xs font-bold text-muted-foreground">{t("sessionIntel")}</span>
             </div>
             <button 
               onClick={() => setMessages([messages[0]])}
-              className="p-1 text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-lg transition-all"
+              className="p-1 text-muted-foreground hover:text-foreground hover:bg-[var(--surface-hover)] rounded-lg transition-all"
               title={t("resetChat")}
             >
               <RefreshCw className="h-4.5 w-4.5" />
@@ -759,7 +757,7 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
               <div 
                 key={idx} 
                 className={cn(
-                  "flex gap-3 max-w-[85%] animate-fade-in",
+                  "flex gap-4 max-w-[85%] animate-fade-in",
                   m.sender === "user" ? (lang === "ar" ? "mr-auto flex-row" : "ml-auto flex-row-reverse") : (lang === "ar" ? "ml-auto flex-row-reverse" : "mr-auto")
                 )}
               >
@@ -767,8 +765,8 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                 <div className={cn(
                   "h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 border",
                   m.sender === "user" 
-                    ? "bg-purple-900/40 border-purple-500/30 text-purple-400" 
-                    : "bg-cyan-950/40 border-cyan-500/30 text-cyan-400"
+                    ? "bg-blue-900/40 border-[color:var(--hairline)] text-blue-400" 
+                    : "bg-blue-950/40 border-[color:var(--hairline)] text-blue-400"
                 )}>
                   {m.sender === "user" ? <HelpCircle className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
                 </div>
@@ -776,10 +774,10 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                 {/* Bubble */}
                 <div 
                   className={cn(
-                    "rounded-xl px-4 py-3 text-sm leading-relaxed",
+                    "rounded-[14px] px-4 py-3 text-sm leading-relaxed",
                     m.sender === "user" 
-                      ? "bg-purple-900/10 border border-purple-500/15 text-foreground/90 rounded-tr-none" 
-                      : "bg-cyan-950/5 border border-cyan-500/10 text-foreground/90 rounded-tl-none markdown text-left"
+                      ? "bg-blue-900/10 border border-[color:var(--hairline)] text-foreground rounded-tr-none" 
+                      : "bg-blue-950/5 border border-[color:var(--hairline)] text-foreground rounded-tl-none markdown text-left"
                   )}
                   style={{ direction: lang === "ar" && m.sender === "user" ? "rtl" : "ltr" }}
                 >
@@ -787,14 +785,14 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                     <div className="space-y-2">
                       {m.text.split("\n\n").map((para, pIdx) => {
                         if (para.startsWith("###")) {
-                          return <h4 key={pIdx} className="text-base font-black text-purple-400 mt-2 mb-1">{para.replace("###", "").trim()}</h4>;
+                          return <h4 key={pIdx} className="text-base font-semibold text-blue-400 mt-2 mb-1">{para.replace("###", "").trim()}</h4>;
                         }
                         if (para.startsWith("####")) {
-                          return <h5 key={pIdx} className="text-sm font-bold text-cyan-400 mt-2 mb-1">{para.replace("####", "").trim()}</h5>;
+                          return <h5 key={pIdx} className="text-sm font-bold text-blue-400 mt-2 mb-1">{para.replace("####", "").trim()}</h5>;
                         }
                         if (para.startsWith("-") || para.startsWith("*")) {
                           return (
-                            <ul key={pIdx} className="list-disc pl-5 space-y-1 my-1 text-muted-foreground/95">
+                            <ul key={pIdx} className="list-disc pl-5 space-y-1 my-1 text-muted-foreground">
                               {para.split("\n").map((li, lIdx) => (
                                 <li key={lIdx}>{li.replace(/^[\s-*]+/, "").trim().replace(/\*\*(.*?)\*\*/g, "$1").replace(/\*(.*?)\*/g, "$1")}</li>
                               ))}
@@ -803,9 +801,9 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                         }
                         // Handle simple markdown bold tags like **Bold**
                         return (
-                          <p key={pIdx} className="text-muted-foreground/95">
+                          <p key={pIdx} className="text-muted-foreground">
                             {para.split("**").map((chunk, cIdx) => 
-                              cIdx % 2 === 1 ? <strong key={cIdx} className="text-foreground font-black">{chunk}</strong> : chunk
+                              cIdx % 2 === 1 ? <strong key={cIdx} className="text-foreground font-semibold">{chunk}</strong> : chunk
                             )}
                           </p>
                         );
@@ -819,11 +817,11 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
             ))}
 
             {isTyping && (
-              <div className="flex gap-3 mr-auto items-center">
-                <div className="h-8 w-8 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+              <div className="flex gap-4 mr-auto items-center">
+                <div className="h-8 w-8 rounded-lg bg-blue-950/40 border border-[color:var(--hairline)] text-blue-400 flex items-center justify-center">
                   <Bot className="h-4 w-4" />
                 </div>
-                <div className="bg-cyan-950/5 border border-cyan-500/10 rounded-xl px-4 py-3 text-xs text-muted-foreground flex items-center gap-1">
+                <div className="bg-blue-950/5 border border-[color:var(--hairline)] rounded-[14px] px-4 py-3 text-xs text-muted-foreground flex items-center gap-1">
                   <span>{t("coachAnalyzing")}</span>
                   <span className="animate-pulse">.</span>
                   <span className="animate-pulse" style={{ animationDelay: "200ms" }}>.</span>
@@ -836,7 +834,7 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
           </div>
 
           {/* Footer Input */}
-          <div className="p-3 border-t border-border/20 bg-background/20">
+          <div className="p-4 border-t border-[color:var(--hairline)] bg-[var(--surface-hover)]">
             <form 
               onSubmit={(e) => { e.preventDefault(); handleSend(); }}
               className="flex items-center gap-2"
@@ -847,13 +845,13 @@ Thank you for your question. Here is a specialized scan of your **${data.trades.
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={t("askCoachPlaceholder")}
                 disabled={isTyping}
-                className="flex-1 bg-background/50 border border-border/20 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-purple-500/40 transition-all text-foreground"
+                className="flex-1 bg-[var(--surface-hover)] border border-[color:var(--hairline)] rounded-[14px] px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500/40 transition-all text-foreground"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim() || isTyping}
-                className="h-9 w-9 rounded-xl flex items-center justify-center text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)" }}
+                className="h-9 w-9 rounded-[14px] flex items-center justify-center text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{ background: "hsl(var(--primary))" }}
               >
                 <Send className="h-4 w-4" />
               </button>

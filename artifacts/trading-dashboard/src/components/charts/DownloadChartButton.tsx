@@ -56,7 +56,7 @@ export function DownloadChartButton({
       const computedStyle = window.getComputedStyle(element);
       const bg = computedStyle.backgroundColor !== "rgba(0, 0, 0, 0)" && computedStyle.backgroundColor !== "transparent"
         ? computedStyle.backgroundColor
-        : "#0b0f19";
+        : "#141A24";
 
       const canvas = await html2canvas(element, {
         backgroundColor: bg,
@@ -96,9 +96,9 @@ export function DownloadChartButton({
         onClick={handleDownload}
         disabled={isExporting}
         title="Download Chart as PNG"
-        className={`no-export p-1.5 rounded-lg border border-border/20 bg-background/50 text-muted-foreground hover:text-foreground hover:bg-background hover:border-purple-500/40 transition-all cursor-pointer flex items-center justify-center ${className}`}
+        className={`no-export flex h-7 w-7 cursor-pointer items-center justify-center rounded-[9px] border border-[color:var(--hairline)] text-muted-foreground transition-all hover:bg-[var(--surface-hover)] hover:text-foreground ${className}`}
       >
-        {isExporting ? <Loader2 className="h-3.5 w-3.5 animate-spin text-purple-400" /> : <Download className="h-3.5 w-3.5" />}
+        {isExporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" strokeWidth={1.75} />}
       </button>
     );
   }
@@ -109,9 +109,9 @@ export function DownloadChartButton({
         type="button"
         onClick={handleDownload}
         disabled={isExporting}
-        className={`no-export inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border border-purple-500/30 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 hover:border-purple-500/50 transition-all cursor-pointer ${className}`}
+        className={`no-export inline-flex cursor-pointer items-center gap-2 rounded-[10px] border border-[color:var(--hairline)] px-3 py-1.5 text-[12px] font-medium text-muted-foreground transition-all hover:bg-[var(--surface-hover)] hover:text-foreground ${className}`}
       >
-        {isExporting ? <Loader2 className="h-3.5 w-3.5 animate-spin text-purple-400" /> : <Download className="h-3.5 w-3.5 text-purple-400" />}
+        {isExporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" strokeWidth={1.75} />}
         <span>{isExporting ? "Exporting..." : "Download Chart"}</span>
       </button>
     );
@@ -124,9 +124,9 @@ export function DownloadChartButton({
       onClick={handleDownload}
       disabled={isExporting}
       title="Download Chart"
-      className={`no-export inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold rounded-md border border-border/15 bg-background/40 text-muted-foreground hover:text-foreground hover:bg-card hover:border-purple-500/30 transition-all cursor-pointer ${className}`}
+      className={`no-export inline-flex cursor-pointer items-center gap-1.5 rounded-[9px] border border-[color:var(--hairline)] px-2.5 py-1 text-[11.5px] font-medium text-muted-foreground transition-all hover:bg-[var(--surface-hover)] hover:text-foreground ${className}`}
     >
-      {isExporting ? <Loader2 className="h-3 w-3 animate-spin text-purple-400" /> : <Download className="h-3 w-3 text-purple-400" />}
+      {isExporting ? <Loader2 className="h-3 w-3 animate-spin" /> : <Download className="h-3 w-3" strokeWidth={1.75} />}
       <span>{isExporting ? "Saving..." : "Download Chart"}</span>
     </button>
   );

@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
-import { Mail, Lock, AlertCircle, Loader2, ChevronRight, TrendingUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { EASE_OUT } from "@/lib/motion";
+import { Mail, AlertCircle, Loader2, ChevronRight, TrendingUp } from "lucide-react";
 
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTXv9PB3EtBUtXpbL7PFkpRmg8URXsJEdG3S5aZFOBV8ni7QavAWZ-j3q5pLj478mcxgMzK-aW6t04i/pub?output=csv";
@@ -112,73 +114,62 @@ export function LoginPage({ onAccessGranted }: LoginPageProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden"
-      style={{ background: "radial-gradient(ellipse at 30% 20%, rgba(139,92,246,0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(6,182,212,0.08) 0%, transparent 50%), #05070F" }}>
-
-      {/* Background grid */}
-      <div className="absolute inset-0 pointer-events-none"
+    <div
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
+      style={{ background: "#0B0F17" }}
+    >
+      {/* A single, barely-there vignette. No orbs, no grid, no glow. */}
+      <div
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: "linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.04) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }} />
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.05) 0%, transparent 70%)",
+        }}
+      />
 
-      {/* Floating orbs */}
-      <div className="absolute top-1/4 left-1/5 h-72 w-72 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute bottom-1/4 right-1/5 h-60 w-60 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(6,182,212,0.07) 0%, transparent 70%)", filter: "blur(40px)" }} />
-
-      {/* Login card */}
-      <div className="relative w-full max-w-md animate-slide-up"
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: EASE_OUT }}
+        className="relative w-full max-w-[420px] overflow-hidden rounded-[20px]"
         style={{
-          background: "rgba(8, 11, 28, 0.85)",
-          backdropFilter: "blur(24px)",
-          border: "1px solid rgba(139,92,246,0.2)",
-          borderRadius: "20px",
-          boxShadow: "0 0 60px rgba(139,92,246,0.12), 0 24px 80px rgba(0,0,0,0.6)",
-        }}>
-
-        {/* Top accent bar */}
-        <div className="h-0.5 w-full rounded-t-[20px]"
-          style={{ background: "linear-gradient(90deg, transparent, #8B5CF6, #06B6D4, transparent)" }} />
-
-        <div className="p-8">
-          {/* Logo + branding */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="relative mb-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl"
-                style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)", boxShadow: "0 0 30px rgba(139,92,246,0.5), 0 0 60px rgba(139,92,246,0.2)" }}>
-                <TrendingUp className="h-8 w-8 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full"
-                style={{ background: "#10F087", boxShadow: "0 0 8px rgba(16,240,135,0.8)", animation: "pulse 2s infinite" }} />
-            </div>
-            <h1 className="text-center font-black text-xl leading-tight"
-              style={{ background: "linear-gradient(135deg, #8B5CF6 0%, #06B6D4 50%, #10F087 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              Welcome – EG-Finance<br />Fx Pro Analyser
+          background: "#141A24",
+          border: "1px solid var(--hairline)",
+          boxShadow: "var(--shadow-xl)",
+        }}
+      >
+        <div className="p-9">
+          {/* Brand */}
+          <div className="mb-8 flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.45, ease: EASE_OUT, delay: 0.08 }}
+              className="mb-5 flex h-12 w-12 items-center justify-center rounded-[14px]"
+              style={{ background: "#3B82F6", boxShadow: "var(--shadow-md)" }}
+            >
+              <TrendingUp className="h-6 w-6 text-white" strokeWidth={2} />
+            </motion.div>
+            <h1 className="text-center text-[20px] font-semibold leading-tight tracking-tight text-white">
+              EG-Finance Fx Pro Analyser
             </h1>
-            <p className="mt-2 text-sm text-center" style={{ color: "rgba(150,160,200,0.7)" }}>
+            <p className="mt-2 text-center text-[13px] text-[#94A3B8]">
               Secure access for registered students
             </p>
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px" style={{ background: "rgba(139,92,246,0.2)" }} />
-            <Lock className="h-3.5 w-3.5" style={{ color: "rgba(150,160,200,0.4)" }} />
-            <div className="flex-1 h-px" style={{ background: "rgba(139,92,246,0.2)" }} />
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                style={{ color: "rgba(150,160,200,0.6)" }}>
-                Email Address
+              <label className="mb-2 block text-[12px] font-medium text-[#94A3B8]">
+                Email address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4"
-                  style={{ color: email ? "#8B5CF6" : "rgba(150,160,200,0.4)", transition: "color 0.2s" }} />
+                <Mail
+                  className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2"
+                  strokeWidth={1.75}
+                  style={{ color: email ? "#3B82F6" : "#64748B", transition: "color 200ms" }}
+                />
                 <input
                   ref={inputRef}
                   type="email"
@@ -188,61 +179,68 @@ export function LoginPage({ onAccessGranted }: LoginPageProps) {
                   placeholder="your@email.com"
                   autoComplete="email"
                   disabled={status === "loading"}
-                  className="w-full pl-10 pr-4 py-3 text-sm rounded-xl outline-none transition-all"
+                  className="w-full rounded-[12px] py-3 pl-10 pr-4 text-[14px] outline-none"
                   style={{
-                    background: "rgba(15, 20, 45, 0.8)",
-                    border: `1px solid ${status === "error" ? "rgba(255,71,87,0.5)" : email ? "rgba(139,92,246,0.4)" : "rgba(139,92,246,0.15)"}`,
-                    color: "rgba(220, 225, 245, 0.95)",
-                    boxShadow: email ? "0 0 20px rgba(139,92,246,0.1)" : "none",
+                    background: "rgba(255,255,255,0.03)",
+                    border: `1px solid ${
+                      status === "error"
+                        ? "rgba(239,68,68,0.5)"
+                        : email
+                        ? "rgba(59,130,246,0.45)"
+                        : "rgba(255,255,255,0.08)"
+                    }`,
+                    color: "#FFFFFF",
+                    boxShadow: email ? "0 0 0 3px rgba(59,130,246,0.08)" : "none",
                   }}
                 />
               </div>
             </div>
 
-            {/* Error message */}
-            {(status === "error" || status === "network-error") && errorMsg && (
-              <div className="flex items-start gap-2.5 rounded-xl px-3.5 py-3 animate-fade-in"
-                style={{ background: "rgba(255,71,87,0.08)", border: "1px solid rgba(255,71,87,0.25)" }}>
-                <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: "#FF4757" }} />
-                <p className="text-sm" style={{ color: "#FF4757" }}>{errorMsg}</p>
-              </div>
-            )}
+            {/* Error */}
+            <AnimatePresence>
+              {(status === "error" || status === "network-error") && errorMsg && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: "auto" }}
+                  exit={{ opacity: 0, y: -6, height: 0 }}
+                  transition={{ duration: 0.22, ease: EASE_OUT }}
+                  className="flex items-start gap-2.5 overflow-hidden rounded-[12px] px-3.5 py-3"
+                  style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.22)" }}
+                >
+                  <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" strokeWidth={1.75} style={{ color: "#EF4444" }} />
+                  <p className="text-[13px]" style={{ color: "#EF4444" }}>{errorMsg}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            {/* Submit button */}
-            <button
+            {/* Submit */}
+            <motion.button
               type="submit"
               disabled={status === "loading" || !email.trim()}
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm transition-all"
+              whileHover={status !== "loading" && email.trim() ? { y: -1 } : undefined}
+              whileTap={status !== "loading" && email.trim() ? { y: 0, scale: 0.985 } : undefined}
+              transition={{ duration: 0.18, ease: EASE_OUT }}
+              className="flex w-full items-center justify-center gap-2 rounded-[12px] py-3.5 text-[14px] font-medium"
               style={{
-                background: status === "loading" || !email.trim()
-                  ? "rgba(139,92,246,0.3)"
-                  : "linear-gradient(135deg, #8B5CF6, #06B6D4)",
+                background: status === "loading" || !email.trim() ? "rgba(59,130,246,0.28)" : "#3B82F6",
                 color: "white",
-                boxShadow: !email.trim() || status === "loading" ? "none" : "0 0 30px rgba(139,92,246,0.4)",
+                boxShadow: !email.trim() || status === "loading" ? "none" : "var(--shadow-md)",
                 cursor: status === "loading" || !email.trim() ? "not-allowed" : "pointer",
-                transform: "translateY(0)",
               }}
-              onMouseEnter={(e) => { if (status !== "loading" && email.trim()) (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)"; }}
             >
               {status === "loading" ? (
-                <><Loader2 className="h-4 w-4 animate-spin" /> Verifying access...</>
+                <><Loader2 className="h-4 w-4 animate-spin" /> Verifying access…</>
               ) : (
-                <>Access Dashboard <ChevronRight className="h-4 w-4" /></>
+                <>Access dashboard <ChevronRight className="h-4 w-4" strokeWidth={2} /></>
               )}
-            </button>
+            </motion.button>
           </form>
 
-          {/* Footer note */}
-          <p className="mt-6 text-center text-[11px]" style={{ color: "rgba(150,160,200,0.35)" }}>
-            Access is verified in real-time against the authorized student list.
+          <p className="mt-7 text-center text-[11.5px] leading-relaxed" style={{ color: "#64748B" }}>
+            Access is verified in real time against the authorized student list.
           </p>
         </div>
-
-        {/* Bottom glow */}
-        <div className="absolute -bottom-px left-1/2 -translate-x-1/2 h-px w-2/3"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(6,182,212,0.5), transparent)" }} />
-      </div>
+      </motion.div>
     </div>
   );
 }

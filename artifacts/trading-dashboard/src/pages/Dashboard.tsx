@@ -1,4 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { EASE_OUT, staggerContainer, staggerItem } from "@/lib/motion";
 import {
   TrendingUp, TrendingDown, Activity, BarChart2, Target, Zap, Shield,
   Lightbulb, ChevronDown, ChevronUp, CalendarDays, X, Award, CheckCircle2,
@@ -288,42 +290,60 @@ export function Dashboard({ data, theme }: DashboardProps) {
     return { strengths: str, weaknesses: weak, riskAlerts: alerts, recommendedActions: recs };
   }, [insights, lang]);
 
-  const profitColor = metrics.netProfit >= 0 ? "#10F087" : "#FF4757";
+  const profitColor = metrics.netProfit >= 0 ? "#10B981" : "#EF4444";
 
   return (
     <div className="relative space-y-10 pb-12 animate-fade-in">
       
       {/* Sticky Sidebar Navigation (Desktop only) */}
-      <div className="hidden xl:block fixed top-1/4 right-8 z-50 space-y-3 bg-card/75 border border-border/10 p-4 rounded-2xl shadow-xl w-48 backdrop-blur-md">
-        <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-2 px-1">Dashboard Sections</p>
-        <div className="flex flex-col gap-1">
+      <motion.div
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, ease: EASE_OUT, delay: 0.15 }}
+        className="hidden xl:block fixed top-1/4 right-8 z-50 w-[184px] rounded-[18px] p-2.5"
+        style={{
+          background: "hsl(var(--card))",
+          border: "1px solid var(--hairline)",
+          boxShadow: "var(--shadow-lg)",
+        }}
+      >
+        <p className="px-2.5 pb-2 pt-1.5 text-[11px] font-medium text-muted-foreground">On this page</p>
+        <div className="flex flex-col gap-0.5">
           {sections.map((sec) => {
             const active = activeSection === sec.id;
             return (
               <button
                 key={sec.id}
                 onClick={() => scrollToSection(sec.id)}
-                className={`flex items-center justify-between text-left px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
+                className={`relative flex items-center rounded-[10px] px-2.5 py-[7px] text-left text-[12.5px] font-medium ${
                   active
-                    ? "bg-purple-500/10 text-purple-400 border-l-2 border-purple-500 pl-4"
-                    : "text-muted-foreground hover:text-foreground hover:bg-border/5"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:bg-[var(--surface-hover)] hover:text-foreground"
                 }`}
+                style={active ? { background: "rgba(59,130,246,0.12)" } : undefined}
               >
-                <span>{sec.label}</span>
-                {active && <span className="h-1 w-1 rounded-full bg-purple-400" />}
+                {active && (
+                  <motion.span
+                    layoutId="section-nav-active"
+                    transition={{ duration: 0.26, ease: EASE_OUT }}
+                    className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full"
+                    style={{ background: "hsl(var(--primary))" }}
+                  />
+                )}
+                <span className="truncate">{sec.label}</span>
               </button>
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       <div id="overview" className="space-y-10">
         {/* ── DATE FILTER & OVERVIEW SECTION ── */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border/5 pb-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[color:var(--hairline)] pb-4">
         <div>
-          <h2 className="text-xl font-black text-foreground tracking-tight">{t("overview")}</h2>
+          <h2 className="text-xl font-semibold text-foreground tracking-tight">{t("overview")}</h2>
           <div className="flex flex-wrap items-center gap-2.5 mt-1">
-            <p className="text-xs text-muted-foreground/70">
+            <p className="text-xs text-muted-foreground">
               {metrics.totalTrades} {t("totalTrades").toLowerCase()} ·{" "}
               {filteredTrades[0] ? new Date(filteredTrades[0].openTime).toLocaleDateString() : ""}
               {filteredTrades.length > 0 ? ` — ${new Date(filteredTrades[filteredTrades.length - 1].closeTime).toLocaleDateString()}` : ""}
@@ -331,7 +351,7 @@ export function Dashboard({ data, theme }: DashboardProps) {
             {calendarFilter && (
               <button
                 onClick={clearCalendarFilter}
-                className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold transition-all hover:scale-105 bg-purple-500/10 border border-purple-500/30 text-purple-400"
+                className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold transition-all bg-blue-500/10 border border-[color:var(--hairline)] text-blue-400"
               >
                 <CalendarDays className="h-2.5 w-2.5" />
                 {MONTH_NAMES_SHORT[calendarFilter.month]} {calendarFilter.year}
@@ -345,115 +365,127 @@ export function Dashboard({ data, theme }: DashboardProps) {
 
       {/* ── SECTION 1: HERO ANALYTICS (ASYNCHRONOUS GRIDS) ── */}
       <section className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+        <motion.div
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+          className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch"
+        >
           
           {/* Primary KPI Card: Large Net Profit */}
-          <div className="col-span-12 md:col-span-6 lg:col-span-5 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl shadow-purple-500/5 border border-purple-500/15"
-            style={{ background: "linear-gradient(135deg, hsl(var(--card)) 40%, rgba(139,92,246,0.06) 100%)" }}>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.24, ease: EASE_OUT }}
+            className="col-span-12 md:col-span-6 lg:col-span-5 rounded-[18px] p-6 relative flex flex-col justify-between border border-[color:var(--hairline)]"
+            style={{ background: "hsl(var(--card))", boxShadow: "var(--shadow-sm)" }}>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/80">{t("netProfit")}</span>
+              <span className="text-[11px] font-medium text-muted-foreground">{t("netProfit")}</span>
               <div className="rounded-lg p-2 bg-emerald-500/10 text-emerald-400">
                 <TrendingUp className="h-5 w-5" />
               </div>
             </div>
             <div>
-              <p className="text-4xl font-black tracking-tight tabular-nums" style={{ color: profitColor }}>
+              <p className="text-4xl font-semibold tracking-tight tabular-nums" style={{ color: profitColor }}>
                 {fmtMoney(metrics.netProfit)}
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-xs font-bold text-emerald-400">{fmtPct(metrics.returnPercent)} {t("returnLabel")}</span>
-                <span className="text-muted-foreground/40 text-xs">•</span>
-                <span className="text-xs text-muted-foreground/70">{metrics.winningTrades} {t("wins")} / {metrics.losingTrades} {t("losses")}</span>
+                <span className="text-muted-foreground text-xs">•</span>
+                <span className="text-xs text-muted-foreground">{metrics.winningTrades} {t("wins")} / {metrics.losingTrades} {t("losses")}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Large KPI Card: Equity Growth */}
-          <div className="col-span-12 md:col-span-6 lg:col-span-4 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl shadow-cyan-500/5 border border-cyan-500/15"
-            style={{ background: "linear-gradient(135deg, hsl(var(--card)) 40%, rgba(6,182,212,0.06) 100%)" }}>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.24, ease: EASE_OUT }}
+            className="col-span-12 md:col-span-6 lg:col-span-4 rounded-[18px] p-6 relative flex flex-col justify-between border border-[color:var(--hairline)]"
+            style={{ background: "hsl(var(--card))", boxShadow: "var(--shadow-sm)" }}>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/80">{t("equityGrowth")}</span>
-              <div className="rounded-lg p-2 bg-cyan-500/10 text-cyan-400">
+              <span className="text-[11px] font-medium text-muted-foreground">{t("equityGrowth")}</span>
+              <div className="rounded-lg p-2 bg-blue-500/10 text-blue-400">
                 <Activity className="h-5 w-5" />
               </div>
             </div>
             <div>
-              <p className="text-3xl font-black tracking-tight tabular-nums text-foreground">
+              <p className="text-3xl font-semibold tracking-tight tabular-nums text-foreground">
                 ${metrics.finalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs font-bold text-cyan-400">{t("initialLabel")}: ${metrics.initialBalance.toLocaleString()}</span>
-                <span className="text-muted-foreground/40 text-xs">•</span>
-                <span className="text-xs text-muted-foreground/70">{t("peakLabel")}: ${metrics.initialBalance > 0 ? (metrics.initialBalance + (metrics.grossProfit)).toLocaleString(undefined, { maximumFractionDigits: 0 }) : "—"}</span>
+                <span className="text-xs font-bold text-blue-400">{t("initialLabel")}: ${metrics.initialBalance.toLocaleString()}</span>
+                <span className="text-muted-foreground text-xs">•</span>
+                <span className="text-xs text-muted-foreground">{t("peakLabel")}: ${metrics.initialBalance > 0 ? (metrics.initialBalance + (metrics.grossProfit)).toLocaleString(undefined, { maximumFractionDigits: 0 }) : "—"}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* KPI Card: Win Rate */}
-          <div className="col-span-12 lg:col-span-3 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl shadow-pink-500/5 border border-pink-500/15"
-            style={{ background: "linear-gradient(135deg, hsl(var(--card)) 40%, rgba(244,114,182,0.06) 100%)" }}>
-            <div className="absolute top-0 right-0 w-24 h-24 bg-pink-500/10 rounded-full blur-2xl pointer-events-none" />
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.24, ease: EASE_OUT }}
+            className="col-span-12 lg:col-span-3 rounded-[18px] p-6 relative flex flex-col justify-between border border-[color:var(--hairline)]"
+            style={{ background: "hsl(var(--card))", boxShadow: "var(--shadow-sm)" }}>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/80">{t("winRate")}</span>
-              <div className="rounded-lg p-2 bg-pink-500/10 text-pink-400">
+              <span className="text-[11px] font-medium text-muted-foreground">{t("winRate")}</span>
+              <div className="rounded-lg p-2 bg-slate-500/10 text-slate-400">
                 <Target className="h-5 w-5" />
               </div>
             </div>
             <div>
               <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-black tracking-tight text-foreground">{metrics.winRate.toFixed(1)}%</p>
-                <span className="text-xs font-bold text-pink-400">{t("targetLabel")}: 50%</span>
+                <p className="text-3xl font-semibold tracking-tight text-foreground">{metrics.winRate.toFixed(1)}%</p>
+                <span className="text-xs font-bold text-slate-400">{t("targetLabel")}: 50%</span>
               </div>
-              <div className="w-full h-1.5 bg-pink-500/10 rounded-full mt-3 overflow-hidden">
-                <div className="h-full bg-pink-500 rounded-full" style={{ width: `${metrics.winRate}%` }} />
+              <div className="w-full h-1.5 bg-slate-500/10 rounded-full mt-3 overflow-hidden">
+                <div className="h-full bg-slate-500 rounded-full" style={{ width: `${metrics.winRate}%` }} />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
         {/* Trading Score Section */}
         <div className="space-y-3">
-          <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/80">Trading Score Section</h4>
+          <h4 className="text-[11px] font-medium text-muted-foreground">Trading Score Section</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Overall Trading Grade */}
             {(() => {
               const isDark = theme !== "light";
-              const greenColor = isDark ? "#10F087" : "#059669";
-              const cyanColor = isDark ? "#06B6D4" : "#0891B2";
-              const yellowColor = isDark ? "#FFD32D" : "#D97706";
-              const redColor = isDark ? "#FF4757" : "#DC2626";
+              const greenColor = isDark ? "#10B981" : "#059669";
+              const cyanColor = isDark ? "#60A5FA" : "#3B82F6";
+              const yellowColor = isDark ? "#F59E0B" : "#D97706";
+              const redColor = isDark ? "#EF4444" : "#DC2626";
 
               return (
-                <div className="rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border bg-card/45"
+                <div className="rounded-[18px] p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 border bg-card"
                   style={{
-                    borderColor: tradingGrade.startsWith("A") ? "rgba(16,240,135,0.2)" : tradingGrade.startsWith("B") ? "rgba(6,182,212,0.2)" : tradingGrade.startsWith("C") ? "rgba(255,211,45,0.2)" : "rgba(255,71,87,0.2)",
-                    boxShadow: tradingGrade.startsWith("A") ? "0 10px 30px -15px rgba(16,240,135,0.1)" : "0 10px 30px -15px rgba(255,71,87,0.1)"
+                    borderColor: tradingGrade.startsWith("A") ? "rgba(16,185,129,0.2)" : tradingGrade.startsWith("B") ? "rgba(96,165,250,0.2)" : tradingGrade.startsWith("C") ? "rgba(245,158,11,0.2)" : "rgba(239,68,68,0.2)",
+                    boxShadow: tradingGrade.startsWith("A") ? "0 10px 30px -15px rgba(16,185,129,0.1)" : "0 10px 30px -15px rgba(239,68,68,0.1)"
                   }}>
-                  <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none" 
-                    style={{ background: tradingGrade.startsWith("A") ? "rgba(16,240,135,0.06)" : "rgba(255,71,87,0.06)" }} />
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Overall Grade</span>
-                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded"
+                    <span className="text-[11px] font-medium text-muted-foreground">Overall Grade</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded"
                       style={{
-                        background: tradingGrade.startsWith("A") ? "rgba(16,240,135,0.1)" : tradingGrade.startsWith("B") ? "rgba(6,182,212,0.1)" : "rgba(255,71,87,0.1)",
+                        background: tradingGrade.startsWith("A") ? "rgba(16,185,129,0.1)" : tradingGrade.startsWith("B") ? "rgba(96,165,250,0.1)" : "rgba(239,68,68,0.1)",
                         color: tradingGrade.startsWith("A") ? greenColor : tradingGrade.startsWith("B") ? cyanColor : redColor
                       }}>
                       System Grade
                     </span>
                   </div>
                   <div>
-                    <p className="text-4xl font-black tracking-tight" 
+                    <p className="text-4xl font-semibold tracking-tight" 
                       style={{ 
                         color: tradingGrade.startsWith("A") ? greenColor : tradingGrade.startsWith("B") ? cyanColor : tradingGrade.startsWith("C") ? yellowColor : redColor,
-                        textShadow: isDark ? `0 0 16px ${tradingGrade.startsWith("A") ? "rgba(16,240,135,0.3)" : "rgba(255,71,87,0.3)"}` : "none" 
+                        textShadow: "none"
                       }}>
                       {tradingGrade}
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed mt-2">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">
                       Algorithmic grade combining drawdown controls, win rate stability, and expectancy consistency.
                     </p>
                   </div>
@@ -464,31 +496,29 @@ export function Dashboard({ data, theme }: DashboardProps) {
             {/* Consistency Score */}
             {(() => {
               const isDark = theme !== "light";
-              const greenColor = isDark ? "#10F087" : "#059669";
-              const redColor = isDark ? "#FF4757" : "#DC2626";
+              const greenColor = isDark ? "#10B981" : "#059669";
+              const redColor = isDark ? "#EF4444" : "#DC2626";
 
               return (
-                <div className="rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border bg-card/45"
+                <div className="rounded-[18px] p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 border bg-card"
                   style={{
-                    borderColor: scores.subScores.consistency >= 75 ? "rgba(16,240,135,0.2)" : "rgba(255,71,87,0.2)"
+                    borderColor: scores.subScores.consistency >= 75 ? "rgba(16,185,129,0.2)" : "rgba(239,68,68,0.2)"
                   }}>
-                  <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none" 
-                    style={{ background: "rgba(139,92,246,0.06)" }} />
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Consistency Score</span>
-                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded"
+                    <span className="text-[11px] font-medium text-muted-foreground">Consistency Score</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded"
                       style={{
-                        background: scores.subScores.consistency >= 75 ? "rgba(16,240,135,0.1)" : "rgba(255,71,87,0.1)",
+                        background: scores.subScores.consistency >= 75 ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
                         color: scores.subScores.consistency >= 75 ? greenColor : redColor
                       }}>
                       {scores.subScores.consistency >= 75 ? "Stable" : "Variable"}
                     </span>
                   </div>
                   <div>
-                    <p className="text-3xl font-black tracking-tight text-foreground">
+                    <p className="text-3xl font-semibold tracking-tight text-foreground">
                       {scores.subScores.consistency}/100
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed mt-2">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">
                       Consistency of trade sizing patterns, timing regularity, and session risk limits.
                     </p>
                   </div>
@@ -499,35 +529,33 @@ export function Dashboard({ data, theme }: DashboardProps) {
             {/* Risk Score */}
             {(() => {
               const isDark = theme !== "light";
-              const greenColor = isDark ? "#10F087" : "#059669";
-              const yellowColor = isDark ? "#FFD32D" : "#D97706";
-              const redColor = isDark ? "#FF4757" : "#DC2626";
+              const greenColor = isDark ? "#10B981" : "#059669";
+              const yellowColor = isDark ? "#F59E0B" : "#D97706";
+              const redColor = isDark ? "#EF4444" : "#DC2626";
 
               const riskVal = scores.subScores.riskManagement;
               const label = riskVal >= 75 ? "Low" : riskVal >= 45 ? "Medium" : "High";
               const color = label === "Low" ? greenColor : label === "Medium" ? yellowColor : redColor;
               return (
-                <div className="rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border bg-card/45"
+                <div className="rounded-[18px] p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 border bg-card"
                   style={{
-                    borderColor: label === "Low" ? "rgba(16,240,135,0.2)" : label === "Medium" ? "rgba(255,211,45,0.2)" : "rgba(255,71,87,0.2)"
+                    borderColor: label === "Low" ? "rgba(16,185,129,0.2)" : label === "Medium" ? "rgba(245,158,11,0.2)" : "rgba(239,68,68,0.2)"
                   }}>
-                  <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none" 
-                    style={{ background: label === "Low" ? "rgba(16,240,135,0.06)" : "rgba(255,71,87,0.06)" }} />
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Risk Score</span>
-                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded"
+                    <span className="text-[11px] font-medium text-muted-foreground">Risk Score</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded"
                       style={{
-                        background: label === "Low" ? "rgba(16,240,135,0.1)" : "rgba(255,71,87,0.1)",
+                        background: label === "Low" ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
                         color: color
                       }}>
                       {label} Risk
                     </span>
                   </div>
                   <div>
-                    <p className="text-3xl font-black tracking-tight" style={{ color: color }}>
+                    <p className="text-3xl font-semibold tracking-tight" style={{ color: color }}>
                       {label}
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed mt-2">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">
                       Drawdown tolerance, average stop-loss buffer, and maximum exposure ratios.
                     </p>
                   </div>
@@ -538,31 +566,29 @@ export function Dashboard({ data, theme }: DashboardProps) {
             {/* Discipline Score */}
             {(() => {
               const isDark = theme !== "light";
-              const greenColor = isDark ? "#10F087" : "#059669";
-              const redColor = isDark ? "#FF4757" : "#DC2626";
+              const greenColor = isDark ? "#10B981" : "#059669";
+              const redColor = isDark ? "#EF4444" : "#DC2626";
 
               return (
-                <div className="rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl border bg-card/45"
+                <div className="rounded-[18px] p-6 relative overflow-hidden flex flex-col justify-between transition-all duration-300 border bg-card"
                   style={{
-                    borderColor: scores.subScores.discipline >= 70 ? "rgba(16,240,135,0.2)" : "rgba(255,71,87,0.2)"
+                    borderColor: scores.subScores.discipline >= 70 ? "rgba(16,185,129,0.2)" : "rgba(239,68,68,0.2)"
                   }}>
-                  <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none" 
-                    style={{ background: "rgba(244,114,182,0.06)" }} />
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Discipline Score</span>
-                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded"
+                    <span className="text-[11px] font-medium text-muted-foreground">Discipline Score</span>
+                    <span className="text-[11px] font-medium px-2 py-0.5 rounded"
                       style={{
-                        background: scores.subScores.discipline >= 70 ? "rgba(16,240,135,0.1)" : "rgba(255,71,87,0.1)",
+                        background: scores.subScores.discipline >= 70 ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
                         color: scores.subScores.discipline >= 70 ? greenColor : redColor
                       }}>
                       {scores.subScores.discipline >= 70 ? "Disciplined" : "Impulsive"}
                     </span>
                   </div>
                   <div>
-                    <p className="text-3xl font-black tracking-tight text-foreground">
+                    <p className="text-3xl font-semibold tracking-tight text-foreground">
                       {scores.subScores.discipline}/100
                     </p>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed mt-2">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">
                       Adherence to execution window, absence of overtrading, and avoidance of sizing drift.
                     </p>
                   </div>
@@ -580,8 +606,8 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 2: AI EXECUTIVE SUMMARY ── */}
       <section className="space-y-6">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-purple-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("aiStrategy")}</h3>
+          <Sparkles className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("aiStrategy")}</h3>
         </div>
 
         <SmartAlertsPanel trades={filteredTrades} metrics={metrics} />
@@ -589,26 +615,26 @@ export function Dashboard({ data, theme }: DashboardProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Card A: AI Cognitive Speedometer */}
-          <div className="lg:col-span-4 rounded-2xl p-6 border border-border/10 bg-card/40 flex flex-col justify-between">
+          <div className="lg:col-span-4 rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between border-b border-border/5 pb-3">
+              <div className="flex items-center justify-between border-b border-[color:var(--hairline)] pb-3">
                 <div className="flex items-center gap-2">
-                  <Award className="h-4 w-4 text-purple-400" />
+                  <Award className="h-4 w-4 text-blue-400" />
                   <span className="text-xs font-bold text-foreground">{t("cognitiveAuditScore")}</span>
                 </div>
-                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-[color:var(--hairline)]">
                   {t("aiVerified")}
                 </span>
               </div>
               
               <div className="flex items-center gap-4 mt-6">
-                <p className="text-5xl font-black text-foreground" style={{ textShadow: "0 0 24px rgba(139,92,246,0.35)" }}>
+                <p className="text-5xl font-semibold text-foreground" style={{ textShadow: "none" }}>
                   {scores.overall}
                 </p>
                 <div className="flex-1 space-y-1.5">
-                  <div className="flex justify-between text-[10px] font-extrabold text-muted-foreground">
+                  <div className="flex justify-between text-[11px] font-semibold text-muted-foreground">
                     <span>{t("traderCategory")}</span>
-                    <span className="text-purple-400 uppercase tracking-wide">{scores.overall >= 80 ? t("eliteQuant") : scores.overall >= 60 ? t("consistentSpeculator") : t("undisciplinedSizer")}</span>
+                    <span className="text-blue-400 uppercase tracking-wide">{scores.overall >= 80 ? t("eliteQuant") : scores.overall >= 60 ? t("consistentSpeculator") : t("undisciplinedSizer")}</span>
                   </div>
                   <div className="h-2 w-full bg-border/10 rounded-full overflow-hidden">
                     <div className="h-full rounded-full bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400 animate-pulse" style={{ width: `${scores.overall}%` }} />
@@ -621,29 +647,29 @@ export function Dashboard({ data, theme }: DashboardProps) {
               </p>
             </div>
 
-            <div className="mt-6 grid grid-cols-5 gap-1.5 pt-4 border-t border-border/5 text-center">
+            <div className="mt-6 grid grid-cols-5 gap-1.5 pt-4 border-t border-[color:var(--hairline)] text-center">
               {[
-                { label: t("riskAnalysis").split(" ")[0], val: scores.subScores.riskManagement, color: "#10F087" },
-                { label: t("sessionAsia").slice(0, 4), val: scores.subScores.consistency, color: "#06B6D4" },
-                { label: "Exec", val: scores.subScores.execution, color: "#8B5CF6" },
-                { label: "Psych", val: scores.subScores.psychology, color: "#FF6B9D" },
-                { label: "Disc", val: scores.subScores.discipline, color: "#FFD32D" }
+                { label: t("riskAnalysis").split(" ")[0], val: scores.subScores.riskManagement, color: "#10B981" },
+                { label: t("sessionAsia").slice(0, 4), val: scores.subScores.consistency, color: "#60A5FA" },
+                { label: "Exec", val: scores.subScores.execution, color: "#3B82F6" },
+                { label: "Psych", val: scores.subScores.psychology, color: "#94A3B8" },
+                { label: "Disc", val: scores.subScores.discipline, color: "#F59E0B" }
               ].map((sub, idx) => (
                 <div key={idx} className="space-y-1">
-                  <p className="text-[8px] uppercase font-black text-muted-foreground/60">{sub.label}</p>
-                  <p className="text-xs font-black" style={{ color: sub.color }}>{sub.val}</p>
+                  <p className="text-[11px] uppercase font-semibold text-muted-foreground">{sub.label}</p>
+                  <p className="text-xs font-semibold" style={{ color: sub.color }}>{sub.val}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Card B: Strengths & Weaknesses */}
-          <div className="lg:col-span-4 rounded-2xl p-6 border border-border/10 bg-card/40 flex flex-col justify-between gap-6">
+          <div className="lg:col-span-4 rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card flex flex-col justify-between gap-6">
             {/* Strengths */}
             <div className="space-y-3 flex-1">
               <div className="flex items-center gap-2 text-emerald-400">
                 <ThumbsUp className="h-4 w-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">{t("tradingStrengths")}</span>
+                <span className="text-xs font-bold">{t("tradingStrengths")}</span>
               </div>
               <ul className="space-y-2">
                 {strengths.slice(0, 2).map((item, idx) => (
@@ -656,15 +682,15 @@ export function Dashboard({ data, theme }: DashboardProps) {
             </div>
 
             {/* Weaknesses */}
-            <div className="space-y-3 flex-1 border-t border-border/5 pt-4">
-              <div className="flex items-center gap-2 text-pink-400">
+            <div className="space-y-3 flex-1 border-t border-[color:var(--hairline)] pt-4">
+              <div className="flex items-center gap-2 text-slate-400">
                 <ThumbsDown className="h-4 w-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">{t("identifiedLeaks")}</span>
+                <span className="text-xs font-bold">{t("identifiedLeaks")}</span>
               </div>
               <ul className="space-y-2">
                 {weaknesses.slice(0, 2).map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
-                    <AlertTriangle className="h-3.5 w-3.5 text-pink-500 flex-shrink-0 mt-0.5" />
+                    <AlertTriangle className="h-3.5 w-3.5 text-slate-500 flex-shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -673,20 +699,20 @@ export function Dashboard({ data, theme }: DashboardProps) {
           </div>
 
           {/* Card C: Current Goals & Alerts */}
-          <div className="lg:col-span-4 rounded-2xl p-6 border border-border/10 bg-card/40 flex flex-col justify-between gap-4">
+          <div className="lg:col-span-4 rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card flex flex-col justify-between gap-4">
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-cyan-400 border-b border-border/5 pb-2">
+              <div className="flex items-center gap-2 text-blue-400 border-b border-[color:var(--hairline)] pb-2">
                 <CheckCircle2 className="h-4 w-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">{t("activeGoals")}</span>
+                <span className="text-xs font-bold">{t("activeGoals")}</span>
               </div>
               <div className="space-y-2.5">
                 {goals.slice(0, 3).map((g, idx) => (
                   <div key={idx} className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground truncate max-w-[170px]">{g.title}</span>
-                    <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
+                    <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                       g.status === "passed" 
-                        ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20" 
-                        : "bg-pink-500/15 text-pink-400 border border-pink-500/20"
+                        ? "bg-emerald-500/15 text-emerald-400 border border-[color:var(--hairline)]" 
+                        : "bg-slate-500/15 text-slate-400 border border-[color:var(--hairline)]"
                     }`}>
                       {g.status === "passed" ? "Pass" : "Failed"}
                     </span>
@@ -695,15 +721,15 @@ export function Dashboard({ data, theme }: DashboardProps) {
               </div>
             </div>
 
-            <div className="space-y-3 border-t border-border/5 pt-4">
-              <div className="flex items-center gap-2 text-purple-400">
+            <div className="space-y-3 border-t border-[color:var(--hairline)] pt-4">
+              <div className="flex items-center gap-2 text-blue-400">
                 <Zap className="h-4 w-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">{t("recommendedAdjustments")}</span>
+                <span className="text-xs font-bold">{t("recommendedAdjustments")}</span>
               </div>
               <ul className="space-y-2">
                 {recommendedActions.slice(0, 2).map((action, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground/80">
-                    <span className="font-extrabold text-purple-400">•</span>
+                  <li key={idx} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+                    <span className="font-semibold text-blue-400">•</span>
                     <span>{action}</span>
                   </li>
                 ))}
@@ -716,30 +742,30 @@ export function Dashboard({ data, theme }: DashboardProps) {
       </div> {/* End #overview */}
 
       {/* ── AI EXECUTIVE SUMMARY CARD ── */}
-      <div className="rounded-2xl p-6 border border-purple-500/15 bg-purple-500/5 shadow-sm space-y-4">
-        <h4 className="text-xs font-black uppercase tracking-wider text-purple-400 flex items-center gap-1.5 border-b border-border/5 pb-2.5">
+      <div className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-blue-500/5 shadow-sm space-y-4">
+        <h4 className="text-xs font-semibold text-blue-400 flex items-center gap-1.5 border-b border-[color:var(--hairline)] pb-2.5">
           <Sparkles className="h-4 w-4" />
           Overall Performance AI Summary
         </h4>
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-          <li className="flex flex-col gap-1 p-2.5 rounded-xl bg-background/40 border border-border/5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Performance Grade</span>
-            <strong className="text-lg font-black text-purple-400">{tradingGrade}</strong>
+          <li className="flex flex-col gap-1 p-2.5 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)]">
+            <span className="text-[11px] font-bold text-muted-foreground">Performance Grade</span>
+            <strong className="text-lg font-semibold text-blue-400">{tradingGrade}</strong>
           </li>
-          <li className="flex flex-col gap-1 p-2.5 rounded-xl bg-background/40 border border-border/5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Strongest Session</span>
+          <li className="flex flex-col gap-1 p-2.5 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)]">
+            <span className="text-[11px] font-bold text-muted-foreground">Strongest Session</span>
             <strong className="text-sm font-bold text-foreground">{comparisons.bestSession || "Asia"}</strong>
           </li>
-          <li className="flex flex-col gap-1 p-2.5 rounded-xl bg-background/40 border border-border/5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Biggest Weakness</span>
+          <li className="flex flex-col gap-1 p-2.5 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)]">
+            <span className="text-[11px] font-bold text-muted-foreground">Biggest Weakness</span>
             <strong className="text-sm font-bold text-foreground">{comparisons.worstSession || "London"}</strong>
           </li>
-          <li className="flex flex-col gap-1 p-2.5 rounded-xl bg-background/40 border border-border/5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Main Risk</span>
+          <li className="flex flex-col gap-1 p-2.5 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)]">
+            <span className="text-[11px] font-bold text-muted-foreground">Main Risk</span>
             <strong className="text-sm font-bold text-foreground">{mistakes[0]?.title || "Overtrading"}</strong>
           </li>
-          <li className="flex flex-col gap-1 p-2.5 rounded-xl bg-background/40 border border-border/5">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Recommended Focus</span>
+          <li className="flex flex-col gap-1 p-2.5 rounded-[14px] bg-[var(--surface-hover)] border border-[color:var(--hairline)]">
+            <span className="text-[11px] font-bold text-muted-foreground">Recommended Focus</span>
             <strong className="text-xs font-bold text-foreground truncate" title={recommendedActions[0] || "Improve Risk Management"}>
               {recommendedActions[0] || "Improve Risk Management"}
             </strong>
@@ -752,19 +778,19 @@ export function Dashboard({ data, theme }: DashboardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5 text-emerald-400" />
-            <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("performanceCurve")}</h3>
+            <h3 className="text-sm font-semibold text-muted-foreground">{t("performanceCurve")}</h3>
           </div>
         </div>
 
         {/* AI Insight Card: Performance Curve */}
-        <div className="rounded-xl border border-purple-500/10 bg-purple-500/5 p-4.5 flex items-start gap-3">
-          <Sparkles className="h-4.5 w-4.5 text-purple-400 flex-shrink-0 mt-0.5" />
+        <div className="rounded-[14px] border border-[color:var(--hairline)] bg-blue-500/5 p-4.5 flex items-start gap-4">
+          <Sparkles className="h-4.5 w-4.5 text-blue-400 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             <strong className="text-foreground">AI Insight:</strong> Your account reached its highest equity during periods of strict discipline, before entering a prolonged drawdown of {metrics.maxDrawdownPercent ? metrics.maxDrawdownPercent.toFixed(1) : "—"}% caused by larger position sizes. Reducing sizing volatility will directly stabilize this performance curve.
           </p>
         </div>
 
-        <div className="rounded-2xl p-6 border border-border/15 bg-card/60">
+        <div className="rounded-[18px] p-6 border border-border/15 bg-card">
           <PLCurve key={filterKey} trades={filteredTrades} initialBalance={metrics.initialBalance} theme={theme} />
         </div>
 
@@ -775,14 +801,14 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 4: CALENDAR ── */}
       <section id="calendar" className="space-y-4">
         <div className="flex items-center gap-2">
-          <CalendarDays className="h-5 w-5 text-purple-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">
+          <CalendarDays className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">
             {calendarFilter
               ? `${t("tradingCalendar")} · ${MONTH_NAMES_SHORT[calendarFilter.month]} ${calendarFilter.year} (${t("custom").toLowerCase()})`
               : t("tradingCalendar")}
           </h3>
         </div>
-        <div className="rounded-2xl p-6 border border-border/15 bg-card/60">
+        <div className="rounded-[18px] p-6 border border-border/15 bg-card">
           <TradingCalendar
             trades={data.trades}
             onMonthSelect={handleMonthSelect}
@@ -798,32 +824,32 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 5: TEMPORAL STATISTICS (GROUPED SIDE-BY-SIDE) ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
-          <Activity className="h-5 w-5 text-cyan-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("temporalDistributions")}</h3>
+          <Activity className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("temporalDistributions")}</h3>
         </div>
 
         {/* AI Insight Card: Time Analysis */}
-        <div className="rounded-xl border border-purple-500/10 bg-purple-500/5 p-4.5 flex items-start gap-3">
-          <Sparkles className="h-4.5 w-4.5 text-purple-400 flex-shrink-0 mt-0.5" />
+        <div className="rounded-[14px] border border-[color:var(--hairline)] bg-blue-500/5 p-4.5 flex items-start gap-4">
+          <Sparkles className="h-4.5 w-4.5 text-blue-400 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             <strong className="text-foreground">AI Insight:</strong> Nearly 80% of profitable trades occur during the Asia session, while the London open exhibits high trap exposure. Restricting high-lot entries during late New York crossover will dramatically conserve your cumulative P&L.
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-6 rounded-2xl p-6 border border-border/15 bg-card/60 flex flex-col justify-between chart-export-container">
+          <div className="lg:col-span-6 rounded-[18px] p-6 border border-border/15 bg-card flex flex-col justify-between chart-export-container">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">{t("monthlyPerf")}</span>
+              <span className="text-xs font-semibold text-muted-foreground">{t("monthlyPerf")}</span>
               <DownloadChartButton title="Monthly Performance" variant="icon" />
             </div>
             {monthly.length > 0 ? (
               <MonthlyChart key={filterKey} data={monthly} />
             ) : (
-              <div className="flex h-40 items-center justify-center text-sm text-muted-foreground/80">{t("noData")}</div>
+              <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">{t("noData")}</div>
             )}
           </div>
-          <div className="lg:col-span-6 rounded-2xl p-6 border border-border/15 bg-card/60 flex flex-col justify-between chart-export-container">
+          <div className="lg:col-span-6 rounded-[18px] p-6 border border-border/15 bg-card flex flex-col justify-between chart-export-container">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60">{t("weeklyPerf")}</span>
+              <span className="text-xs font-semibold text-muted-foreground">{t("weeklyPerf")}</span>
               <DownloadChartButton title="Weekly Performance" variant="icon" />
             </div>
             <DayChart key={filterKey} data={daily} lang={lang} />
@@ -834,25 +860,25 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 6: SESSION ANALYTICS ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
-          <Zap className="h-5 w-5 text-pink-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("sessionPerformance")}</h3>
+          <Zap className="h-5 w-5 text-slate-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("sessionPerformance")}</h3>
         </div>
-        <div className="rounded-2xl p-6 border border-border/15 bg-card/60 space-y-6 chart-export-container">
+        <div className="rounded-[18px] p-6 border border-border/15 bg-card space-y-6 chart-export-container">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Session Breakdown</span>
+            <span className="text-xs font-bold text-muted-foreground">Session Breakdown</span>
             <DownloadChartButton title="Session Performance" variant="subtle" />
           </div>
           <div key={`session-pills-${filterKey}`} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {sessions.map((s, i) => {
-              const colors = ["#8B5CF6", "#06B6D4", "#10F087"];
+              const colors = ["#3B82F6", "#60A5FA", "#10B981"];
               const c = colors[i % colors.length];
               return (
-                <div key={s.session} className="rounded-xl p-4 text-center border border-border/5 bg-background/30">
-                  <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: c }}>{s.session}</p>
-                  <p className="text-2xl font-black tabular-nums" style={{ color: s.netProfit >= 0 ? "#10F087" : "#FF4757", textShadow: `0 0 16px ${s.netProfit >= 0 ? "rgba(16,240,135,0.3)" : "rgba(255,71,87,0.3)"}` }}>
+                <div key={s.session} className="rounded-[14px] p-4 text-center border border-[color:var(--hairline)] bg-[var(--surface-hover)]">
+                  <p className="text-[11px] font-medium mb-1" style={{ color: c }}>{s.session}</p>
+                  <p className="text-2xl font-semibold tabular-nums" style={{ color: s.netProfit >= 0 ? "#10B981" : "#EF4444", textShadow: "none" }}>
                     {s.netProfit >= 0 ? "+" : ""}${s.netProfit.toFixed(2)}
                   </p>
-                  <p className="text-[10px] mt-1 text-muted-foreground/75">{s.winRate.toFixed(1)}% WR · {s.trades} {t("trades")}</p>
+                  <p className="text-[11px] mt-1 text-muted-foreground">{s.winRate.toFixed(1)}% WR · {s.trades} {t("trades")}</p>
                 </div>
               );
             })}
@@ -864,12 +890,12 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 7: HOURLY ANALYTICS ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
-          <Clock className="h-5 w-5 text-cyan-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("hourlyDistributions")}</h3>
+          <Clock className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("hourlyDistributions")}</h3>
         </div>
-        <div className="rounded-2xl p-6 border border-border/15 bg-card/60 chart-export-container">
+        <div className="rounded-[18px] p-6 border border-border/15 bg-card chart-export-container">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Hourly P&L & Volume Distribution</span>
+            <span className="text-xs font-bold text-muted-foreground">Hourly P&L & Volume Distribution</span>
             <DownloadChartButton title="Hourly Distribution" variant="subtle" />
           </div>
           <HourlyChart key={filterKey} data={hourly} lang={lang} />
@@ -879,24 +905,24 @@ export function Dashboard({ data, theme }: DashboardProps) {
       <DayHourHeatmap trades={filteredTrades} lang={lang} t={t} theme={theme} />
 
       {/* ── SECTION: RISK & SYMBOL ANALYSIS ── */}
-      <section className="space-y-4 border-t border-border/5 pt-6">
+      <section className="space-y-4 border-t border-[color:var(--hairline)] pt-6">
         <div className="flex items-center gap-2">
           <Shield className="h-5 w-5 text-emerald-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">Risk Analysis & Symbol Allocation</h3>
+          <h3 className="text-sm font-semibold text-muted-foreground">Risk Analysis & Symbol Allocation</h3>
         </div>
 
         {/* AI Insight Card: Risk Analysis */}
-        <div className="rounded-xl border border-purple-500/10 bg-purple-500/5 p-4.5 flex items-start gap-3">
-          <Sparkles className="h-4.5 w-4.5 text-purple-400 flex-shrink-0 mt-0.5" />
+        <div className="rounded-[14px] border border-[color:var(--hairline)] bg-blue-500/5 p-4.5 flex items-start gap-4">
+          <Sparkles className="h-4.5 w-4.5 text-blue-400 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             <strong className="text-foreground">AI Insight:</strong> Most drawdowns originate from oversized position sizing drift rather than a low win rate. Focus on maintaining a consistent lot profile across both liquid and illiquid symbols.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-6 rounded-2xl p-6 border border-border/15 bg-card/60 chart-export-container">
+          <div className="lg:col-span-6 rounded-[18px] p-6 border border-border/15 bg-card chart-export-container">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 block">{t("symbolPerf")}</span>
+              <span className="text-xs font-semibold text-muted-foreground block">{t("symbolPerf")}</span>
               <DownloadChartButton title="Symbol Performance" variant="icon" />
             </div>
             <SymbolChart key={filterKey} data={symbols} lang={lang} />
@@ -904,9 +930,9 @@ export function Dashboard({ data, theme }: DashboardProps) {
               <SymbolTable key={filterKey} data={symbols} lang={lang} />
             </div>
           </div>
-          <div className="lg:col-span-6 rounded-2xl p-6 border border-border/15 bg-card/60 chart-export-container">
+          <div className="lg:col-span-6 rounded-[18px] p-6 border border-border/15 bg-card chart-export-container">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 block">{t("directionAnalysis")}</span>
+              <span className="text-xs font-semibold text-muted-foreground block">{t("directionAnalysis")}</span>
               <DownloadChartButton title="Direction Analysis" variant="icon" />
             </div>
             <DirectionChart key={filterKey} data={direction} />
@@ -921,7 +947,7 @@ export function Dashboard({ data, theme }: DashboardProps) {
       <section className="space-y-4">
         <div className="flex items-center gap-2">
           <Lightbulb className="h-5 w-5 text-yellow-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">AI Quantitative Findings & Leaks</h3>
+          <h3 className="text-sm font-semibold text-muted-foreground">AI Quantitative Findings & Leaks</h3>
         </div>
         <DynamicFindingsPanel trades={filteredTrades} />
       </section>
@@ -930,13 +956,13 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 8: PSYCHOLOGY (BEHAVIORAL AUDITS) ── */}
       <section id="psychology" className="space-y-4">
         <div className="flex items-center gap-2">
-          <Brain className="h-5 w-5 text-purple-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("psychologyMistakes")}</h3>
+          <Brain className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("psychologyMistakes")}</h3>
         </div>
 
         {/* AI Insight Card: Psychology */}
-        <div className="rounded-xl border border-purple-500/10 bg-purple-500/5 p-4.5 flex items-start gap-3">
-          <Sparkles className="h-4.5 w-4.5 text-purple-400 flex-shrink-0 mt-0.5" />
+        <div className="rounded-[14px] border border-[color:var(--hairline)] bg-blue-500/5 p-4.5 flex items-start gap-4">
+          <Sparkles className="h-4.5 w-4.5 text-blue-400 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground leading-relaxed">
             <strong className="text-foreground">AI Insight:</strong> Revenge trading accounts for approximately 18% of your realized losses. Emotional position sizing during London morning liquid sweep sessions is the primary behavioral leak.
           </p>
@@ -945,13 +971,13 @@ export function Dashboard({ data, theme }: DashboardProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {mistakes.length > 0 ? (
             mistakes.map((m, idx) => (
-              <div key={idx} className="rounded-2xl p-5 border border-border/10 bg-card/45 flex flex-col justify-between transition-all duration-300 hover:border-border/20">
+              <div key={idx} className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card flex flex-col justify-between transition-all duration-300 hover:border-[color:var(--hairline)]">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-foreground tracking-tight">{m.title}</span>
-                    <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
+                    <span className="text-xs font-semibold text-foreground tracking-tight">{m.title}</span>
+                    <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                       m.severity === "critical" 
-                        ? "bg-red-500/15 text-red-400 border border-red-500/25" 
+                        ? "bg-red-500/15 text-red-400 border border-[color:var(--hairline)]" 
                         : m.severity === "high" 
                         ? "bg-orange-500/15 text-orange-400 border border-orange-500/25" 
                         : "bg-yellow-500/15 text-yellow-400 border border-yellow-500/25"
@@ -959,25 +985,25 @@ export function Dashboard({ data, theme }: DashboardProps) {
                       {m.severity}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground/95 leading-relaxed">{m.description}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{m.description}</p>
                   
-                  <div className="p-3 rounded-lg bg-background/55 border border-border/5 text-[11px] text-muted-foreground/90 font-medium">
+                  <div className="p-4 rounded-lg bg-[var(--surface-hover)] border border-[color:var(--hairline)] text-[11px] text-muted-foreground font-medium">
                     🔎 <span className="font-bold text-foreground">{t("evidence")}:</span> {m.evidence}
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-border/5 flex items-center justify-between text-[11px]">
-                  <span className="text-muted-foreground/80">
+                <div className="mt-4 pt-3 border-t border-[color:var(--hairline)] flex items-center justify-between text-[11px]">
+                  <span className="text-muted-foreground">
                     {t("frequency")}: <strong className="text-foreground">{m.frequency.toFixed(1)}%</strong>
                   </span>
-                  <span className="text-purple-400 font-bold hover:underline cursor-pointer" title={m.suggestedFix}>
+                  <span className="text-blue-400 font-bold hover:underline cursor-pointer" title={m.suggestedFix}>
                     {t("suggestedFix")}
                   </span>
                 </div>
               </div>
             ))
           ) : (
-            <div className="col-span-2 rounded-2xl p-6 text-center border border-dashed border-border/20 text-muted-foreground/60">
+            <div className="col-span-2 rounded-[18px] p-6 text-center border border-dashed border-[color:var(--hairline)] text-muted-foreground">
               {t("noMistakesFound")}
             </div>
           )}
@@ -988,15 +1014,15 @@ export function Dashboard({ data, theme }: DashboardProps) {
       {/* ── SECTION 9: WEEKLY EXECUTIVE REPORT ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-5 w-5 text-cyan-400" />
-          <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground/80">{t("weeklyReport")}</h3>
+          <BookOpen className="h-5 w-5 text-blue-400" />
+          <h3 className="text-sm font-semibold text-muted-foreground">{t("weeklyReport")}</h3>
         </div>
-        <div className="rounded-2xl p-6 border border-border/15 bg-card/60 space-y-6">
+        <div className="rounded-[18px] p-6 border border-border/15 bg-card space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Column A: Evolution Trend Analysis */}
             <div className="space-y-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 block">{t("evolutionTrends")}</span>
+              <span className="text-xs font-semibold text-muted-foreground block">{t("evolutionTrends")}</span>
               <div className="space-y-3">
                 {[
                   { 
@@ -1015,15 +1041,15 @@ export function Dashboard({ data, theme }: DashboardProps) {
                     text: evolution.trends.drawdown.text 
                   }
                 ].map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-xl border border-border/5 bg-background/30 space-y-1">
-                    <p className="text-[10px] font-bold text-muted-foreground">{item.label}</p>
+                  <div key={idx} className="p-4 rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] space-y-1">
+                    <p className="text-[11px] font-bold text-muted-foreground">{item.label}</p>
                     <p className="text-xs font-semibold text-foreground flex items-center gap-1.5">
                       {item.dir === "up" ? (
                         <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
                       ) : item.dir === "down" ? (
-                        <TrendingDown className="h-3.5 w-3.5 text-pink-400" />
+                        <TrendingDown className="h-3.5 w-3.5 text-slate-400" />
                       ) : (
-                        <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
                       )}
                       <span>{item.text}</span>
                     </p>
@@ -1034,10 +1060,10 @@ export function Dashboard({ data, theme }: DashboardProps) {
 
             {/* Column B: Segment Comparisons */}
             <div className="space-y-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 block">{t("segmentComparison")}</span>
-              <div className="p-4 rounded-xl border border-border/5 bg-background/30 h-[210px] flex flex-col justify-between">
+              <span className="text-xs font-semibold text-muted-foreground block">{t("segmentComparison")}</span>
+              <div className="p-4 rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] h-[210px] flex flex-col justify-between">
                 <div>
-                  <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">{t("optimalSegment")}</p>
+                  <p className="text-[11px] font-semibold text-emerald-400">{t("optimalSegment")}</p>
                   <p className="text-sm font-bold text-foreground mt-1">
                     {lang === "ar" ? `جلسات ${comparisons.bestSession === "London" ? t("sessionLondon") : comparisons.bestSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}` :
                      lang === "fr" ? `Sessions ${comparisons.bestSession === "London" ? t("sessionLondon") : comparisons.bestSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}` :
@@ -1045,8 +1071,8 @@ export function Dashboard({ data, theme }: DashboardProps) {
                   </p>
                   <p className="text-xs text-muted-foreground leading-relaxed mt-2">{comparisons.bestExplanation}</p>
                 </div>
-                <div className="border-t border-border/5 pt-2 mt-2">
-                  <p className="text-[10px] font-black text-pink-400 uppercase tracking-widest">{t("subOptimalSegment")}</p>
+                <div className="border-t border-[color:var(--hairline)] pt-2 mt-2">
+                  <p className="text-[11px] font-semibold text-slate-400">{t("subOptimalSegment")}</p>
                   <p className="text-xs text-muted-foreground mt-1 truncate">
                     {lang === "ar" ? `جلسات ${comparisons.worstSession === "London" ? t("sessionLondon") : comparisons.worstSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}` :
                      lang === "fr" ? `Sessions ${comparisons.worstSession === "London" ? t("sessionLondon") : comparisons.worstSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}` :
@@ -1058,17 +1084,17 @@ export function Dashboard({ data, theme }: DashboardProps) {
 
             {/* Column C: Executive Summary & Recommendation */}
             <div className="space-y-4">
-              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/60 block">{t("aiStrategy")}</span>
-              <div className="p-4 rounded-xl border border-border/10 bg-purple-500/5 h-[210px] flex flex-col justify-between">
+              <span className="text-xs font-semibold text-muted-foreground block">{t("aiStrategy")}</span>
+              <div className="p-4 rounded-[14px] border border-[color:var(--hairline)] bg-blue-500/5 h-[210px] flex flex-col justify-between">
                 <div className="space-y-1">
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-purple-500/10 px-2 py-0.5 text-[9px] font-black text-purple-400 border border-purple-500/20">
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-500/10 px-2 py-0.5 text-[11px] font-semibold text-blue-400 border border-[color:var(--hairline)]">
                     {t("smcIctCompliant")}
                   </span>
-                  <p className="text-xs text-muted-foreground/90 leading-relaxed pt-2">
+                  <p className="text-xs text-muted-foreground leading-relaxed pt-2">
                     {scores.explanations.discipline} {scores.explanations.riskManagement}
                   </p>
                 </div>
-                <p className="text-[10px] font-bold text-purple-400 mt-2">
+                <p className="text-[11px] font-bold text-blue-400 mt-2">
                   {lang === "ar" ? `قم بتحسين فلاتر الدخول من خلال التوافق حصرياً مع دورات توسع السيولة في جلسات ${comparisons.bestSession === "London" ? t("sessionLondon") : comparisons.bestSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}.` :
                    lang === "fr" ? `Optimisez les filtres d'entrée en vous alignant exclusivement sur les boucles d'expansion de liquidité des sessions ${comparisons.bestSession === "London" ? t("sessionLondon") : comparisons.bestSession === "New York" ? t("sessionNewYork") : t("sessionAsia")}.` :
                    `Optimize entry filters by aligning exclusively with ${comparisons.bestSession} liquidity expansion loops.`}

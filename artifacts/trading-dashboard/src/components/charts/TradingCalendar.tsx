@@ -114,19 +114,19 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
   return (
     <div className="space-y-4 chart-export-container">
       {/* Header: nav arrows + month/year + filter button */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-4">
         <button
           onClick={prev}
           disabled={!canPrev}
-          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-150 hover:scale-110 disabled:opacity-20 disabled:cursor-not-allowed"
-          style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)" }}
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-150 disabled:opacity-20 disabled:cursor-not-allowed"
+          style={{ background: "rgba(59,130,246,0.15)", border: "1px solid var(--hairline)" }}
         >
-          <ChevronLeft className="h-4 w-4" style={{ color: "#8B5CF6" }} />
+          <ChevronLeft className="h-4 w-4" style={{ color: "#3B82F6" }} />
         </button>
 
-        <div className="flex flex-1 items-center justify-center gap-3">
+        <div className="flex flex-1 items-center justify-center gap-4">
           <div className="text-center">
-            <p className="text-lg font-black tracking-wide" style={{ color: "#8B5CF6" }}>
+            <p className="text-lg font-semibold tracking-wide" style={{ color: "#3B82F6" }}>
               {MONTH_NAMES[curMonth]}
             </p>
             <p className="text-sm font-semibold" style={{ color: isDark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.7)" }}>{curYear}</p>
@@ -138,12 +138,12 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
               <button
                 onClick={() => onMonthSelect(curYear, curMonth)}
                 title={isActive ? "Month filter active — click to refresh" : `Filter all charts to ${MONTH_NAMES[curMonth]} ${curYear}`}
-                className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-150 hover:scale-105"
+                className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition-all duration-150"
                 style={{
-                  background: isActive ? "rgba(16,240,135,0.18)" : "rgba(139,92,246,0.15)",
-                  border: `1px solid ${isActive ? "rgba(16,240,135,0.5)" : "rgba(139,92,246,0.4)"}`,
-                  color: isActive ? "#10F087" : "#8B5CF6",
-                  boxShadow: isActive ? "0 0 10px rgba(16,240,135,0.2)" : "none",
+                  background: isActive ? "rgba(16,185,129,0.18)" : "rgba(59,130,246,0.15)",
+                  border: `1px solid ${isActive ? "rgba(16,185,129,0.5)" : "rgba(59,130,246,0.4)"}`,
+                  color: isActive ? "#10B981" : "#3B82F6",
+                  boxShadow: isActive ? "0 0 10px rgba(16,185,129,0.2)" : "none",
                 }}
               >
                 <Filter className="h-3 w-3" />
@@ -158,29 +158,29 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
         <button
           onClick={next}
           disabled={!canNext}
-          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-150 hover:scale-110 disabled:opacity-20 disabled:cursor-not-allowed"
-          style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)" }}
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-150 disabled:opacity-20 disabled:cursor-not-allowed"
+          style={{ background: "rgba(59,130,246,0.15)", border: "1px solid var(--hairline)" }}
         >
-          <ChevronRight className="h-4 w-4" style={{ color: "#8B5CF6" }} />
+          <ChevronRight className="h-4 w-4" style={{ color: "#3B82F6" }} />
         </button>
       </div>
 
       {/* Month summary pills */}
       <div className="flex flex-wrap gap-2">
         {[
-          { label: "Profit Days", value: monthStats.profit, color: "#10F087" },
-          { label: "Loss Days",   value: monthStats.loss,   color: "#FF4757" },
-          { label: "Traded Days", value: monthStats.traded, color: "#8B5CF6" },
-          { label: "Month P&L",  value: formatMoney(monthStats.pnl), color: monthStats.pnl >= 0 ? "#10F087" : "#FF4757" },
+          { label: "Profit Days", value: monthStats.profit, color: "#10B981" },
+          { label: "Loss Days",   value: monthStats.loss,   color: "#EF4444" },
+          { label: "Traded Days", value: monthStats.traded, color: "#3B82F6" },
+          { label: "Month P&L",  value: formatMoney(monthStats.pnl), color: monthStats.pnl >= 0 ? "#10B981" : "#EF4444" },
         ].map((s) => (
           <div key={s.label}
-            className="flex-1 min-w-[72px] rounded-xl px-2.5 py-2 text-center"
+            className="flex-1 min-w-[72px] rounded-[14px] px-2.5 py-2 text-center"
             style={{ 
-              background: isDark ? "rgba(8,11,28,0.7)" : "rgba(244,244,245,0.9)", 
+              background: isDark ? "rgba(20,26,36,0.7)" : "rgba(244,244,245,0.9)", 
               border: isDark ? `1px solid ${s.color}20` : `1px solid ${s.color}35` 
             }}>
-            <p className="text-[9px] font-semibold uppercase tracking-widest" style={{ color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.5)" }}>{s.label}</p>
-            <p className="mt-0.5 text-sm font-black tabular-nums" style={{ color: s.color }}>{s.value}</p>
+            <p className="text-[11px] font-medium" style={{ color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.5)" }}>{s.label}</p>
+            <p className="mt-0.5 text-sm font-semibold tabular-nums" style={{ color: s.color }}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -189,7 +189,7 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
       <div className="grid grid-cols-7 gap-1.5">
         {/* Weekday headers */}
         {WEEKDAYS.map((d) => (
-          <div key={d} className="text-center text-[10px] font-bold uppercase tracking-widest pb-1" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)" }}>
+          <div key={d} className="text-center text-[11px] font-bold pb-1" style={{ color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)" }}>
             {d}
           </div>
         ))}
@@ -204,30 +204,30 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
           const dow = new Date(curYear, curMonth, day).getDay();
           const isWeekend = dow === 0 || dow === 6;
 
-          let bg = isWeekend ? (isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.02)") : (isDark ? "rgba(8,11,28,0.55)" : "rgba(255,255,255,0.95)");
-          let border = isWeekend ? (isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)") : (isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)");
+          let bg = isWeekend ? "transparent" : (isDark ? "rgba(255,255,255,0.025)" : "rgba(15,23,42,0.02)");
+          let border = "var(--hairline)";
           let pnlColor = "#6B7280";
           let glow = "none";
           let numColor = isWeekend ? (isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.45)") : (isDark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.85)");
 
           if (data) {
             if (data.netProfit > 0) {
-              bg = isDark ? "rgba(16,240,135,0.13)" : "rgba(16,240,135,0.08)";
-              border = "rgba(16,240,135,0.5)";
-              pnlColor = "#10F087";
-              glow = "0 0 12px rgba(16,240,135,0.22)";
-              numColor = isDark ? "#10F087" : "#059669";
+              bg = isDark ? "rgba(16,185,129,0.1)" : "rgba(16,185,129,0.07)";
+              border = "rgba(16,185,129,0.28)";
+              pnlColor = "#10B981";
+              glow = "none";
+              numColor = isDark ? "#10B981" : "#059669";
             } else if (data.netProfit < 0) {
-              bg = isDark ? "rgba(255,71,87,0.13)" : "rgba(255,71,87,0.08)";
-              border = "rgba(255,71,87,0.5)";
-              pnlColor = "#FF4757";
-              glow = "0 0 12px rgba(255,71,87,0.2)";
-              numColor = isDark ? "#FF4757" : "#DC2626";
+              bg = isDark ? "rgba(239,68,68,0.1)" : "rgba(239,68,68,0.07)";
+              border = "rgba(239,68,68,0.28)";
+              pnlColor = "#EF4444";
+              glow = "none";
+              numColor = isDark ? "#EF4444" : "#DC2626";
             } else {
-              bg = isDark ? "rgba(139,92,246,0.09)" : "rgba(139,92,246,0.05)";
-              border = "rgba(139,92,246,0.38)";
-              pnlColor = "#8B5CF6";
-              numColor = "#8B5CF6";
+              bg = isDark ? "rgba(59,130,246,0.09)" : "rgba(59,130,246,0.05)";
+              border = "rgba(59,130,246,0.24)";
+              pnlColor = "#3B82F6";
+              numColor = "#3B82F6";
             }
           }
 
@@ -235,21 +235,21 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
             <div key={key}
               onMouseEnter={() => setHoveredDay(key)}
               onMouseLeave={() => setHoveredDay(null)}
-              className="relative rounded-xl p-1.5 flex flex-col min-h-[64px] transition-all duration-150 hover:scale-[1.05] cursor-pointer"
+              className="relative rounded-[14px] p-1.5 flex flex-col min-h-[64px] transition-all duration-150 cursor-pointer"
               style={{ background: bg, border: `1px solid ${border}`, boxShadow: glow }}>
               
               {/* Tooltip on hovering active trading day */}
               {data && hoveredDay === key && (
-                <div className="absolute bottom-[105%] left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none rounded-xl border border-purple-500/25 bg-popover/98 p-3 shadow-2xl backdrop-blur-md text-[11px] min-w-[160px] text-left leading-normal animate-fade-in"
+                <div className="absolute bottom-[105%] left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none rounded-[14px] border border-[color:var(--hairline)] bg-popover/98 p-4 shadow-2xl text-[11px] min-w-[160px] text-left leading-normal animate-fade-in"
                   style={{ 
                     background: isDark ? "rgba(15,23,42,0.95)" : "rgba(255,255,255,0.98)",
                     color: isDark ? "#ffffff" : "#0f172a"
                   }}>
-                  <p className="font-extrabold text-muted-foreground pb-1 border-b border-border/5 mb-1.5 text-[10px]">{key}</p>
+                  <p className="font-semibold text-muted-foreground pb-1 border-b border-[color:var(--hairline)] mb-1.5 text-[11px]">{key}</p>
                   <div className="space-y-1">
                     <p className="flex justify-between gap-4">
                       <span className="text-muted-foreground">Net Profit:</span>
-                      <strong style={{ color: data.netProfit >= 0 ? (isDark ? "#10F087" : "#059669") : (isDark ? "#FF4757" : "#DC2626") }}>
+                      <strong style={{ color: data.netProfit >= 0 ? (isDark ? "#10B981" : "#059669") : (isDark ? "#EF4444" : "#DC2626") }}>
                         {formatMoney(data.netProfit)}
                       </strong>
                     </p>
@@ -267,11 +267,11 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
               {/* Trade data */}
               {data && (
                 <div className="mt-auto space-y-0.5">
-                  <p className="text-[10px] font-black tabular-nums leading-tight"
-                    style={{ color: isDark ? pnlColor : (data.netProfit >= 0 ? "#059669" : "#DC2626"), textShadow: isDark ? `0 0 6px ${pnlColor}60` : "none" }}>
+                  <p className="text-[11px] font-semibold tabular-nums leading-tight"
+                    style={{ color: isDark ? pnlColor : (data.netProfit >= 0 ? "#059669" : "#DC2626"), textShadow: "none" }}>
                     {formatMoney(data.netProfit)}
                   </p>
-                  <p className="text-[9px] font-semibold leading-none text-muted-foreground/80">
+                  <p className="text-[11px] font-semibold leading-none text-muted-foreground">
                     {data.trades} {data.trades === 1 ? "trade" : "trades"}
                   </p>
                 </div>
@@ -284,14 +284,14 @@ export function TradingCalendar({ trades, onMonthSelect, selectedMonth, theme }:
       {/* Legend */}
       <div className="flex items-center gap-4 pt-0.5">
         {[
-          { color: "#10F087", label: "Profit day" },
-          { color: "#FF4757", label: "Loss day" },
-          { color: "#8B5CF6", label: "Break-even" },
+          { color: "#10B981", label: "Profit day" },
+          { color: "#EF4444", label: "Loss day" },
+          { color: "#3B82F6", label: "Break-even" },
         ].map((l) => (
           <div key={l.label} className="flex items-center gap-1.5">
             <span className="inline-block h-2.5 w-2.5 rounded-sm"
               style={{ background: `${l.color}25`, border: `1px solid ${l.color}55` }} />
-            <span className="text-[10px]" style={{ color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)" }}>{l.label}</span>
+            <span className="text-[11px]" style={{ color: isDark ? "rgba(255,255,255,0.65)" : "rgba(0,0,0,0.65)" }}>{l.label}</span>
           </div>
         ))}
       </div>

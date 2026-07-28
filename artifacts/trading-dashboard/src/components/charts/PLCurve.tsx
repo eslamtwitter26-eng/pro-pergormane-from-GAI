@@ -110,45 +110,44 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
     return (
       <div style={{
         background: isDark ? "hsl(var(--card) / 95%)" : "rgba(255,255,255,0.98)",
-        border: `1px solid ${win ? "rgba(16,240,135,0.3)" : "rgba(255,71,87,0.3)"}`,
+        border: `1px solid ${win ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
         borderRadius: 12,
         padding: "12px 16px",
-        backdropFilter: "blur(24px)",
         fontSize: 12,
         minWidth: 200,
         boxShadow: "0 10px 30px -10px rgba(0,0,0,0.15)",
         color: isDark ? "#ffffff" : "#0f172a"
       }}>
         <div className="flex items-center justify-between gap-4 mb-2">
-          <span className="text-muted-foreground/85 text-[10px] font-bold">#{d.tradeNum} · {d.dateStr}</span>
+          <span className="text-muted-foreground text-[11px] font-bold">#{d.tradeNum} · {d.dateStr}</span>
           {d.symbol && (
             <span style={{
               fontSize: 9, fontWeight: 900, letterSpacing: "0.06em",
-              color: d.kind === "buy" ? "#06B6D4" : "#F472B6",
-              background: d.kind === "buy" ? "rgba(6,182,212,0.12)" : "rgba(244,114,182,0.12)",
+              color: d.kind === "buy" ? "#60A5FA" : "#94A3B8",
+              background: d.kind === "buy" ? "rgba(96,165,250,0.12)" : "rgba(148,163,184,0.12)",
               padding: "2px 6px", borderRadius: 4,
-              border: `1px solid ${d.kind === "buy" ? "rgba(6,182,212,0.15)" : "rgba(244,114,182,0.15)"}`
+              border: `1px solid ${d.kind === "buy" ? "rgba(96,165,250,0.15)" : "rgba(148,163,184,0.15)"}`
             }}>
               {d.symbol} {d.kind?.toUpperCase()}
             </span>
           )}
         </div>
         <div className="flex items-baseline justify-between gap-6">
-          <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">Trade P&L</span>
-          <span style={{ fontWeight: 900, fontSize: 14, color: win ? "#10F087" : "#FF4757" }}>
+          <span className="text-muted-foreground text-[11px] uppercase font-bold tracking-wider">Trade P&L</span>
+          <span style={{ fontWeight: 900, fontSize: 14, color: win ? "#10B981" : "#EF4444" }}>
             {d.tradeProfit >= 0 ? "+" : ""} ${d.tradeProfit.toFixed(2)}
           </span>
         </div>
         <div className="flex items-baseline justify-between gap-6 mt-1">
-          <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">Balance</span>
+          <span className="text-muted-foreground text-[11px] uppercase font-bold tracking-wider">Balance</span>
           <span style={{ fontWeight: 800, fontSize: 13, color: isDark ? "#ffffff" : "#0f172a" }}>
             ${d.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </span>
         </div>
         {d.dd < 0 && (
-          <div className="flex items-baseline justify-between gap-6 mt-1 border-t border-border/5 pt-1">
-            <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">Drawdown</span>
-            <span style={{ fontWeight: 600, fontSize: 12, color: "#FF4757" }}>${d.dd.toFixed(2)}</span>
+          <div className="flex items-baseline justify-between gap-6 mt-1 border-t border-[color:var(--hairline)] pt-1">
+            <span className="text-muted-foreground text-[11px] uppercase font-bold tracking-wider">Drawdown</span>
+            <span style={{ fontWeight: 600, fontSize: 12, color: "#EF4444" }}>${d.dd.toFixed(2)}</span>
           </div>
         )}
       </div>
@@ -215,7 +214,7 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
 
   if (!allPoints.length) {
     return (
-      <div className="flex h-48 items-center justify-center text-sm text-muted-foreground/50">
+      <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
         No trades to display
       </div>
     );
@@ -224,8 +223,8 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
   return (
     <div className="space-y-6 chart-export-container">
       {/* Chart Toggles and Header Banner */}
-      <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between border-b border-border/5 pb-4">
-        <div className="flex flex-wrap gap-1.5 bg-background/50 p-1 rounded-xl border border-border/5">
+      <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between border-b border-[color:var(--hairline)] pb-4">
+        <div className="flex flex-wrap gap-1.5 bg-[var(--surface-hover)] p-1 rounded-[14px] border border-[color:var(--hairline)]">
           {[
             { id: "equity", label: "Equity Curve", icon: Activity },
             { id: "balance", label: "Balance Curve", icon: LineIcon },
@@ -241,8 +240,8 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
                 onClick={() => setChartType(type.id as any)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   active 
-                    ? "bg-purple-500/15 text-purple-400 border border-purple-500/30" 
-                    : "text-muted-foreground hover:text-foreground hover:bg-white/5 border border-transparent"
+                    ? "bg-blue-500/15 text-blue-400 border border-[color:var(--hairline)]" 
+                    : "text-muted-foreground hover:text-foreground hover:bg-[var(--surface-hover)] border border-transparent"
                 }`}
               >
                 <Icon className="h-3.5 w-3.5" />
@@ -259,9 +258,9 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
             onClick={playing ? stopPlay : startPlay}
             className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all"
             style={{
-              background: playing ? "rgba(255,71,87,0.12)" : "rgba(16,240,135,0.12)",
-              border: `1px solid ${playing ? "rgba(255,71,87,0.3)" : "rgba(16,240,135,0.3)"}`,
-              color: playing ? "#FF4757" : "#10F087",
+              background: playing ? "rgba(239,68,68,0.12)" : "rgba(16,185,129,0.12)",
+              border: `1px solid ${playing ? "rgba(239,68,68,0.3)" : "rgba(16,185,129,0.3)"}`,
+              color: playing ? "#EF4444" : "#10B981",
             }}
           >
             {playing ? <Pause className="h-3 w-3 animate-pulse" /> : <Play className="h-3 w-3" />}
@@ -269,7 +268,7 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
           </button>
           <button
             onClick={() => { stopPlay(); setDisplayCount(allPoints.length); }}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all hover:bg-white/5 bg-background/40 border border-border/10 text-muted-foreground"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all hover:bg-[var(--surface-hover)] bg-[var(--surface-hover)] border border-[color:var(--hairline)] text-muted-foreground"
           >
             <RotateCcw className="h-3 w-3" />
             Reset
@@ -278,22 +277,22 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
       </div>
 
       {/* Main visual display of chosen chart mode */}
-      <div className="relative overflow-hidden rounded-xl border border-border/5 bg-background/20 p-4">
+      <div className="relative overflow-hidden rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] p-4">
         <div style={{ height: 260 }}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={visiblePoints} margin={{ top: 8, right: 8, left: 8, bottom: 4 }}>
               <defs>
                 <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={chartType === "floating" ? "#06B6D4" : "#10F087"} stopOpacity={0.25} />
-                  <stop offset={zeroOffset} stopColor={chartType === "floating" ? "#06B6D4" : "#10F087"} stopOpacity={0.02} />
-                  <stop offset={zeroOffset} stopColor="#FF4757" stopOpacity={0.02} />
-                  <stop offset="100%" stopColor="#FF4757" stopOpacity={0.25} />
+                  <stop offset="0%" stopColor={chartType === "floating" ? "#60A5FA" : "#10B981"} stopOpacity={0.25} />
+                  <stop offset={zeroOffset} stopColor={chartType === "floating" ? "#60A5FA" : "#10B981"} stopOpacity={0.02} />
+                  <stop offset={zeroOffset} stopColor="#EF4444" stopOpacity={0.02} />
+                  <stop offset="100%" stopColor="#EF4444" stopOpacity={0.25} />
                 </linearGradient>
                 <linearGradient id="curveStroke" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={chartType === "floating" ? "#06B6D4" : "#10F087"} />
-                  <stop offset={zeroOffset} stopColor={chartType === "floating" ? "#06B6D4" : "#10F087"} />
-                  <stop offset={zeroOffset} stopColor="#FF4757" />
-                  <stop offset="100%" stopColor="#FF4757" />
+                  <stop offset="0%" stopColor={chartType === "floating" ? "#60A5FA" : "#10B981"} />
+                  <stop offset={zeroOffset} stopColor={chartType === "floating" ? "#60A5FA" : "#10B981"} />
+                  <stop offset={zeroOffset} stopColor="#EF4444" />
+                  <stop offset="100%" stopColor="#EF4444" />
                 </linearGradient>
               </defs>
 
@@ -323,7 +322,7 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
                 dot={<HiddenDot />}
                 activeDot={{
                   r: 5,
-                  fill: "#8B5CF6",
+                  fill: "#3B82F6",
                   stroke: "#ffffff",
                   strokeWidth: 1.5,
                 }}
@@ -334,7 +333,7 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
                 <Line
                   type="monotone"
                   dataKey="benchmark"
-                  stroke="#FFD32D"
+                  stroke="#F59E0B"
                   strokeWidth={1.5}
                   strokeDasharray="4 4"
                   dot={false}
@@ -347,26 +346,26 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
       </div>
 
       {/* Drawdown timeline below equity curve */}
-      <div className="rounded-xl border border-border/5 bg-background/20 p-4">
+      <div className="rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] p-4">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">
+          <p className="text-[11px] font-bold text-red-400">
             Drawdown Timeline & Under-Water Periods
           </p>
-          <span className="text-[10px] text-muted-foreground/60 font-semibold">Max DD: ${Math.abs(maxDD).toFixed(2)}</span>
+          <span className="text-[11px] text-muted-foreground font-semibold">Max DD: ${Math.abs(maxDD).toFixed(2)}</span>
         </div>
         <div style={{ height: 60 }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={visiblePoints} margin={{ top: 2, right: 8, left: 8, bottom: 0 }}>
               <defs>
                 <linearGradient id="ddFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF4757" stopOpacity={0.03} />
-                  <stop offset="100%" stopColor="#FF4757" stopOpacity={0.35} />
+                  <stop offset="0%" stopColor="#EF4444" stopOpacity={0.03} />
+                  <stop offset="100%" stopColor="#EF4444" stopOpacity={0.35} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="label" hide />
               <YAxis
                 tickFormatter={(v) => `$${v}`}
-                tick={{ fontSize: 8, fill: "rgba(255,71,87,0.5)" }}
+                tick={{ fontSize: 8, fill: "rgba(239,68,68,0.5)" }}
                 tickLine={false} axisLine={false}
                 width={65}
                 domain={["auto", 0]}
@@ -376,11 +375,11 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
               <Area
                 type="monotone"
                 dataKey="dd"
-                stroke="#FF4757"
+                stroke="#EF4444"
                 strokeWidth={1}
                 fill="url(#ddFill)"
                 dot={false}
-                activeDot={{ r: 3, fill: "#FF4757", stroke: "rgba(8,11,28,0.9)", strokeWidth: 1.5 }}
+                activeDot={{ r: 3, fill: "#EF4444", stroke: "rgba(20,26,36,0.9)", strokeWidth: 1.5 }}
                 isAnimationActive={false}
               />
             </AreaChart>
@@ -389,26 +388,26 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
       </div>
 
       {/* SECTION 3 NEW FEATURE: 30 Trade Moving Average Momentum Chart */}
-      <div className="rounded-xl border border-border/5 bg-background/20 p-4">
+      <div className="rounded-[14px] border border-[color:var(--hairline)] bg-[var(--surface-hover)] p-4">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-400">
+          <p className="text-[11px] font-bold text-blue-400">
             Rolling Performance Momentum (30 Trade Moving Average)
           </p>
-          <span className="text-[10px] text-muted-foreground/60 font-semibold">Tracks consistency trend</span>
+          <span className="text-[11px] text-muted-foreground font-semibold">Tracks consistency trend</span>
         </div>
         <div style={{ height: 80 }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={visiblePoints} margin={{ top: 2, right: 8, left: 8, bottom: 0 }}>
               <defs>
                 <linearGradient id="rollingFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.25} />
-                  <stop offset="100%" stopColor="#06B6D4" stopOpacity={0.01} />
+                  <stop offset="0%" stopColor="#60A5FA" stopOpacity={0.25} />
+                  <stop offset="100%" stopColor="#60A5FA" stopOpacity={0.01} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="label" hide />
               <YAxis
                 tickFormatter={(v) => `$${v}`}
-                tick={{ fontSize: 8, fill: "rgba(6,182,212,0.5)" }}
+                tick={{ fontSize: 8, fill: "rgba(96,165,250,0.5)" }}
                 tickLine={false} axisLine={false}
                 width={65}
                 domain={["auto", "auto"]}
@@ -417,7 +416,7 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
               <Area
                 type="monotone"
                 dataKey="rollingReturn"
-                stroke="#06B6D4"
+                stroke="#60A5FA"
                 strokeWidth={1.5}
                 fill="url(#rollingFill)"
                 dot={false}
@@ -430,70 +429,70 @@ export function PLCurve({ trades, initialBalance, theme }: PLCurveProps) {
 
       {/* Trade Replay Slider controls with active trade details */}
       {allPoints.length > 1 && (
-        <div className="rounded-xl p-5 border border-border/5 bg-background/20 space-y-4">
+        <div className="rounded-[14px] p-6 border border-[color:var(--hairline)] bg-[var(--surface-hover)] space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="flex items-center gap-2">
-              <Sliders className="h-4 w-4 text-purple-400 animate-pulse" />
-              <p className="text-xs font-black uppercase tracking-wider text-foreground">Interactive Trade Replay Engine</p>
+              <Sliders className="h-4 w-4 text-blue-400 animate-pulse" />
+              <p className="text-xs font-semibold text-foreground">Interactive Trade Replay Engine</p>
             </div>
-            <p className="text-[10px] font-semibold text-muted-foreground/70 bg-background/40 px-2.5 py-1 rounded-md border border-border/5">
+            <p className="text-[11px] font-semibold text-muted-foreground bg-[var(--surface-hover)] px-2.5 py-1 rounded-md border border-[color:var(--hairline)]">
               Drag to step through trades and replay historical performance step-by-step
             </p>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-bold text-muted-foreground/60">T#1</span>
+            <span className="text-[11px] font-bold text-muted-foreground">T#1</span>
             <input
               type="range"
               min={1}
               max={allPoints.length - 1}
               value={displayCount - 1}
               onChange={(e) => setDisplayCount(Number(e.target.value) + 1)}
-              className="flex-1 accent-purple-500 h-1 bg-border/20 rounded-lg cursor-pointer"
+              className="flex-1 accent-blue-500 h-1 bg-border/20 rounded-lg cursor-pointer"
             />
-            <span className="text-[10px] font-bold text-muted-foreground/60">T#{allPoints.length - 1}</span>
+            <span className="text-[11px] font-bold text-muted-foreground">T#{allPoints.length - 1}</span>
           </div>
 
           {selectedPoint && selectedPoint.tradeNum > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 pt-2">
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Trade #</span>
-                <p className="text-sm font-black text-foreground mt-0.5">#{selectedPoint.tradeNum}</p>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Trade #</span>
+                <p className="text-sm font-semibold text-foreground mt-0.5">#{selectedPoint.tradeNum}</p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Date</span>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Date</span>
                 <p className="text-xs font-bold text-foreground mt-0.5 truncate">{selectedPoint.dateStr}</p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Symbol</span>
-                <p className="text-xs font-black text-purple-400 mt-0.5">{selectedPoint.symbol}</p>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Symbol</span>
+                <p className="text-xs font-semibold text-blue-400 mt-0.5">{selectedPoint.symbol}</p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Type</span>
-                <span className={`inline-block text-[10px] font-bold px-1.5 py-0.5 rounded mt-1 uppercase ${
-                  selectedPoint.kind === "buy" ? "bg-cyan-500/10 text-cyan-400" : "bg-pink-500/10 text-pink-400"
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Type</span>
+                <span className={`inline-block text-[11px] font-bold px-1.5 py-0.5 rounded mt-1 uppercase ${
+                  selectedPoint.kind === "buy" ? "bg-blue-500/10 text-blue-400" : "bg-slate-500/10 text-slate-400"
                 }`}>
                   {selectedPoint.kind}
                 </span>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Size (Lots)</span>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Size (Lots)</span>
                 <p className="text-sm font-bold text-foreground mt-0.5">{selectedPoint.lot?.toFixed(2)}</p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Prices</span>
-                <p className="text-[10px] font-semibold text-muted-foreground mt-0.5 truncate">
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Prices</span>
+                <p className="text-[11px] font-semibold text-muted-foreground mt-0.5 truncate">
                   {selectedPoint.openPrice} → {selectedPoint.closePrice}
                 </p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">P&L</span>
-                <p className="text-sm font-black mt-0.5" style={{ color: selectedPoint.tradeProfit >= 0 ? "#10F087" : "#FF4757" }}>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center">
+                <span className="text-[11px] font-semibold text-muted-foreground block">P&L</span>
+                <p className="text-sm font-semibold mt-0.5" style={{ color: selectedPoint.tradeProfit >= 0 ? "#10B981" : "#EF4444" }}>
                   {selectedPoint.tradeProfit >= 0 ? "+" : ""}${selectedPoint.tradeProfit.toFixed(2)}
                 </p>
               </div>
-              <div className="rounded-lg p-2.5 bg-card/40 border border-border/5 text-center col-span-2 lg:col-span-1">
-                <span className="text-[9px] font-black text-muted-foreground/70 uppercase tracking-widest block">Max Drawdown</span>
+              <div className="rounded-lg p-2.5 bg-card border border-[color:var(--hairline)] text-center col-span-2 lg:col-span-1">
+                <span className="text-[11px] font-semibold text-muted-foreground block">Max Drawdown</span>
                 <p className="text-xs font-bold text-red-400 mt-0.5">${selectedPoint.dd?.toFixed(2)}</p>
               </div>
             </div>

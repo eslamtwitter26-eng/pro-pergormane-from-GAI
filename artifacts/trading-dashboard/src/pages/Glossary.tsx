@@ -25,8 +25,8 @@ const TERMS: Term[] = [
   {
     id: "winRate",
     icon: Target,
-    color: "#8B5CF6",
-    glowColor: "rgba(139,92,246,0.3)",
+    color: "#3B82F6",
+    glowColor: "rgba(59,130,246,0.3)",
     en: {
       name: "Win Rate",
       meaning: "The percentage of your trades that made money. If you placed 10 trades and 7 were profitable, your win rate is 70%.",
@@ -48,8 +48,8 @@ const TERMS: Term[] = [
   {
     id: "profitFactor",
     icon: BarChart2,
-    color: "#06B6D4",
-    glowColor: "rgba(6,182,212,0.3)",
+    color: "#60A5FA",
+    glowColor: "rgba(96,165,250,0.3)",
     en: {
       name: "Profit Factor",
       meaning: "Total money won ÷ Total money lost. A profit factor of 2.0 means you earned $2 for every $1 you lost. This is one of the most important numbers in trading.",
@@ -71,8 +71,8 @@ const TERMS: Term[] = [
   {
     id: "avgWin",
     icon: TrendingUp,
-    color: "#10F087",
-    glowColor: "rgba(16,240,135,0.3)",
+    color: "#10B981",
+    glowColor: "rgba(16,185,129,0.3)",
     en: {
       name: "Average Win",
       meaning: "The average amount of money you make on a winning trade. For example, if you won $100, $150, and $200 in three trades, your average win is $150.",
@@ -94,8 +94,8 @@ const TERMS: Term[] = [
   {
     id: "avgLoss",
     icon: TrendingDown,
-    color: "#FF4757",
-    glowColor: "rgba(255,71,87,0.3)",
+    color: "#EF4444",
+    glowColor: "rgba(239,68,68,0.3)",
     en: {
       name: "Average Loss",
       meaning: "The average amount of money you lose on a losing trade. Keeping this small compared to your average win is the key to long-term profitability.",
@@ -117,8 +117,8 @@ const TERMS: Term[] = [
   {
     id: "maxDrawdown",
     icon: Shield,
-    color: "#F472B6",
-    glowColor: "rgba(244,114,182,0.3)",
+    color: "#94A3B8",
+    glowColor: "rgba(148,163,184,0.3)",
     en: {
       name: "Max Drawdown",
       meaning: "The biggest drop your account ever experienced from its highest point. If your account hit $10,000 then dropped to $7,500 before recovering — your max drawdown is $2,500 or 25%.",
@@ -143,8 +143,8 @@ const TERMS: Term[] = [
   {
     id: "expectancy",
     icon: Activity,
-    color: "#FFD32D",
-    glowColor: "rgba(255,211,45,0.3)",
+    color: "#F59E0B",
+    glowColor: "rgba(245,158,11,0.3)",
     en: {
       name: "Expectancy",
       meaning: "The average amount you expect to make per trade, considering both wins and losses together. It's calculated as: (Win Rate × Avg Win) − (Loss Rate × Avg Loss).",
@@ -166,8 +166,8 @@ const TERMS: Term[] = [
   {
     id: "riskReward",
     icon: BarChart,
-    color: "#8B5CF6",
-    glowColor: "rgba(139,92,246,0.3)",
+    color: "#3B82F6",
+    glowColor: "rgba(59,130,246,0.3)",
     en: {
       name: "Risk/Reward Ratio",
       meaning: "How much you gain compared to how much you risk. A ratio of 1:2 means for every $1 you risk, you aim to make $2. This is your average win divided by your average loss.",
@@ -189,8 +189,8 @@ const TERMS: Term[] = [
   {
     id: "consecutiveWins",
     icon: Award,
-    color: "#10F087",
-    glowColor: "rgba(16,240,135,0.3)",
+    color: "#10B981",
+    glowColor: "rgba(16,185,129,0.3)",
     en: {
       name: "Max Consecutive Wins",
       meaning: "The longest streak of winning trades in a row. Useful to know for understanding your best performance periods and psychological confidence.",
@@ -212,8 +212,8 @@ const TERMS: Term[] = [
   {
     id: "consecutiveLosses",
     icon: Repeat,
-    color: "#FF4757",
-    glowColor: "rgba(255,71,87,0.3)",
+    color: "#EF4444",
+    glowColor: "rgba(239,68,68,0.3)",
     en: {
       name: "Max Consecutive Losses",
       meaning: "The longest streak of losing trades in a row. This is important for psychological preparation. Knowing this helps you stay calm during losing streaks and avoid revenge trading.",
@@ -235,8 +235,8 @@ const TERMS: Term[] = [
   {
     id: "avgDuration",
     icon: Clock,
-    color: "#06B6D4",
-    glowColor: "rgba(6,182,212,0.3)",
+    color: "#60A5FA",
+    glowColor: "rgba(96,165,250,0.3)",
     en: {
       name: "Average Trade Duration",
       meaning: "How long you hold a trade on average before closing it. A scalper holds trades for seconds or minutes. A swing trader holds for hours or days.",
@@ -262,8 +262,8 @@ const TERMS: Term[] = [
   {
     id: "equityCurve",
     icon: Activity,
-    color: "#8B5CF6",
-    glowColor: "rgba(139,92,246,0.3)",
+    color: "#3B82F6",
+    glowColor: "rgba(59,130,246,0.3)",
     en: {
       name: "Equity Curve",
       meaning: "A line chart showing how your account balance changed over time. A rising equity curve means your account is growing. A smooth, steady rise is the goal of every trader.",
@@ -283,8 +283,8 @@ const TERMS: Term[] = [
   {
     id: "netProfit",
     icon: DollarSign,
-    color: "#10F087",
-    glowColor: "rgba(16,240,135,0.3)",
+    color: "#10B981",
+    glowColor: "rgba(16,185,129,0.3)",
     en: {
       name: "Net Profit",
       meaning: "Your actual take-home earnings after subtracting all losses, commissions (broker fees), and swap (overnight holding fees). This is what really matters at the end of the day.",
@@ -306,8 +306,8 @@ const TERMS: Term[] = [
   {
     id: "commission",
     icon: Zap,
-    color: "#FFD32D",
-    glowColor: "rgba(255,211,45,0.3)",
+    color: "#F59E0B",
+    glowColor: "rgba(245,158,11,0.3)",
     en: {
       name: "Commission",
       meaning: "Fees charged by your broker for each trade you open and close. These are direct costs that reduce your profitability. High commissions on small accounts can really hurt performance.",
@@ -332,9 +332,9 @@ const TERMS: Term[] = [
 ];
 
 const RATING_CONFIG = {
-  good: { label: "Good", bg: "rgba(16,240,135,0.12)", border: "rgba(16,240,135,0.3)", text: "#10F087" },
-  warning: { label: "Okay", bg: "rgba(255,211,45,0.12)", border: "rgba(255,211,45,0.3)", text: "#FFD32D" },
-  bad: { label: "Needs Work", bg: "rgba(255,71,87,0.12)", border: "rgba(255,71,87,0.3)", text: "#FF4757" },
+  good: { label: "Good", bg: "rgba(16,185,129,0.12)", border: "rgba(16,185,129,0.3)", text: "#10B981" },
+  warning: { label: "Okay", bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.3)", text: "#F59E0B" },
+  bad: { label: "Needs Work", bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.3)", text: "#EF4444" },
 };
 
 export function Glossary({ lang, data, theme }: GlossaryProps) {
@@ -343,12 +343,10 @@ export function Glossary({ lang, data, theme }: GlossaryProps) {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
-      <div className="rounded-xl p-5 relative overflow-hidden"
-        style={{ background: "hsl(var(--card) / 80%)", border: "1px solid rgba(139,92,246,0.2)", backdropFilter: "blur(16px)" }}>
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at 30% 50%, rgba(139,92,246,0.07) 0%, transparent 60%)" }} />
+      <div className="rounded-[14px] p-6 relative overflow-hidden"
+        style={{ background: "hsl(var(--card))", border: "1px solid var(--hairline)" }}>
         <div className="relative">
-          <h2 className="text-xl font-black gradient-text mb-1">
+          <h2 className="text-xl font-semibold gradient-text mb-1">
             {lang === "ar" ? "قاموس مصطلحات التداول" : lang === "fr" ? "Glossaire des termes de trading" : "Trading Terms — Explained Simply"}
           </h2>
           <p className="text-sm text-muted-foreground">
@@ -441,26 +439,26 @@ export function Glossary({ lang, data, theme }: GlossaryProps) {
           return (
             <div 
               key={term.id} 
-              className="glossary-card animate-slide-up group cursor-pointer transition-all hover:border-purple-500/20 active:scale-[0.99] overflow-hidden" 
-              style={{ animationDelay: `${i * 60}ms`, background: "hsl(var(--card) / 60%)" }}
+              className="glossary-card animate-slide-up group cursor-pointer transition-all hover:border-[color:var(--hairline)] overflow-hidden" 
+              style={{ animationDelay: `${i * 60}ms`, background: "hsl(var(--card))" }}
             >
-              <div className="flex items-start gap-3 mb-3">
-                <div className="flex-shrink-0 rounded-xl p-2.5"
-                  style={{ background: `${term.color}12`, border: `1px solid ${term.color}25` }}>
-                  <Icon className="h-5 w-5 transition-transform group-hover:scale-105" style={{ color: term.color, filter: `drop-shadow(0 0 6px ${term.glowColor})` }} />
+              <div className="flex items-start gap-4 mb-3">
+                <div className="flex-shrink-0 rounded-[14px] p-2.5"
+                  style={{ background: `${term.color}14` }}>
+                  <Icon className="h-5 w-5" strokeWidth={1.75} style={{ color: term.color }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="font-extrabold text-sm text-foreground/90 group-hover:text-foreground transition-colors">{content.name}</h3>
+                    <h3 className="font-semibold text-sm text-foreground group-hover:text-foreground transition-colors">{content.name}</h3>
                     {ratingConfig && (
-                      <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full"
-                        style={{ background: ratingConfig.bg, border: `1px solid ratingConfig.border`, color: ratingConfig.text }}>
+                      <span className="text-[11px] font-medium px-2 py-0.5 rounded-full"
+                        style={{ background: ratingConfig.bg, border: `1px solid ${ratingConfig.border}`, color: ratingConfig.text }}>
                         {ratingConfig.label}
                       </span>
                     )}
                   </div>
                   {userValue && (
-                    <p className="text-base font-black mt-0.5" style={{ color: term.color, textShadow: `0 0 15px ${term.glowColor}` }}>
+                    <p className="text-base font-semibold mt-0.5" style={{ color: term.color, textShadow: "none" }}>
                       {userValue}
                     </p>
                   )}
@@ -471,27 +469,27 @@ export function Glossary({ lang, data, theme }: GlossaryProps) {
 
               {/* Collapsible details for Advanced Learning Center */}
               {adv && (
-                <div className="mt-3 pt-3 border-t border-border/10 space-y-2.5 text-xs">
+                <div className="mt-3 pt-3 border-t border-[color:var(--hairline)] space-y-2.5 text-xs">
                   <div className="grid grid-cols-2 gap-2.5">
-                    <div className="bg-background/40 p-2 rounded-lg border border-border/5">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground">Formula</p>
-                      <p className="font-semibold text-foreground/80 mt-0.5">{adv.formula}</p>
+                    <div className="bg-[var(--surface-hover)] p-2 rounded-lg border border-[color:var(--hairline)]">
+                      <p className="text-[11px] uppercase font-bold text-muted-foreground">Formula</p>
+                      <p className="font-semibold text-foreground mt-0.5">{adv.formula}</p>
                     </div>
-                    <div className="bg-background/40 p-2 rounded-lg border border-border/5">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground">Benchmarking</p>
-                      <p className="font-semibold text-purple-400 mt-0.5">{adv.proBenchmark}</p>
+                    <div className="bg-[var(--surface-hover)] p-2 rounded-lg border border-[color:var(--hairline)]">
+                      <p className="text-[11px] uppercase font-bold text-muted-foreground">Benchmarking</p>
+                      <p className="font-semibold text-blue-400 mt-0.5">{adv.proBenchmark}</p>
                     </div>
                   </div>
 
-                  <div className="bg-background/40 p-2 rounded-lg border border-border/5">
-                    <p className="text-[10px] uppercase font-bold text-cyan-400">Strategic Importance</p>
-                    <p className="text-muted-foreground/80 mt-0.5 leading-relaxed">{adv.importance}</p>
+                  <div className="bg-[var(--surface-hover)] p-2 rounded-lg border border-[color:var(--hairline)]">
+                    <p className="text-[11px] uppercase font-bold text-blue-400">Strategic Importance</p>
+                    <p className="text-muted-foreground mt-0.5 leading-relaxed">{adv.importance}</p>
                   </div>
 
                   <div className="p-2.5 rounded-lg border"
                     style={{ background: `${term.color}05`, borderColor: `${term.color}15` }}>
-                    <p className="text-[10px] uppercase font-bold" style={{ color: term.color }}>Dynamic Action Plan</p>
-                    <p className="text-muted-foreground/90 mt-0.5 leading-relaxed font-medium">{adv.action}</p>
+                    <p className="text-[11px] uppercase font-bold" style={{ color: term.color }}>Dynamic Action Plan</p>
+                    <p className="text-muted-foreground mt-0.5 leading-relaxed font-medium">{adv.action}</p>
                   </div>
                 </div>
               )}

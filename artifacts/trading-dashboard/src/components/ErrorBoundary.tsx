@@ -26,13 +26,13 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#05070f] text-white flex flex-col items-center justify-center p-6 text-center">
-          <div className="max-w-md w-full bg-card/80 border border-red-500/30 rounded-2xl p-8 backdrop-blur-xl shadow-2xl space-y-4">
-            <div className="h-12 w-12 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center mx-auto text-xl font-bold">
+        <div className="min-h-screen bg-[#0B0F17] text-white flex flex-col items-center justify-center p-6 text-center">
+          <div className="max-w-md w-full bg-card border border-[color:var(--hairline)] rounded-[18px] p-8 shadow-2xl space-y-4">
+            <div className="h-12 w-12 rounded-[14px] bg-red-500/20 text-red-400 flex items-center justify-center mx-auto text-xl font-bold">
               !
             </div>
             <h2 className="text-xl font-bold text-foreground">Something went wrong</h2>
-            <p className="text-xs text-muted-foreground bg-black/40 p-3 rounded-lg text-left font-mono overflow-auto max-h-32 text-red-300">
+            <p className="text-xs text-muted-foreground bg-black/40 p-4 rounded-lg text-left font-mono overflow-auto max-h-32 text-red-300">
               {this.state.error?.message || "An unexpected error occurred while rendering."}
             </p>
             <button
@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 this.setState({ hasError: false, error: null });
                 window.location.reload();
               }}
-              className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 font-bold text-sm text-white hover:opacity-90 transition-all cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-[14px] bg-gradient-to-r from-blue-600 to-blue-600 font-bold text-sm text-white hover:opacity-90 transition-all cursor-pointer"
             >
               Reload Dashboard
             </button>

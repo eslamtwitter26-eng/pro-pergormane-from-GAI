@@ -29,17 +29,17 @@ function getThemeColor(colorName: "green" | "red" | "cyan" | "purple" | "yellow"
   const isDark = theme !== "light";
   switch (colorName) {
     case "green":
-      return isDark ? "#10F087" : "#059669";
+      return isDark ? "#10B981" : "#059669";
     case "red":
-      return isDark ? "#FF4757" : "#DC2626";
+      return isDark ? "#EF4444" : "#DC2626";
     case "cyan":
-      return isDark ? "#06B6D4" : "#0891B2";
+      return isDark ? "#60A5FA" : "#3B82F6";
     case "purple":
-      return isDark ? "#8B5CF6" : "#7C3AED";
+      return isDark ? "#3B82F6" : "#2563EB";
     case "yellow":
-      return isDark ? "#FFD32D" : "#D97706";
+      return isDark ? "#F59E0B" : "#D97706";
     case "pink":
-      return isDark ? "#FF6B9D" : "#DB2777";
+      return isDark ? "#94A3B8" : "#64748B";
   }
 }
 
@@ -96,9 +96,9 @@ export function KPIStrip({ trades, metrics, lang, t, theme }: WidgetsProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
       {stats.map((item, idx) => (
-        <div key={idx} className="rounded-xl p-4 border border-border/5 bg-card/65 flex flex-col justify-between transition-all duration-200 hover:border-border/20">
-          <span className="text-[9px] font-extrabold uppercase tracking-widest text-muted-foreground/75 truncate">{item.label}</span>
-          <p className="text-sm font-black tracking-tight mt-1.5 truncate" style={{ color: item.color }}>
+        <div key={idx} className="rounded-[14px] p-4 border border-[color:var(--hairline)] bg-card flex flex-col justify-between transition-all duration-200 hover:border-[color:var(--hairline)]">
+          <span className="text-[11px] font-medium text-muted-foreground truncate">{item.label}</span>
+          <p className="text-sm font-semibold tracking-tight mt-1.5 truncate" style={{ color: item.color }}>
             {item.value}
           </p>
         </div>
@@ -135,24 +135,24 @@ export function DayHourHeatmap({ trades, lang, t, theme }: Omit<WidgetsProps, "m
   }, [trades]);
 
   return (
-    <div className="rounded-2xl p-6 border border-border/10 bg-card/45 space-y-4 chart-export-container">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border/5 pb-3 gap-2">
+    <div className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card space-y-4 chart-export-container">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[color:var(--hairline)] pb-3 gap-2">
         <div className="flex items-center gap-2">
-          <Clock className="h-4 w-4 text-purple-400" />
-          <span className="text-xs font-black uppercase tracking-wider text-foreground">Day x Hour Net Profit Heatmap</span>
+          <Clock className="h-4 w-4 text-blue-400" />
+          <span className="text-xs font-semibold text-foreground">Day x Hour Net Profit Heatmap</span>
         </div>
-        <div className="flex items-center gap-4 text-[10px] text-muted-foreground/70 font-semibold">
+        <div className="flex items-center gap-4 text-[11px] text-muted-foreground font-semibold">
           <DownloadChartButton title="Day x Hour Heatmap" variant="subtle" />
           <span className="flex items-center gap-1">
-            <span className={`h-2.5 w-2.5 rounded-full ${isDark ? "bg-red-950 border border-red-500/30" : "bg-red-200 border border-red-400"}`} /> 
+            <span className={`h-2.5 w-2.5 rounded-full ${isDark ? "bg-red-950 border border-[color:var(--hairline)]" : "bg-red-200 border border-red-400"}`} /> 
             Loss
           </span>
           <span className="flex items-center gap-1">
-            <span className={`h-2.5 w-2.5 rounded ${isDark ? "bg-neutral-900/40 border border-border/5" : "bg-neutral-100 border border-neutral-300"}`} /> 
+            <span className={`h-2.5 w-2.5 rounded ${isDark ? "bg-neutral-900/40 border border-[color:var(--hairline)]" : "bg-neutral-100 border border-neutral-300"}`} /> 
             No Trades
           </span>
           <span className="flex items-center gap-1">
-            <span className={`h-2.5 w-2.5 rounded-full ${isDark ? "bg-emerald-950 border border-emerald-500/30" : "bg-emerald-200 border border-emerald-400"}`} /> 
+            <span className={`h-2.5 w-2.5 rounded-full ${isDark ? "bg-emerald-950 border border-[color:var(--hairline)]" : "bg-emerald-200 border border-emerald-400"}`} /> 
             Profit
           </span>
         </div>
@@ -162,8 +162,8 @@ export function DayHourHeatmap({ trades, lang, t, theme }: Omit<WidgetsProps, "m
         <div className="min-w-[750px] space-y-2">
           {/* Header row with hours */}
           <div className="flex items-center">
-            <div className="w-12 text-[9px] font-black text-muted-foreground/50 uppercase">Day</div>
-            <div className="flex-1 grid gap-1 text-center text-[9px] font-black text-muted-foreground/50" style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}>
+            <div className="w-12 text-[11px] font-semibold text-muted-foreground uppercase">Day</div>
+            <div className="flex-1 grid gap-1 text-center text-[11px] font-semibold text-muted-foreground" style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}>
               {Array.from({ length: 24 }).map((_, i) => (
                 <div key={i}>{String(i).padStart(2, "0")}:00</div>
               ))}
@@ -173,7 +173,7 @@ export function DayHourHeatmap({ trades, lang, t, theme }: Omit<WidgetsProps, "m
           {/* Matrix rows */}
           {days.map((day, dIdx) => (
             <div key={day} className="flex items-center">
-              <div className="w-12 text-xs font-bold text-muted-foreground/80">{day}</div>
+              <div className="w-12 text-xs font-bold text-muted-foreground">{day}</div>
               <div className="flex-1 grid gap-1" style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}>
                 {Array.from({ length: 24 }).map((_, hIdx) => {
                   const val = matrix.grid[dIdx][hIdx];
@@ -182,7 +182,7 @@ export function DayHourHeatmap({ trades, lang, t, theme }: Omit<WidgetsProps, "m
                   const winRate = cnt > 0 ? (w / cnt) * 100 : 0;
 
                   // Adaptive style rules based on Theme
-                  let bg = isDark ? "bg-neutral-900/20 text-muted-foreground/30" : "bg-neutral-100 text-neutral-400";
+                  let bg = isDark ? "bg-neutral-900/20 text-muted-foreground" : "bg-neutral-100 text-neutral-400";
                   let border = isDark ? "border-neutral-800/20" : "border-neutral-200/50";
                   
                   if (cnt > 0) {
@@ -190,59 +190,57 @@ export function DayHourHeatmap({ trades, lang, t, theme }: Omit<WidgetsProps, "m
                       // Positive profit (Green)
                       if (val > 100) {
                         bg = isDark 
-                          ? "bg-emerald-500/85 text-black font-black" 
-                          : "bg-emerald-500 text-white font-black";
+                          ? "bg-emerald-500/85 text-black font-semibold" 
+                          : "bg-emerald-500 text-white font-semibold";
                         border = "border-emerald-400";
                       } else if (val > 30) {
                         bg = isDark 
                           ? "bg-emerald-600/45 text-emerald-100 font-bold" 
                           : "bg-emerald-200 text-emerald-900 font-bold";
-                        border = "border-emerald-500/30";
+                        border = "border-[color:var(--hairline)]";
                       } else {
                         bg = isDark 
                           ? "bg-emerald-850/20 text-emerald-200 font-medium" 
                           : "bg-emerald-100/50 text-emerald-800 font-medium";
-                        border = "border-emerald-500/15";
+                        border = "border-[color:var(--hairline)]";
                       }
                     } else {
                       // Negative profit (Red)
                       if (val < -100) {
                         bg = isDark 
-                          ? "bg-red-500/85 text-black font-black" 
-                          : "bg-red-500 text-white font-black";
+                          ? "bg-red-500/85 text-black font-semibold" 
+                          : "bg-red-500 text-white font-semibold";
                         border = "border-red-400";
                       } else if (val < -30) {
                         bg = isDark 
                           ? "bg-red-600/45 text-red-100 font-bold" 
                           : "bg-red-200 text-red-900 font-bold";
-                        border = "border-red-500/30";
+                        border = "border-[color:var(--hairline)]";
                       } else {
                         bg = isDark 
                           ? "bg-red-850/20 text-red-200 font-medium" 
                           : "bg-red-100/50 text-red-800 font-medium";
-                        border = "border-red-500/15";
+                        border = "border-[color:var(--hairline)]";
                       }
                     }
                   }
 
                   const profitColor = val >= 0 
-                    ? (isDark ? "#10F087" : "#059669") 
-                    : (isDark ? "#FF4757" : "#DC2626");
+                    ? (isDark ? "#10B981" : "#059669") 
+                    : (isDark ? "#EF4444" : "#DC2626");
 
                   return (
                     <div
                       key={hIdx}
-                      className={`h-8 rounded-md ${bg} flex flex-col items-center justify-center text-[9px] border ${border} transition-all duration-200 hover:scale-105 cursor-pointer relative group`}
+                      className={`h-8 rounded-md ${bg} flex flex-col items-center justify-center text-[11px] border ${border} transition-all duration-200 cursor-pointer relative group`}
                     >
                       <span>{cnt > 0 ? cnt : "·"}</span>
-
-                      {/* Tooltip Overlay */}
-                      <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-44 hidden group-hover:block bg-background/95 border border-border/10 p-3 rounded-lg text-[10px] text-left shadow-2xl pointer-events-none backdrop-blur-md">
-                        <p className="font-extrabold text-foreground pb-1 border-b border-border/5">{day} at {String(hIdx).padStart(2, "0")}:00</p>
-                        <div className="mt-1.5 space-y-1 text-muted-foreground/90">
-                          <p className="flex justify-between"><span>Trades:</span> <strong className="text-foreground font-black">{cnt}</strong></p>
-                          <p className="flex justify-between"><span>Win Rate:</span> <strong className="text-foreground font-black">{winRate.toFixed(0)}%</strong></p>
-                          <p className="flex justify-between"><span>Net Profit:</span> <strong style={{ color: profitColor }} className="font-black">{fmtMoney(val)}</strong></p>
+                      <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-44 hidden group-hover:block bg-[var(--surface-hover)] border border-[color:var(--hairline)] p-4 rounded-lg text-[11px] text-left shadow-2xl pointer-events-none">
+                        <p className="font-semibold text-foreground pb-1 border-b border-[color:var(--hairline)]">{day} at {String(hIdx).padStart(2, "0")}:00</p>
+                        <div className="mt-1.5 space-y-1 text-muted-foreground">
+                          <p className="flex justify-between"><span>Trades:</span> <strong className="text-foreground font-semibold">{cnt}</strong></p>
+                          <p className="flex justify-between"><span>Win Rate:</span> <strong className="text-foreground font-semibold">{winRate.toFixed(0)}%</strong></p>
+                          <p className="flex justify-between"><span>Net Profit:</span> <strong style={{ color: profitColor }} className="font-semibold">{fmtMoney(val)}</strong></p>
                         </div>
                       </div>
                     </div>
@@ -282,39 +280,39 @@ export function SymbolTreemapGrid({ trades }: { trades: Trade[] }) {
   }, [trades]);
 
   return (
-    <div className="rounded-2xl p-6 border border-border/10 bg-card/45 space-y-4 chart-export-container">
-      <div className="flex items-center justify-between border-b border-border/5 pb-3">
+    <div className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card space-y-4 chart-export-container">
+      <div className="flex items-center justify-between border-b border-[color:var(--hairline)] pb-3">
         <div className="flex items-center gap-2">
-          <Layers className="h-4 w-4 text-cyan-400" />
-          <span className="text-xs font-black uppercase tracking-wider text-foreground">Symbol Allocations & Profitability Treemap</span>
+          <Layers className="h-4 w-4 text-blue-400" />
+          <span className="text-xs font-semibold text-foreground">Symbol Allocations & Profitability Treemap</span>
         </div>
         <DownloadChartButton title="Symbol Allocations Treemap" variant="subtle" />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4.5">
         {symbolStats.map((item) => {
           const isWin = item.profit >= 0;
           return (
             <div
               key={item.symbol}
-              className={`rounded-xl p-4 border transition-all duration-300 hover:scale-[1.02] ${
+              className={`rounded-[14px] p-4 border transition-all duration-300 ${
                 isWin 
-                  ? "bg-emerald-950/20 border-emerald-500/15 hover:border-emerald-500/40" 
-                  : "bg-red-950/20 border-red-500/15 hover:border-red-500/40"
+                  ? "bg-emerald-950/20 border-[color:var(--hairline)] hover:border-emerald-500/40" 
+                  : "bg-red-950/20 border-[color:var(--hairline)] hover:border-red-500/40"
               }`}
             >
               <div className="flex items-baseline justify-between">
-                <span className="text-sm font-black text-foreground">{item.symbol}</span>
-                <span className="text-[9px] font-bold text-muted-foreground/60">{item.pct.toFixed(0)}% Vol</span>
+                <span className="text-sm font-semibold text-foreground">{item.symbol}</span>
+                <span className="text-[11px] font-bold text-muted-foreground">{item.pct.toFixed(0)}% Vol</span>
               </div>
 
               <div className="mt-3.5">
-                <p className={`text-base font-black tabular-nums ${isWin ? "text-emerald-400" : "text-red-400"}`}>
+                <p className={`text-base font-semibold tabular-nums ${isWin ? "text-emerald-400" : "text-red-400"}`}>
                   {fmtMoney(item.profit)}
                 </p>
-                <div className="flex items-center justify-between mt-1 text-[10px] text-muted-foreground/80 font-bold">
+                <div className="flex items-center justify-between mt-1 text-[11px] text-muted-foreground font-bold">
                   <span>{item.trades} trades</span>
-                  <span className={item.winRate >= 50 ? "text-emerald-500" : "text-pink-500"}>
+                  <span className={item.winRate >= 50 ? "text-emerald-500" : "text-slate-500"}>
                     {item.winRate.toFixed(0)}% WR
                   </span>
                 </div>
@@ -351,14 +349,14 @@ export function SymbolScatterBubble({ trades }: { trades: Trade[] }) {
   }, [trades]);
 
   return (
-    <div className="rounded-2xl p-6 border border-border/10 bg-card/45 space-y-4 chart-export-container">
-      <div className="flex items-center justify-between border-b border-border/5 pb-2">
-        <span className="text-xs font-black uppercase tracking-wider text-foreground">
+    <div className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card space-y-4 chart-export-container">
+      <div className="flex items-center justify-between border-b border-[color:var(--hairline)] pb-2">
+        <span className="text-xs font-semibold text-foreground">
           Risk vs Return (Win Rate vs Profitability Bubble Chart)
         </span>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <DownloadChartButton title="Risk vs Return Scatter" variant="subtle" />
-          <span className="text-[10px] text-muted-foreground/60 font-semibold">Dot Size = Vol Size</span>
+          <span className="text-[11px] text-muted-foreground font-semibold">Dot Size = Vol Size</span>
         </div>
       </div>
 
@@ -392,21 +390,21 @@ export function SymbolScatterBubble({ trades }: { trades: Trade[] }) {
                 if (!active || !payload?.length) return null;
                 const d = payload[0].payload;
                 return (
-                  <div className="bg-background/95 border border-border/10 p-3 rounded-lg text-xs backdrop-blur-md">
-                    <p className="font-extrabold text-purple-400 mb-1">{d.symbol}</p>
+                  <div className="bg-[var(--surface-hover)] border border-[color:var(--hairline)] p-4 rounded-lg text-xs">
+                    <p className="font-semibold text-blue-400 mb-1">{d.symbol}</p>
                     <p className="text-muted-foreground">Win Rate: <strong className="text-foreground">{d.winRate}%</strong></p>
-                    <p className="text-muted-foreground">Net P&L: <strong style={{ color: d.profit >= 0 ? "#10F087" : "#FF4757" }}>{fmtMoney(d.profit)}</strong></p>
+                    <p className="text-muted-foreground">Net P&L: <strong style={{ color: d.profit >= 0 ? "#10B981" : "#EF4444" }}>{fmtMoney(d.profit)}</strong></p>
                     <p className="text-muted-foreground">Total Vol: <strong className="text-foreground">{d.volume} Lots</strong></p>
                     <p className="text-muted-foreground">Trades: <strong className="text-foreground">{d.trades}</strong></p>
                   </div>
                 );
               }}
             />
-            <Scatter name="Symbols" data={chartData} fill="#8B5CF6">
+            <Scatter name="Symbols" data={chartData} fill="#3B82F6">
               {chartData.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={entry.profit >= 0 ? "rgba(16,240,135,0.75)" : "rgba(255,71,87,0.75)"}
+                  fill={entry.profit >= 0 ? "rgba(16,185,129,0.75)" : "rgba(239,68,68,0.75)"}
                 />
               ))}
             </Scatter>
@@ -497,13 +495,13 @@ export function DynamicFindingsPanel({ trades }: { trades: Trade[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {insights.map((item, idx) => (
-        <div key={idx} className="rounded-2xl p-5 border border-border/10 bg-card/45 flex flex-col justify-between transition-all duration-300 hover:border-border/20">
+        <div key={idx} className="rounded-[18px] p-6 border border-[color:var(--hairline)] bg-card flex flex-col justify-between transition-all duration-300 hover:border-[color:var(--hairline)]">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-foreground tracking-tight">{item.title}</span>
-              <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${
+              <span className="text-xs font-semibold text-foreground tracking-tight">{item.title}</span>
+              <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                 item.severity === "critical" 
-                  ? "bg-red-500/15 text-red-400 border border-red-500/25" 
+                  ? "bg-red-500/15 text-red-400 border border-[color:var(--hairline)]" 
                   : item.severity === "high" 
                   ? "bg-orange-500/15 text-orange-400 border border-orange-500/25" 
                   : "bg-yellow-500/15 text-yellow-400 border border-yellow-500/25"
@@ -511,7 +509,7 @@ export function DynamicFindingsPanel({ trades }: { trades: Trade[] }) {
                 {item.severity}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground/95 leading-relaxed">{item.desc}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
           </div>
         </div>
       ))}
@@ -569,9 +567,9 @@ export function SmartAlertsPanel({ trades, metrics }: { trades: Trade[]; metrics
       {alerts.map((al, idx) => (
         <div
           key={idx}
-          className={`rounded-xl p-4 border flex items-start gap-3 transition-all ${
+          className={`rounded-[14px] p-4 border flex items-start gap-4 transition-all ${
             al.level === "critical"
-              ? "bg-red-500/5 border-red-500/20 text-red-400"
+              ? "bg-red-500/5 border-[color:var(--hairline)] text-red-400"
               : al.level === "high"
               ? "bg-orange-500/5 border-orange-500/20 text-orange-400"
               : "bg-yellow-500/5 border-yellow-500/20 text-yellow-400"
@@ -579,7 +577,7 @@ export function SmartAlertsPanel({ trades, metrics }: { trades: Trade[]; metrics
         >
           <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-xs font-black uppercase tracking-wide">{al.title}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide">{al.title}</p>
             <p className="text-xs opacity-90 leading-relaxed mt-1">{al.msg}</p>
           </div>
         </div>
@@ -617,11 +615,11 @@ export function ComparisonModePanel({ trades }: { trades: Trade[]; metrics?: any
   }, [trades, cmpMode]);
 
   return (
-    <div className="rounded-2xl p-6 border border-border/15 bg-card/60 space-y-4 chart-export-container">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/5 pb-4">
+    <div className="rounded-[18px] p-6 border border-border/15 bg-card space-y-4 chart-export-container">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[color:var(--hairline)] pb-4">
         <div>
-          <span className="text-xs font-black uppercase tracking-widest text-muted-foreground/80 block">Comparison Analytics</span>
-          <p className="text-xs text-muted-foreground/60 mt-0.5">Benchmark different phases of your trading record side-by-side</p>
+          <span className="text-xs font-semibold text-muted-foreground block">Comparison Analytics</span>
+          <p className="text-xs text-muted-foreground mt-0.5">Benchmark different phases of your trading record side-by-side</p>
         </div>
         <div className="flex items-center gap-2">
           <DownloadChartButton title="Comparison Analytics" variant="subtle" />
@@ -629,8 +627,8 @@ export function ComparisonModePanel({ trades }: { trades: Trade[]; metrics?: any
             onClick={() => setCmpMode("none")}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
               cmpMode === "none"
-                ? "bg-purple-500/15 text-purple-400 border-purple-500/30"
-                : "border-border/10 text-muted-foreground hover:text-foreground"
+                ? "bg-blue-500/15 text-blue-400 border-[color:var(--hairline)]"
+                : "border-[color:var(--hairline)] text-muted-foreground hover:text-foreground"
             }`}
           >
             Standard View
@@ -639,8 +637,8 @@ export function ComparisonModePanel({ trades }: { trades: Trade[]; metrics?: any
             onClick={() => setCmpMode("half")}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
               cmpMode === "half"
-                ? "bg-purple-500/15 text-purple-400 border-purple-500/30"
-                : "border-border/10 text-muted-foreground hover:text-foreground"
+                ? "bg-blue-500/15 text-blue-400 border-[color:var(--hairline)]"
+                : "border-[color:var(--hairline)] text-muted-foreground hover:text-foreground"
             }`}
           >
             Split-Half Contrast
@@ -651,49 +649,49 @@ export function ComparisonModePanel({ trades }: { trades: Trade[]; metrics?: any
       {cmpMode === "half" && results ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           {/* First Half */}
-          <div className="rounded-xl p-4 bg-background/20 border border-border/5 space-y-3">
-            <p className="text-[10px] font-black uppercase tracking-widest text-cyan-400">First Half of History (Older Trades)</p>
+          <div className="rounded-[14px] p-4 bg-[var(--surface-hover)] border border-[color:var(--hairline)] space-y-3">
+            <p className="text-[11px] font-medium text-blue-400">First Half of History (Older Trades)</p>
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <span className="text-[9px] text-muted-foreground block">Net Profit</span>
-                <span className="text-sm font-black text-foreground">{fmtMoney(results.period1.p)}</span>
+                <span className="text-[11px] text-muted-foreground block">Net Profit</span>
+                <span className="text-sm font-semibold text-foreground">{fmtMoney(results.period1.p)}</span>
               </div>
               <div>
-                <span className="text-[9px] text-muted-foreground block">Win Rate</span>
-                <span className="text-sm font-black text-foreground">{results.period1.wr.toFixed(1)}%</span>
+                <span className="text-[11px] text-muted-foreground block">Win Rate</span>
+                <span className="text-sm font-semibold text-foreground">{results.period1.wr.toFixed(1)}%</span>
               </div>
               <div>
-                <span className="text-[9px] text-muted-foreground block">Trades</span>
-                <span className="text-sm font-black text-foreground">{results.period1.count}</span>
+                <span className="text-[11px] text-muted-foreground block">Trades</span>
+                <span className="text-sm font-semibold text-foreground">{results.period1.count}</span>
               </div>
             </div>
           </div>
 
           {/* Second Half */}
-          <div className="rounded-xl p-4 bg-background/20 border border-border/5 space-y-3">
-            <p className="text-[10px] font-black uppercase tracking-widest text-purple-400">Second Half of History (Recent Trades)</p>
+          <div className="rounded-[14px] p-4 bg-[var(--surface-hover)] border border-[color:var(--hairline)] space-y-3">
+            <p className="text-[11px] font-medium text-blue-400">Second Half of History (Recent Trades)</p>
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <span className="text-[9px] text-muted-foreground block">Net Profit</span>
-                <span className={`text-sm font-black ${results.period2.p >= results.period1.p ? "text-emerald-400 animate-pulse" : "text-foreground"}`}>
+                <span className="text-[11px] text-muted-foreground block">Net Profit</span>
+                <span className={`text-sm font-semibold ${results.period2.p >= results.period1.p ? "text-emerald-400 animate-pulse" : "text-foreground"}`}>
                   {fmtMoney(results.period2.p)}
                 </span>
               </div>
               <div>
-                <span className="text-[9px] text-muted-foreground block">Win Rate</span>
-                <span className={`text-sm font-black ${results.period2.wr >= results.period1.wr ? "text-emerald-400" : "text-foreground"}`}>
+                <span className="text-[11px] text-muted-foreground block">Win Rate</span>
+                <span className={`text-sm font-semibold ${results.period2.wr >= results.period1.wr ? "text-emerald-400" : "text-foreground"}`}>
                   {results.period2.wr.toFixed(1)}%
                 </span>
               </div>
               <div>
-                <span className="text-[9px] text-muted-foreground block">Trades</span>
-                <span className="text-sm font-black text-foreground">{results.period2.count}</span>
+                <span className="text-[11px] text-muted-foreground block">Trades</span>
+                <span className="text-sm font-semibold text-foreground">{results.period2.count}</span>
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className="text-center py-6 text-xs text-muted-foreground/60 border border-dashed border-border/10 rounded-xl">
+        <div className="text-center py-6 text-xs text-muted-foreground border border-dashed border-[color:var(--hairline)] rounded-[14px]">
           Comparison Mode inactive. Select "Split-Half Contrast" to contrast chronological performance blocks.
         </div>
       )}

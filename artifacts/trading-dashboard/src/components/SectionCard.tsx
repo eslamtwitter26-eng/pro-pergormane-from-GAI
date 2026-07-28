@@ -1,6 +1,8 @@
 import { ReactNode, useRef } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DownloadChartButton } from "./charts/DownloadChartButton";
+import { EASE_OUT } from "@/lib/motion";
 
 interface SectionCardProps {
   title: string;
@@ -11,39 +13,38 @@ interface SectionCardProps {
   downloadable?: boolean;
 }
 
-const COLORS: Record<string, string> = {
-  purple: "#8B5CF6",
-  cyan: "#06B6D4",
-  green: "#10F087",
-  amber: "#FFD32D",
-};
-
-export function SectionCard({ title, children, className, action, accentColor = "purple", downloadable = true }: SectionCardProps) {
+/**
+ * The workhorse container. Neutral border, generous and *equal* padding,
+ * a single hairline under the header. Charts get the room; the frame recedes.
+ */
+export function SectionCard({ title, children, className, action, downloadable = true }: SectionCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const color = COLORS[accentColor] || COLORS.purple;
+
   return (
-    <div
+    <motion.div
       ref={cardRef}
-      className={cn("rounded-xl overflow-hidden chart-export-container relative", className)}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.45, ease: EASE_OUT }}
+      className={cn("chart-export-container relative overflow-hidden rounded-[18px]", className)}
       style={{
-        background: "hsl(var(--card) / 75%)",
-        backdropFilter: "blur(16px)",
-        border: `1px solid rgba(${accentColor === "purple" ? "139,92,246" : accentColor === "cyan" ? "6,182,212" : accentColor === "green" ? "16,240,135" : "255,211,45"},0.15)`,
+        background: "hsl(var(--card))",
+        border: "1px solid var(--hairline)",
+        boxShadow: "var(--shadow-sm)",
       }}
     >
-      <div className="flex items-center justify-between px-5 py-3.5"
-        style={{ borderBottom: `1px solid rgba(${accentColor === "purple" ? "139,92,246" : accentColor === "cyan" ? "6,182,212" : accentColor === "green" ? "16,240,135" : "255,211,45"},0.12)` }}>
-        <div className="flex items-center gap-2.5">
-          <div className="h-4 w-0.5 rounded-full" style={{ background: `linear-gradient(180deg, ${color}, transparent)`, boxShadow: `0 0 8px ${color}80` }} />
-          <h3 className="text-sm font-bold text-foreground/90">{title}</h3>
-        </div>
-        <div className="flex items-center gap-2">
+      <div
+        className="flex items-center justify-between gap-4 px-6 py-4"
+        style={{ borderBottom: "1px solid var(--hairline)" }}
+      >
+        <h3 className="truncate text-[14px] font-semibold tracking-tight text-foreground">{title}</h3>
+        <div className="flex flex-shrink-0 items-center gap-2">
           {action}
           {downloadable && <DownloadChartButton targetRef={cardRef} title={title} variant="icon" />}
         </div>
       </div>
-      <div className="p-5">{children}</div>
-    </div>
+      <div className="p-6">{children}</div>
+    </motion.div>
   );
 }
-

@@ -13,6 +13,8 @@ import { analyzeAll } from "@/lib/tradeAnalysis";
 import type { AnalysisResult } from "@/lib/tradeAnalysis";
 import { useI18n } from "@/components/I18nProvider";
 import { Toaster } from "sonner";
+import { AnimatePresence, motion } from "framer-motion";
+import { pageVariants, EASE_OUT } from "@/lib/motion";
 
 type Theme = "dark" | "light";
 
@@ -91,23 +93,35 @@ function App() {
     return (
       <div className={theme === "dark" ? "dark" : "light"}>
         <div className="flex h-screen bg-background">
-          <aside className="flex w-[72px] flex-shrink-0 flex-col items-center justify-center border-r border-border/30 py-4"
-            style={theme === "dark"
-              ? { background: "rgba(6, 8, 22, 0.9)" }
-              : { background: "rgba(255, 255, 255, 0.9)" }}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl"
-              style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)", boxShadow: "0 0 20px rgba(139, 92, 246, 0.4)" }}>
-              <span className="text-xs font-black text-white">EG</span>
+          <aside
+            className="flex w-[68px] flex-shrink-0 flex-col items-center py-5"
+            style={{
+              background: theme === "dark" ? "#0D121B" : "#FFFFFF",
+              borderRight: "1px solid var(--hairline)",
+            }}
+          >
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-[10px]"
+              style={{ background: "hsl(var(--primary))", boxShadow: "var(--shadow-sm)" }}
+            >
+              <span className="text-[11px] font-semibold tracking-tight text-white">EG</span>
             </div>
           </aside>
           <main className="flex-1 overflow-y-auto">
             {error && (
-              <div className="mx-auto max-w-2xl px-6 pt-6">
-                <div className="rounded-xl px-4 py-3 text-sm"
-                  style={{ background: "rgba(255,71,87,0.1)", border: "1px solid rgba(255,71,87,0.3)", color: "#FF4757" }}>
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, ease: EASE_OUT }}
+                className="mx-auto max-w-2xl px-8 pt-8"
+              >
+                <div
+                  className="rounded-[12px] px-4 py-3 text-[13px]"
+                  style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.22)", color: "#EF4444" }}
+                >
                   {error}
                 </div>
-              </div>
+              </motion.div>
             )}
             <FileUpload onFileLoaded={handleFileLoaded} lang={lang} isAnalyzing={isAnalyzing} />
           </main>
@@ -126,12 +140,24 @@ function App() {
         activeTab={activeTab} setActiveTab={setActiveTab}
         onUploadNew={handleUploadNew} onLogout={handleLogout} hasData={true}
       >
-        {activeTab === "analytics" && <Dashboard data={analysisResult} theme={theme} />}
-        {activeTab === "glossary" && <Glossary lang={lang} data={analysisResult} theme={theme} />}
-        {activeTab === "psychology" && <Psychology data={analysisResult} theme={theme} />}
-        {activeTab === "coach" && <AICoach data={analysisResult} theme={theme} />}
-        {activeTab === "simulation" && <WhatIfSimulation data={analysisResult} lang={lang} theme={theme} />}
-        {activeTab === "weekly-report" && <WeeklyReport data={analysisResult} lang={lang} theme={theme} />}
+        {/* Page transition — 250ms cross-fade, identical routing/conditions. */}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeTab}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="md:space-y-8 space-y-6"
+          >
+            {activeTab === "analytics" && <Dashboard data={analysisResult} theme={theme} />}
+            {activeTab === "glossary" && <Glossary lang={lang} data={analysisResult} theme={theme} />}
+            {activeTab === "psychology" && <Psychology data={analysisResult} theme={theme} />}
+            {activeTab === "coach" && <AICoach data={analysisResult} theme={theme} />}
+            {activeTab === "simulation" && <WhatIfSimulation data={analysisResult} lang={lang} theme={theme} />}
+            {activeTab === "weekly-report" && <WeeklyReport data={analysisResult} lang={lang} theme={theme} />}
+          </motion.div>
+        </AnimatePresence>
       </Layout>
     </div>
   );
